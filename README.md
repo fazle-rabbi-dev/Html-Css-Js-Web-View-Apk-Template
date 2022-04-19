@@ -1,4 +1,5 @@
-### Make android app:
+### For using this template you DON't NEED COMPUTER...You can use it on your Android Phone.
+
 ---
 > Make your own android web view app using html css and javascript,Using your android phone*🤩*
 
