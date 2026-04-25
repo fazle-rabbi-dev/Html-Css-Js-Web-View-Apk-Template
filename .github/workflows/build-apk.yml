@@ -1,0 +1,59 @@
+name: Build Android APK (Cloud Packaging)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # 允许手动点击按钮打包
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Build with Gradle
+      run: |
+        # 临时生成 Gradle 配置文件来适配旧项目
+        echo "rootProject.name = 'GiftLedger'" > settings.gradle
+        cat <<EOF > build.gradle
+        buildscript {
+            repositories { google(); mavenCentral() }
+            dependencies { classpath 'com.android.tools.build:gradle:8.2.0' }
+        }
+        allprojects { repositories { google(); mavenCentral() } }
+        apply plugin: 'com.android.application'
+        android {
+            namespace "com.chenhongtao.giftledger"
+            compileSdk 34
+            defaultConfig {
+                applicationId "com.chenhongtao.giftledger"
+                minSdk 21
+                targetSdk 34
+                versionCode 1
+                versionName "1.0"
+            }
+            sourceSets { main {
+                manifest.srcFile 'AndroidManifest.xml'
+                java.srcDirs = ['src']
+                res.srcDirs = ['res']
+                assets.srcDirs = ['assets']
+            } }
+        }
+        EOF
+        chmod +x gradlew || true
+        # 使用系统自带的 gradle 进行封装
+        gradle wrapper
+        ./gradlew assembleDebug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: 礼金管家-Beta版
+        path: build/outputs/apk/debug/*.apk
