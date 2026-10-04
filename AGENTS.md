@@ -28,7 +28,7 @@ Android WebView shell that packages a static HTML/CSS/JS app (`assets/`) into an
 - Runner already has Android SDK at `$ANDROID_HOME`; `sdkmanager` is at `$ANDROID_HOME/cmdline-tools/latest/bin` (not on PATH by default). Don't use `android-actions/setup-android` (requests obsolete `tools` package). No NDK needed.
 - Commit + push to `main` triggers the build. Artifact: `app/build/outputs/apk/debug/app-debug.apk`.
 
-- **Important:** replace default app name with the name of the app that you're building and for each app you will update package name.
+- **Important:** replace default app name with the name of the app that you're building and for each app you will update package name and also replace the icon of apk (create the icon if needed that matched the app purpose)
 
 ## Extending the bundled app (Sukoon)
 

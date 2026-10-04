@@ -1,4 +1,4 @@
-# WebView APK Template 🕌
+# 🪂 WebView APK Template
 
 Turn any HTML/CSS/JS website into an installable Android app. No Kotlin, no Android SDK on your machine — just drop your site into `assets/` and get an APK.
 
