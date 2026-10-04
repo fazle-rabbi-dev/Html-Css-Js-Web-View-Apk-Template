@@ -59,11 +59,11 @@ jobs:
           }
 
           android {
-              namespace = "com.example.webviewapktemplate"
+              namespace = "com.fazlerabbi.porimap"
               compileSdk = 34
 
               defaultConfig {
-                  applicationId = "com.example.webviewapktemplate"
+                  applicationId = "com.fazlerabbi.porimap"
                   minSdk = 24
                   targetSdk = 34
                   versionCode = 1

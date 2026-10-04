@@ -14,7 +14,7 @@ Android WebView shell that packages a static HTML/CSS/JS app (`assets/`) into an
 
 - `assets/index.html` — app entry point (`MainActivity` loads `file:///android_asset/index.html`).
 - `assets/` — all web files live at root level; no subfolder routing needed.
-- `src/com/example/webviewapktemplate/MainActivity.java` — WebView shell. JS + DOM storage ON (don't disable; apps rely on `localStorage`).
+- `src/com/fazlerabbi/porimap/` — `MainActivity.java` (WebView shell; JS + DOM storage ON, don't disable) + `SplashActivity.java` (1.6s branded splash, warms up the WebView engine).
 - `AndroidManifest.xml` — legacy Eclipse/ApkBuilder layout (manifest at root, `uses-sdk min 12 / target 27`). `exported` flags + splash wiring live in repo; **CI only bumps** min 24 / target 34 at build time (keeps APK Builder compat).
 - `.github/workflows/build-apk.yml` — self-contained: generates `settings.gradle` / `build.gradle` / `app/build.gradle` via heredoc, patches manifest with `sed`, runs `gradle :app:assembleDebug`, uploads `app-debug` artifact.
 - `res/`, `bin/`, `build/` — legacy artifacts/layout. Leave alone.

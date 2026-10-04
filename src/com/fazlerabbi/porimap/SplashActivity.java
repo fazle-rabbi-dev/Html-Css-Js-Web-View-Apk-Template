@@ -1,4 +1,4 @@
-package com.example.webviewapktemplate;
+package com.fazlerabbi.porimap;
 
 import android.app.Activity;
 import android.content.Intent;
