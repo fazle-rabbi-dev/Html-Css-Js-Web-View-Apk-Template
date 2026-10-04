@@ -4,4 +4,8 @@
     <style name="AppTheme" parent="@android:style/Theme.Light">
     </style>
 
+    <style name="SplashTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
 </resources>

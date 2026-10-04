@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Tasbih bead ring: 8 beads on radius 22 around center (54,54), bead r=7 (inside adaptive safe-zone) -->
+    <path android:fillColor="#FFFFFF" android:pathData="M69,54 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M62.6,69.6 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
+    <path android:fillColor="#E8C87E" android:pathData="M47,76 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M31.4,69.6 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M25,54 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M31.4,38.4 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M47,32 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M62.6,38.4 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
+
+    <!-- Center sparkle -->
+    <path android:fillColor="#E8C87E" android:pathData="M54,42 L57.5,50.5 L66,54 L57.5,57.5 L54,66 L50.5,57.5 L42,54 L50.5,50.5 Z" />
+</vector>
