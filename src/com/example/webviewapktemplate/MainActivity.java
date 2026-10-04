@@ -36,7 +36,9 @@ public class MainActivity extends Activity {
             }
         });
 
-webView.getSettings().setJavaScriptEnabled(true);         webView.loadUrl("file:///android_asset/index.html");
+webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.loadUrl("file:///android_asset/index.html");
     }
 
     @Override

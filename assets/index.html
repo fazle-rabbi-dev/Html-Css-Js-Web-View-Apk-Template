@@ -1,1 +1,87 @@
-Your html code here...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WebView Demo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+  header { padding: 2.5rem 1.5rem 2rem; text-align: center; background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899); }
+  header h1 { font-size: 1.8rem; margin-bottom: .4rem; }
+  header p { opacity: .9; font-size: .95rem; }
+  main { padding: 1.25rem; max-width: 560px; margin: 0 auto; display: grid; gap: 1rem; }
+  .card { background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 1.1rem 1.2rem; }
+  .card h2 { font-size: 1.05rem; margin-bottom: .6rem; color: #a5b4fc; }
+  .row { display: flex; gap: .6rem; flex-wrap: wrap; }
+  button { flex: 1; min-width: 100px; padding: .7rem; border: none; border-radius: 10px; font-size: .9rem; font-weight: 600; cursor: pointer; background: #6366f1; color: #fff; }
+  button:active { transform: scale(.97); }
+  button.secondary { background: #334155; }
+  #counter { font-size: 2rem; font-weight: 700; text-align: center; margin: .4rem 0 .8rem; color: #f0abfc; }
+  input { width: 100%; padding: .7rem; border-radius: 10px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 1rem; margin-bottom: .6rem; }
+  #todoList { list-style: none; display: grid; gap: .4rem; margin-top: .6rem; }
+  #todoList li { background: #0f172a; padding: .6rem .8rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; }
+  #todoList li.done span { text-decoration: line-through; opacity: .5; }
+  #todoList li b { color: #f87171; cursor: pointer; padding: 0 .3rem; }
+  footer { text-align: center; padding: 1.5rem; font-size: .8rem; opacity: .6; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>&#128241; WebView Demo</h1>
+    <p>HTML + CSS + JS running inside your APK</p>
+  </header>
+  <main>
+    <div class="card">
+      <h2>&#9889; JavaScript Counter</h2>
+      <div id="counter">0</div>
+      <div class="row">
+        <button onclick="changeCount(-1)">-1</button>
+        <button onclick="changeCount(1)">+1</button>
+        <button class="secondary" onclick="resetCount()">Reset</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>&#128221; To-Do (localStorage)</h2>
+      <input id="todoInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()" />
+      <div class="row"><button onclick="addTodo()">Add Task</button></div>
+      <ul id="todoList"></ul>
+    </div>
+    <div class="card">
+      <h2>&#127758; Device Info</h2>
+      <p id="info" style="font-size:.85rem;line-height:1.7"></p>
+    </div>
+  </main>
+  <footer>Replace this file with your own website to ship your app.</footer>
+<script>
+  let count = 0;
+  function changeCount(n) { count += n; document.getElementById('counter').textContent = count; }
+  function resetCount() { count = 0; document.getElementById('counter').textContent = 0; }
+
+  let todos = [];
+  try { todos = JSON.parse(localStorage.getItem('todos') || '[]'); } catch (e) { todos = []; }
+  function save() { try { localStorage.setItem('todos', JSON.stringify(todos)); } catch (e) {} }
+  function render() {
+    const ul = document.getElementById('todoList');
+    ul.innerHTML = todos.map((t, i) =>
+      `<li class="${t.done ? 'done' : ''}"><span onclick="toggle(${i})">${t.text}</span><b onclick="remove(${i})">×</b></li>`
+    ).join('');
+  }
+  function addTodo() {
+    const el = document.getElementById('todoInput');
+    if (!el.value.trim()) return;
+    todos.push({ text: el.value.trim(), done: false });
+    el.value = ''; save(); render();
+  }
+  function toggle(i) { todos[i].done = !todos[i].done; save(); render(); }
+  function remove(i) { todos.splice(i, 1); save(); render(); }
+  render();
+
+  document.getElementById('info').innerHTML =
+    'User agent: ' + navigator.userAgent.slice(0, 60) + '...<br>' +
+    'Screen: ' + screen.width + ' x ' + screen.height + '<br>' +
+    'Online: ' + navigator.onLine + '<br>' +
+    'Language: ' + navigator.language;
+</script>
+</body>
+</html>
