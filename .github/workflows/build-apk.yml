@@ -2,6 +2,8 @@ name: Build APK
 
 on:
   push:
+    paths-ignore:
+      - "**.md"
   workflow_dispatch:
 
 jobs:
@@ -89,7 +91,6 @@ jobs:
         run: |
           sed -i 's/android:minSdkVersion="12"/android:minSdkVersion="24"/' AndroidManifest.xml
           sed -i 's/android:targetSdkVersion="27"/android:targetSdkVersion="34"/' AndroidManifest.xml
-          sed -i 's|<activity android:name=".MainActivity">|<activity android:name=".MainActivity" android:exported="true">|' AndroidManifest.xml
           cat AndroidManifest.xml
 
       - run: gradle :app:assembleDebug
