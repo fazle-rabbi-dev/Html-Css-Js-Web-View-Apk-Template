@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="120" fill="#0f6a54"/><circle cx="256" cy="256" r="110" fill="none" stroke="white" stroke-width="18" opacity="0.95"/><circle cx="256" cy="256" r="22" fill="#c8a86a"/><text x="256" y="395" text-anchor="middle" font-family="serif" font-size="42" fill="white" opacity="0.9">سُكُون</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108">
+<rect width="108" height="108" rx="24" fill="#0f6a54"/>
+<g stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+<line x1="36" y1="33" x2="30" y2="54"/><line x1="36" y1="33" x2="42" y2="54"/>
+<line x1="72" y1="33" x2="66" y2="54"/><line x1="72" y1="33" x2="78" y2="54"/>
+</g>
+<g fill="#fff">
+<circle cx="54" cy="24" r="3"/>
+<rect x="30" y="28" width="48" height="5"/>
+<rect x="51.5" y="33" width="5" height="43"/>
+<rect x="40" y="76" width="28" height="6"/>
+<path d="M25,54 H43 L38,64 H30 Z"/>
+</g>
+<path d="M65,54 H83 L78,64 H70 Z" fill="#E8C87E"/>
+</svg>

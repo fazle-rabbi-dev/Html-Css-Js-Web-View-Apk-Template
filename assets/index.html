@@ -31,18 +31,24 @@
   #result{display:none;text-align:center;padding:8px 0 0}
   #result.show{display:block;animation:pop .25s ease}
   @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  #priceBig{font-size:52px;font-weight:800;letter-spacing:-1px}
-  #priceBig small{font-size:26px;color:var(--muted)}
+  #priceBig{font-size:clamp(32px,10vw,52px);font-weight:800;letter-spacing:-1px;overflow-wrap:anywhere}
+  #priceBig small{font-size:.55em;color:var(--muted)}
   #breakdown{margin-top:6px;font-size:14px;color:var(--muted)}
-  #formula{margin-top:10px;font-size:13px;color:var(--muted);background:var(--bg);border:1px dashed var(--border);border-radius:12px;padding:10px}
+  #formula{margin-top:10px;font-size:13px;color:var(--muted);background:var(--bg);border:1px dashed var(--border);border-radius:12px;padding:10px;overflow-wrap:anywhere}
   .rowBtns{display:flex;gap:10px;margin-top:12px}
   .ghost{flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;cursor:pointer}
   h2{font-size:15px;margin-bottom:12px}
   #hist{list-style:none;display:grid;gap:8px}
-  #hist li{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+  #hist li{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:14px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
   #hist li b{white-space:nowrap}
   .empty{color:var(--muted);font-size:14px;text-align:center;padding:8px}
-  #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#1a2e29;color:#fff;padding:12px 22px;border-radius:99px;font-size:14px;display:none;z-index:50}
+  #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);max-width:90vw;text-align:center;background:#1a2e29;color:#fff;padding:12px 22px;border-radius:99px;font-size:14px;display:none;z-index:50}
+  .brand small{display:block;max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  @media (max-width:360px){
+    main{padding:14px 14px 32px}
+    .card{padding:16px}
+    .bar{padding:0 14px}
+  }
 </style>
 </head>
 <body>
@@ -55,8 +61,8 @@
 
 <main>
   <div class="card">
-    <label>RATE — MONEY PER GRAM (৳)</label>
-    <div class="field"><span>৳</span><input id="rate" type="number" min="0" step="any" inputmode="decimal" placeholder="e.g. 8500" /></div>
+    <label>RATE — MONEY PER KG (৳)</label>
+    <div class="field"><span>৳</span><input id="rate" type="number" min="0" step="any" inputmode="decimal" placeholder="e.g. 95000" /></div>
     <div style="height:14px"></div>
     <label>WEIGHT OF PRODUCT (GRAM)</label>
     <div class="field"><input id="weight" type="number" min="0" step="any" inputmode="decimal" placeholder="e.g. 2.5" /><span>g</span></div>
@@ -85,8 +91,8 @@
 <script>
   const $ = id => document.getElementById(id);
   const store = {
-    load() { try { return JSON.parse(localStorage.getItem('porimap_v1')) || {}; } catch(e){ return {}; } },
-    save(d) { try { localStorage.setItem('porimap_v1', JSON.stringify(d)); } catch(e){} }
+    load() { try { return JSON.parse(localStorage.getItem('porimap_v2')) || {}; } catch(e){ return {}; } },
+    save(d) { try { localStorage.setItem('porimap_v2', JSON.stringify(d)); } catch(e){} }
   };
   let data = Object.assign({ rate:'', theme:'light', hist:[] }, store.load());
 
@@ -114,7 +120,7 @@
     if (!data.hist.length) { ul.innerHTML = '<li class="empty">No calculations yet</li>'; return; }
     data.hist.forEach(h => {
       const li = document.createElement('li');
-      li.innerHTML = `<span>${h.weight}g × ৳${h.rate}/g</span><b>৳${h.total}</b>`;
+      li.innerHTML = `<span>${h.weight}g × ৳${h.rate}/kg</span><b>৳${h.total}</b>`;
       ul.appendChild(li);
     });
   }
@@ -126,14 +132,14 @@
     const weight = parseFloat($('weight').value);
     if (!(rate > 0) || !(weight > 0)) { toast('Enter valid rate and weight'); return; }
 
-    const total = Math.round(rate * weight * 100) / 100;   // 2-decimal money
+    const total = Math.round((rate / 1000) * weight * 100) / 100;   // per-kg rate → gram weight
     const taka = Math.floor(total);
     const poisha = Math.round((total - taka) * 100);        // fraction of 1 taka
     lastTotal = total.toFixed(2);
 
     $('priceBig').innerHTML = `৳${taka}.<small>${String(poisha).padStart(2,'0')}</small>`;
     $('breakdown').textContent = `${taka} Taka and ${poisha} Poisha — .${String(poisha).padStart(2,'0')} is ${poisha}% of 1 Taka`;
-    $('formula').textContent = `৳${rate}/g × ${weight}g = ৳${lastTotal}`;
+    $('formula').textContent = `৳${rate}/kg × ${weight}g = ৳${lastTotal}`;
     $('result').classList.add('show');
 
     data.hist.unshift({ rate, weight, total: lastTotal });

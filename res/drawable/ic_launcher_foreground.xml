@@ -4,16 +4,20 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Tasbih bead ring: 8 beads on radius 22 around center (54,54), bead r=7 (inside adaptive safe-zone) -->
-    <path android:fillColor="#FFFFFF" android:pathData="M69,54 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
-    <path android:fillColor="#FFFFFF" android:pathData="M62.6,69.6 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
-    <path android:fillColor="#E8C87E" android:pathData="M47,76 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
-    <path android:fillColor="#FFFFFF" android:pathData="M31.4,69.6 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
-    <path android:fillColor="#FFFFFF" android:pathData="M25,54 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
-    <path android:fillColor="#FFFFFF" android:pathData="M31.4,38.4 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
-    <path android:fillColor="#FFFFFF" android:pathData="M47,32 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
-    <path android:fillColor="#FFFFFF" android:pathData="M62.6,38.4 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 Z" />
-
-    <!-- Center sparkle -->
-    <path android:fillColor="#E8C87E" android:pathData="M54,42 L57.5,50.5 L66,54 L57.5,57.5 L54,66 L50.5,57.5 L42,54 L50.5,50.5 Z" />
+    <!-- Balance scale: white with one gold pan -->
+    <!-- finial -->
+    <path android:fillColor="#FFFFFF" android:pathData="M51,24 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0 Z" />
+    <!-- beam -->
+    <path android:fillColor="#FFFFFF" android:pathData="M30,28 H78 V33 H30 Z" />
+    <!-- pole -->
+    <path android:fillColor="#FFFFFF" android:pathData="M51.5,33 H56.5 V76 H51.5 Z" />
+    <!-- base -->
+    <path android:fillColor="#FFFFFF" android:pathData="M40,76 H68 V82 H40 Z" />
+    <!-- hanger strings -->
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M36,33 L30,54 M36,33 L42,54" />
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M72,33 L66,54 M72,33 L78,54" />
+    <!-- left pan (white) -->
+    <path android:fillColor="#FFFFFF" android:pathData="M25,54 H43 L38,64 H30 Z" />
+    <!-- right pan (gold accent) -->
+    <path android:fillColor="#E8C87E" android:pathData="M65,54 H83 L78,64 H70 Z" />
 </vector>
