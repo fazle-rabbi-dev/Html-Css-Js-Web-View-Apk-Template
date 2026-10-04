@@ -1,87 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>WebView Demo</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#0f6a54"/>
+<title>Sukoon — Tasbih Counter</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
-  header { padding: 2.5rem 1.5rem 2rem; text-align: center; background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899); }
-  header h1 { font-size: 1.8rem; margin-bottom: .4rem; }
-  header p { opacity: .9; font-size: .95rem; }
-  main { padding: 1.25rem; max-width: 560px; margin: 0 auto; display: grid; gap: 1rem; }
-  .card { background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 1.1rem 1.2rem; }
-  .card h2 { font-size: 1.05rem; margin-bottom: .6rem; color: #a5b4fc; }
-  .row { display: flex; gap: .6rem; flex-wrap: wrap; }
-  button { flex: 1; min-width: 100px; padding: .7rem; border: none; border-radius: 10px; font-size: .9rem; font-weight: 600; cursor: pointer; background: #6366f1; color: #fff; }
-  button:active { transform: scale(.97); }
-  button.secondary { background: #334155; }
-  #counter { font-size: 2rem; font-weight: 700; text-align: center; margin: .4rem 0 .8rem; color: #f0abfc; }
-  input { width: 100%; padding: .7rem; border-radius: 10px; border: 1px solid #475569; background: #0f172a; color: #fff; font-size: 1rem; margin-bottom: .6rem; }
-  #todoList { list-style: none; display: grid; gap: .4rem; margin-top: .6rem; }
-  #todoList li { background: #0f172a; padding: .6rem .8rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; }
-  #todoList li.done span { text-decoration: line-through; opacity: .5; }
-  #todoList li b { color: #f87171; cursor: pointer; padding: 0 .3rem; }
-  footer { text-align: center; padding: 1.5rem; font-size: .8rem; opacity: .6; }
+:root{
+ --bg:#f8faf8; --bg2:#eef4ef; --card:#ffffff; --card2:#f1f5f1;
+ --text:#13201c; --muted:#6b7f7a; --border:#e2ebe6;
+ --primary:#0f6a54; --primary-hover:#0d5a47; --primary-soft:#dff2ec;
+ --accent:#c8a86a; --ring:rgba(15,106,84,0.15);
+}
+.dark{
+ --bg:#0a1210; --bg2:#111e1b; --card:#162722; --card2:#1c322c;
+ --text:#e8f0ed; --muted:#8aa39d; --border:#1e3a32;
+ --primary:#1a9a7d; --primary-hover:#168a70; --primary-soft:#14332c;
+ --accent:#d9bc8a; --ring:rgba(26,154,125,0.2);
+}
+*{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+.ar{font-family:'Amiri',serif}
+body{background:var(--bg);color:var(--text);overscroll-behavior:none}
+.glass{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.counter-ring{transition:stroke-dashoffset 0.3s ease}
+.tap-btn:active{transform:scale(0.97)}
+.fade-in{animation:fadeIn 0.25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.shimmer{position:relative;overflow:hidden}
+.shimmer::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent);transform:translateX(-100%);animation:shim 2.2s infinite}
+@keyframes shim{100%{transform:translateX(100%)}}
 </style>
 </head>
-<body>
-  <header>
-    <h1>&#128241; WebView Demo</h1>
-    <p>HTML + CSS + JS running inside your APK</p>
-  </header>
-  <main>
-    <div class="card">
-      <h2>&#9889; JavaScript Counter</h2>
-      <div id="counter">0</div>
-      <div class="row">
-        <button onclick="changeCount(-1)">-1</button>
-        <button onclick="changeCount(1)">+1</button>
-        <button class="secondary" onclick="resetCount()">Reset</button>
-      </div>
+<body class="min-h-screen flex flex-col select-none">
+<!-- Header -->
+<header class="sticky top-0 z-40 glass" style="background:color-mix(in srgb, var(--bg) 80%, transparent);border-bottom:1px solid var(--border)">
+ <div class="max-w-[520px] mx-auto w-full px-5 h-[60px] flex items-center justify-between">
+  <div class="flex items-center gap-3">
+   <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:var(--primary)"><i data-lucide="moon-star" class="w-5 h-5 text-white"></i></div>
+   <div><p class="font-bold leading-none text-[15px]">Sukoon</p><p class="text-xs" style="color:var(--muted)">سُكُون • tranquility</p></div>
+  </div>
+  <div class="flex items-center gap-2">
+   <button id="soundBtn" class="w-9 h-9 rounded-full flex items-center justify-center" style="border:1px solid var(--border);background:var(--card)"><i data-lucide="volume-2" class="w-4 h-4"></i></button>
+   <button id="themeBtn" class="w-9 h-9 rounded-full flex items-center justify-center" style="border:1px solid var(--border);background:var(--card)"><i data-lucide="sun" class="w-4 h-4"></i></button>
+  </div>
+ </div>
+</header>
+
+<main class="flex-1 max-w-[520px] mx-auto w-full px-5 pb-24">
+ <!-- Tabs -->
+ <div class="mt-5 p-1 rounded-full flex gap-1" style="background:var(--card2);border:1px solid var(--border)">
+  <button data-tab="counter" class="tab-btn flex-1 py-2.5 rounded-full text-sm font-semibold flex items-center justify-center gap-1.5 transition" style="background:var(--primary);color:white"><i data-lucide="circle-dot" class="w-4 h-4"></i> Counter</button>
+  <button data-tab="azkar" class="tab-btn flex-1 py-2.5 rounded-full text-sm font-medium flex items-center justify-center gap-1.5" style="color:var(--muted)"><i data-lucide="book-heart" class="w-4 h-4"></i> Azkar</button>
+  <button data-tab="stats" class="tab-btn flex-1 py-2.5 rounded-full text-sm font-medium flex items-center justify-center gap-1.5" style="color:var(--muted)"><i data-lucide="bar-chart-3" class="w-4 h-4"></i> Stats</button>
+ </div>
+
+ <!-- COUNTER PAGE -->
+ <section id="page-counter" class="fade-in">
+  <!-- Dhikr card -->
+  <div class="mt-6 rounded-[24px] p-5 text-center" style="background:var(--card);border:1px solid var(--border)">
+   <p class="text-xs tracking-widest font-semibold" style="color:var(--muted)">CURRENT DHIKR</p>
+   <p id="dhikrAr" class="ar text-2xl mt-2 leading-none">سُبْحَانَ ٱللَّٰهِ</p>
+   <p id="dhikrTr" class="text-sm mt-1" style="color:var(--muted)">SubhanAllah</p>
+   <div class="mt-4 flex items-center justify-center gap-2">
+    <span id="targetBadge" class="px-3 py-1 rounded-full text-xs font-bold" style="background:var(--primary-soft);color:var(--primary);border:1px solid var(--border)">Target: 33</span>
+    <span id="cycleBadge" class="text-xs" style="color:var(--muted)">Cycle 1</span>
+   </div>
+   <div class="mt-4 h-2 rounded-full overflow-hidden" style="background:var(--card2)"><div id="progressBar" class="h-full rounded-full transition-all duration-500" style="background:var(--primary);width:0%"></div></div>
+  </div>
+
+  <!-- Counter Ring -->
+  <div class="mt-6 flex flex-col items-center">
+   <div id="circleBox" class="relative w-[240px] h-[240px] flex items-center justify-center cursor-pointer tap-btn rounded-full active:scale-[0.98] transition" title="Tap to count">
+    <svg class="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 200 200">
+     <circle cx="100" cy="100" r="88" fill="none" stroke="var(--border)" stroke-width="10"/>
+     <circle id="ring" cx="100" cy="100" r="88" fill="none" stroke="var(--primary)" stroke-width="10" stroke-linecap="round" stroke-dasharray="553" stroke-dashoffset="553" class="counter-ring"/>
+    </svg>
+    <div class="text-center z-10">
+     <p id="countNum" class="text-[64px] font-bold leading-none tracking-tight">0</p>
+     <p class="text-xs tracking-widest font-semibold mt-1" style="color:var(--muted)">TASBIH</p>
+     <p id="remainText" class="text-xs mt-1 font-medium" style="color:var(--primary)">33 remaining</p>
     </div>
-    <div class="card">
-      <h2>&#128221; To-Do (localStorage)</h2>
-      <input id="todoInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()" />
-      <div class="row"><button onclick="addTodo()">Add Task</button></div>
-      <ul id="todoList"></ul>
-    </div>
-    <div class="card">
-      <h2>&#127758; Device Info</h2>
-      <p id="info" style="font-size:.85rem;line-height:1.7"></p>
-    </div>
-  </main>
-  <footer>Replace this file with your own website to ship your app.</footer>
+   </div>
+   <p id="tapHint" class="text-xs mt-3" style="color:var(--muted)">Tap button or press Space</p>
+   <!-- Big Tap Button -->
+   <button id="tapBtn" class="tap-btn mt-4 w-full py-5 rounded-[20px] font-bold text-white text-lg flex items-center justify-center gap-2 shadow-lg transition" style="background:var(--primary)"> <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i data-lucide="plus" class="w-5 h-5"></i></span> Tap to Count</button>
+   <div class="mt-3 flex gap-3 w-full">
+    <button id="undoBtn" class="flex-1 py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2" style="background:var(--card);border:1px solid var(--border)"><i data-lucide="undo-2" class="w-4 h-4"></i> Undo</button>
+    <button id="resetBtn" class="flex-1 py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2" style="background:var(--card);border:1px solid var(--border)"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset</button>
+   </div>
+   <!-- Daily total -->
+   <div class="mt-4 w-full rounded-2xl p-4 flex items-center justify-between" style="background:var(--card);border:1px solid var(--border)">
+    <div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full flex items-center justify-center" style="background:var(--primary-soft)"><i data-lucide="sparkles" class="w-4 h-4" style="color:var(--primary)"></i></div><div><p class="text-xs" style="color:var(--muted)">Today's total</p><p id="todayTotal" class="font-bold">0</p></div></div>
+    <div class="text-right"><p class="text-xs" style="color:var(--muted)">Streak</p><p class="font-bold flex items-center gap-1 justify-end"><i data-lucide="flame" class="w-4 h-4 text-orange-500"></i><span id="streakNum">0</span> days</p></div>
+   </div>
+  </div>
+ </section>
+
+ <!-- AZKAR PAGE -->
+ <section id="page-azkar" class="hidden fade-in">
+  <div class="mt-6 flex items-center justify-between"><h2 class="font-bold">Azkar Collection</h2><span class="text-xs px-2 py-1 rounded-full" style="background:var(--primary-soft);color:var(--primary)">Tap to select</span></div>
+  <div id="azkarList" class="mt-4 grid gap-3"></div>
+ </section>
+
+ <!-- STATS PAGE -->
+ <section id="page-stats" class="hidden fade-in">
+  <div class="mt-6 rounded-2xl p-5" style="background:var(--card);border:1px solid var(--border)">
+   <h3 class="font-bold">Last 7 Days</h3>
+   <div id="chart" class="mt-4 flex items-end gap-2 h-[120px]"></div>
+   <div id="chartLabels" class="mt-2 flex gap-2 text-[10px]" style="color:var(--muted)"></div>
+  </div>
+  <div class="mt-4 rounded-2xl p-5" style="background:var(--card);border:1px solid var(--border)">
+   <div class="flex justify-between"><span class="text-sm" style="color:var(--muted)">All-time total</span><span id="allTime" class="font-bold">0</span></div>
+   <div class="flex justify-between mt-3"><span class="text-sm" style="color:var(--muted)">Best day</span><span id="bestDay" class="font-bold">—</span></div>
+  </div>
+  <button id="clearData" class="mt-4 w-full py-3 rounded-full text-sm font-semibold" style="border:1px solid var(--border);">Clear History</button>
+ </section>
+</main>
+
+<!-- Completion Modal -->
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-6" style="background:rgba(0,0,0,0.4);backdrop-filter:blur(6px)">
+ <div class="w-full max-w-sm rounded-[24px] p-8 text-center" style="background:var(--card)">
+  <div class="w-16 h-16 rounded-full mx-auto flex items-center justify-center" style="background:var(--primary-soft)"><i data-lucide="check" class="w-8 h-8" style="color:var(--primary)"></i></div>
+  <h3 class="font-bold text-xl mt-4">MashaAllah!</h3>
+  <p class="text-sm mt-1" style="color:var(--muted)">You completed <span id="modalTarget"></span> — may it be accepted.</p>
+  <button id="modalContinue" class="mt-6 w-full py-3 rounded-full font-bold text-white" style="background:var(--primary)">Continue • Start next cycle</button>
+ </div>
+</div>
+
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 px-5 py-3 rounded-full text-sm font-medium shadow-lg hidden z-50 text-white" style="background:#1a2e29"></div>
+
 <script>
-  let count = 0;
-  function changeCount(n) { count += n; document.getElementById('counter').textContent = count; }
-  function resetCount() { count = 0; document.getElementById('counter').textContent = 0; }
+// Data
+const AZKAR=[
+ {id:1, ar:"سُبْحَانَ ٱللَّٰهِ", tr:"SubhanAllah", en:"Glory be to Allah", target:33},
+ {id:2, ar:"ٱلْحَمْدُ لِلَّٰهِ", tr:"Alhamdulillah", en:"All praise is due to Allah", target:33},
+ {id:3, ar:"ٱللَّٰهُ أَكْبَرُ", tr:"Allahu Akbar", en:"Allah is the Greatest", target:33},
+ {id:4, ar:"أَسْتَغْفِرُ ٱللَّٰهَ", tr:"Astaghfirullah", en:"I seek forgiveness from Allah", target:33},
+ {id:5, ar:"لَا إِلَٰهَ إِلَّا ٱللَّٰهُ", tr:"La ilaha illAllah", en:"There is no god but Allah", target:33},
+ {id:6, ar:"حَسْبُنَا ٱللَّٰهُ وَنِعْمَ ٱلْوَكِيلُ", tr:"HasbunAllahu wa ni'mal Wakeel", en:"Allah is sufficient for us", target:7},
+ {id:7, ar:"سُبْحَانَ ٱللَّٰهِ وَبِحَمْدِهِ", tr:"SubhanAllahi wa bihamdihi", en:"Glory and praise be to Allah", target:7},
+ {id:8, ar:"ٱللَّٰهُمَّ أَجِرْنِي مِنَ ٱلنَّارِ", tr:"Allahumma ajirni min an-nar", en:"O Allah protect me from Hellfire", target:7},
+ {id:9, ar:"سُبْحَانَ ٱللَّٰهِ ٱلْعَظِيمِ", tr:"SubhanAllahil Azeem", en:"Glory be to Allah the Magnificent", target:3},
+ {id:10, ar:"بِسْمِ ٱللَّٰهِ", tr:"Bismillah", en:"In the name of Allah", target:3},
+];
 
-  let todos = [];
-  try { todos = JSON.parse(localStorage.getItem('todos') || '[]'); } catch (e) { todos = []; }
-  function save() { try { localStorage.setItem('todos', JSON.stringify(todos)); } catch (e) {} }
-  function render() {
-    const ul = document.getElementById('todoList');
-    ul.innerHTML = todos.map((t, i) =>
-      `<li class="${t.done ? 'done' : ''}"><span onclick="toggle(${i})">${t.text}</span><b onclick="remove(${i})">×</b></li>`
-    ).join('');
-  }
-  function addTodo() {
-    const el = document.getElementById('todoInput');
-    if (!el.value.trim()) return;
-    todos.push({ text: el.value.trim(), done: false });
-    el.value = ''; save(); render();
-  }
-  function toggle(i) { todos[i].done = !todos[i].done; save(); render(); }
-  function remove(i) { todos.splice(i, 1); save(); render(); }
-  render();
+let state=JSON.parse(localStorage.getItem('sukoon_v2')||'null')||{selectedId:1,count:0,cycle:1,totalToday:0,lastDate:new Date().toDateString(),streak:0,history:{},sound:true};
+function save(){localStorage.setItem('sukoon_v2',JSON.stringify(state))}
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function sel(){return AZKAR.find(a=>a.id===state.selectedId)||AZKAR[0]}
 
-  document.getElementById('info').innerHTML =
-    'User agent: ' + navigator.userAgent.slice(0, 60) + '...<br>' +
-    'Screen: ' + screen.width + ' x ' + screen.height + '<br>' +
-    'Online: ' + navigator.onLine + '<br>' +
-    'Language: ' + navigator.language;
+let audioCtx;
+function tickSound(){
+ if(!state.sound) return;
+ try{
+  audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+  o.frequency.value=720; g.gain.value=0.12; o.connect(g); g.connect(audioCtx.destination);
+  o.start(); g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime+0.12); o.stop(audioCtx.currentTime+0.12);
+ }catch(e){}
+}
+
+// Render
+function render(){
+ // check daily reset
+ if(state.lastDate!==new Date().toDateString()){
+   const yesterday=state.lastDate;
+   // streak logic simplified: if yesterday had count >0 keep else reset handled via history
+   state.lastDate=new Date().toDateString();
+   state.totalToday=0; save();
+ }
+ const s=sel();
+ document.getElementById('dhikrAr').textContent=s.ar;
+ document.getElementById('dhikrTr').textContent=s.tr;
+ document.getElementById('targetBadge').textContent='Target: '+s.target;
+ document.getElementById('cycleBadge').textContent='Cycle '+state.cycle;
+ document.getElementById('countNum').textContent=state.count;
+ document.getElementById('todayTotal').textContent=state.totalToday;
+ document.getElementById('streakNum').textContent=state.streak;
+ const pct=Math.min(100, (state.count/s.target)*100);
+ document.getElementById('progressBar').style.width=pct+'%';
+ document.getElementById('remainText').textContent= state.count>=s.target ? 'Completed!' : (s.target-state.count)+' remaining';
+ const offset=553 - (553 * Math.min(1, state.count/s.target));
+ document.getElementById('ring').style.strokeDashoffset=offset;
+ // azkar active
+ document.querySelectorAll('[data-azkar]').forEach(el=>{
+   const isActive= +el.dataset.azkar===state.selectedId;
+   el.style.background=isActive?'var(--primary)':'var(--card)';
+   el.style.color=isActive?'white':'var(--text)';
+   el.style.borderColor=isActive?'var(--primary)':'var(--border)';
+ });
+ renderChart();
+ lucide.createIcons();
+}
+function toast(msg){
+ const t=document.getElementById('toast'); t.textContent=msg; t.classList.remove('hidden'); t.classList.add('fade-in');
+ setTimeout(()=>t.classList.add('hidden'),1800);
+}
+function increment(){
+ const s=sel();
+ state.count++;
+ state.totalToday++;
+ const k=todayKey(); state.history[k]=(state.history[k]||0)+1;
+ // update streak if first today
+ if(state.history[k]===1){ // first count today
+   // naive streak increase if yesterday existed
+   const d=new Date(); d.setDate(d.getDate()-1); const yk=d.toISOString().slice(0,10);
+   if(state.history[yk]) state.streak=Math.max(1,state.streak); else if(!state.streak) state.streak=1;
+   // ensure at least 1
+   if(state.streak===0) state.streak=1;
+ }
+ save(); tickSound();
+ if(state.count>=s.target){
+   // complete
+   document.getElementById('modalTarget').textContent=s.tr+' × '+s.target;
+   document.getElementById('modal').classList.remove('hidden'); document.getElementById('modal').classList.add('flex');
+   // increment cycle after modal, but keep count at target until continue
+ }
+ // animate number
+ const el=document.getElementById('countNum'); el.style.transform='scale(1.12)'; setTimeout(()=>el.style.transform='scale(1)',150);
+ render();
+}
+document.getElementById('tapBtn').addEventListener('click',increment);
+document.getElementById('circleBox').addEventListener('click',increment);
+document.getElementById('modalContinue').addEventListener('click',()=>{
+ state.count=0; state.cycle++; save();
+ document.getElementById('modal').classList.add('hidden'); document.getElementById('modal').classList.remove('flex');
+ render(); toast('New cycle started');
+});
+document.getElementById('undoBtn').addEventListener('click',()=>{
+ if(state.count>0){state.count--; state.totalToday=Math.max(0,state.totalToday-1); const k=todayKey(); state.history[k]=Math.max(0,(state.history[k]||1)-1); save(); render(); toast('Undone')}
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{state.count=0; save(); render(); toast('Counter reset')});
+
+// Azkar list
+const listEl=document.getElementById('azkarList');
+AZKAR.forEach(a=>{
+ const div=document.createElement('div');
+ div.dataset.azkar=a.id;
+ div.className='rounded-2xl p-4 flex items-center justify-between cursor-pointer transition';
+ div.style.cssText='border:1px solid var(--border)';
+ div.innerHTML=`<div><p class="ar text-lg leading-none">${a.ar}</p><p class="text-sm font-semibold mt-1">${a.tr}</p><p class="text-xs" style="color:var(--muted)">${a.en}</p></div><span class="text-xs font-bold px-3 py-1 rounded-full" style="background:var(--primary-soft);color:var(--primary)">×${a.target}</span>`;
+ div.addEventListener('click',()=>{state.selectedId=a.id; state.count=0; state.cycle=1; save(); render(); toast(a.tr+' selected'); document.querySelector('[data-tab="counter"]').click();});
+ listEl.appendChild(div);
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(b=>{
+ b.addEventListener('click',()=>{
+  document.querySelectorAll('.tab-btn').forEach(x=>{x.style.background='transparent'; x.style.color='var(--muted)'; x.classList.remove('font-semibold')});
+  b.style.background='var(--primary)'; b.style.color='white'; b.classList.add('font-semibold');
+  const tab=b.dataset.tab;
+  document.getElementById('page-counter').classList.toggle('hidden',tab!=='counter');
+  document.getElementById('page-azkar').classList.toggle('hidden',tab!=='azkar');
+  document.getElementById('page-stats').classList.toggle('hidden',tab!=='stats');
+  lucide.createIcons();
+ });
+});
+
+// Theme
+const themeBtn=document.getElementById('themeBtn');
+function applyTheme(){
+ const dark=localStorage.getItem('sukoon_theme')==='dark';
+ document.documentElement.classList.toggle('dark',dark);
+ themeBtn.innerHTML= dark?'<i data-lucide="moon" class="w-4 h-4"></i>':'<i data-lucide="sun" class="w-4 h-4"></i>';
+ lucide.createIcons();
+}
+themeBtn.addEventListener('click',()=>{
+ const isDark=document.documentElement.classList.contains('dark');
+ localStorage.setItem('sukoon_theme', isDark?'light':'dark'); applyTheme();
+});
+if(!localStorage.getItem('sukoon_theme')){ if(window.matchMedia('(prefers-color-scheme: dark)').matches) localStorage.setItem('sukoon_theme','dark');}
+applyTheme();
+
+// Sound toggle
+const soundBtn=document.getElementById('soundBtn');
+function refreshSound(){ soundBtn.innerHTML= state.sound?'<i data-lucide="volume-2" class="w-4 h-4"></i>':'<i data-lucide="volume-x" class="w-4 h-4"></i>'; lucide.createIcons(); }
+soundBtn.addEventListener('click',()=>{state.sound=!state.sound; save(); refreshSound(); toast(state.sound?'Sound on':'Sound off')}); refreshSound();
+
+// Stats chart
+function renderChart(){
+ const chart=document.getElementById('chart'), labels=document.getElementById('chartLabels');
+ if(!chart) return; chart.innerHTML=''; labels.innerHTML='';
+ let max=1; const days=[];
+ for(let i=6;i>=0;i--){const d=new Date(); d.setDate(d.getDate()-i); const k=d.toISOString().slice(0,10); const v=state.history[k]||0; days.push({k,v,label:d.toLocaleDateString('en',{weekday:'short'})}); max=Math.max(max,v);}
+ days.forEach(d=>{
+   const h= max? (d.v/max*100):0;
+   const bar=document.createElement('div'); bar.className='flex-1 rounded-t-xl transition-all'; bar.style.cssText=`height:${Math.max(8,h)}%;background:${d.v? 'var(--primary)':'var(--border)'}`;
+   bar.title=d.v; chart.appendChild(bar);
+   const lb=document.createElement('div'); lb.className='flex-1 text-center'; lb.textContent=d.label; labels.appendChild(lb);
+ });
+ document.getElementById('allTime').textContent=Object.values(state.history).reduce((a,b)=>a+b,0);
+ const best=Math.max(0,...Object.values(state.history)); document.getElementById('bestDay').textContent=best||'—';
+}
+document.getElementById('clearData').addEventListener('click',()=>{ if(confirm('Clear all history?')){state.history={}; state.totalToday=0; state.streak=0; save(); render(); toast('History cleared')}});
+
+// Keyboard
+document.addEventListener('keydown',e=>{ if(e.code==='Space'){ e.preventDefault(); increment(); }});
+
+// Offline check toast
+window.addEventListener('offline',()=>toast('You are offline — cached data active'));
+window.addEventListener('online',()=>toast('Back online'));
+
+render();
+
+// init lucide
+lucide.createIcons();
 </script>
 </body>
 </html>
