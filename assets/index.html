@@ -15,7 +15,15 @@ h1{margin:0;font-size:20px;letter-spacing:.5px}.sub{color:var(--mut);font-size:1
 .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .chip{background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:20px;padding:7px 12px;font-size:13px;cursor:pointer}
 .chip.on{background:var(--red);border-color:var(--red);color:#fff}
-#status{padding:10px 14px;color:var(--mut);font-size:13px}
+#status{padding:14px;color:var(--mut);font-size:13px;text-align:center}
+.picker{padding:8px 16px 16px;display:flex;justify-content:center}
+.pick-card{width:100%;max-width:320px;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 20px}
+.pick-icon{display:flex;justify-content:center}
+.pick-icon svg{width:56px;height:56px}
+.pick-title{font-size:15px;font-weight:700;margin-top:10px}
+.pick-sub{font-size:13px;color:var(--mut);margin-top:4px}
+.pick-btn{display:inline-block;margin-top:16px;background:var(--red);color:#fff;border-radius:10px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer}
+.pick-count{font-size:12px;color:var(--mut);margin-top:10px;min-height:16px}
 #list{list-style:none;margin:0;padding:0 12px 190px}
 #list li{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;cursor:pointer}
 #list li.playing{border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
@@ -34,31 +42,48 @@ input[type=range]{width:100%;accent-color:var(--red);margin:8px 0 4px}
 .ctrls button.big{background:var(--red);border-color:var(--red);width:60px;height:60px;font-size:24px}
 .ctrls button.mini{width:38px;height:38px;font-size:14px}
 .ctrls button.on{outline:2px solid var(--red)}
-.tools{display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+.tools{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:8px;flex-wrap:wrap}
 .tools select,.tools button{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px}
-.picker{padding:0 14px 10px;color:var(--mut);font-size:13px}
-.picker input{margin-top:6px;color:var(--tx)}
+.tools label{font-size:12px;color:var(--mut)}
+.tools input[type=number]{width:52px;background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:5px 6px;font-size:12px;outline:none}
+.picker input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
 audio{display:none}
-.empty{text-align:center;color:var(--mut);padding:30px 10px;font-size:14px;line-height:1.7}
+.empty{min-height:40vh;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--mut);padding:30px;font-size:14px;line-height:1.7}
 </style>
 </head>
 <body>
 <header>
-<h1>👻 Bhoot FM</h1>
-<div class="sub" id="foldersub">phonestorage / bhoot-fm</div>
+<h1><svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:-3px" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7v11l2.3-1.8L9.6 20l2.4-1.8L12 20l.1-.1L14.4 20l2.3-1.8L19 20V9a7 7 0 0 0-7-7Z" fill="#ef4444"/><circle cx="9.5" cy="10" r="1.4" fill="#0a0a0f"/><circle cx="14.5" cy="10" r="1.4" fill="#0a0a0f"/><ellipse cx="12" cy="13.5" rx="1.6" ry="2" fill="#0a0a0f"/></svg> Bhoot FM</h1>
 <div class="search"><input id="q" placeholder="Search episode…"></div>
 <div class="row">
 <button class="chip on" data-f="all">All</button>
 <button class="chip" data-f="fav">♥ Favorites</button>
 <button class="chip" id="rescan">⟳ Rescan</button>
-<button class="chip" id="shuffleBtn">🔀 Shuffle: off</button>
-<button class="chip" id="repeatBtn">🔁 Repeat: off</button>
 </div>
 </header>
 <div id="status">Loading…</div>
 <div class="picker" id="fallback" style="display:none">
-No folder found. Pick files manually:<br>
+<div class="pick-card">
+<div class="pick-icon">
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<circle cx="32" cy="32" r="30" fill="#1a0d0d"/>
+<circle cx="32" cy="32" r="30" stroke="#7f1d1d" stroke-width="2"/>
+<path d="M18 40a14 14 0 0 1 28 0" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/>
+<rect x="14" y="38" width="9" height="14" rx="4" fill="#ef4444"/>
+<rect x="41" y="38" width="9" height="14" rx="4" fill="#ef4444"/>
+<rect x="16.5" y="41" width="4" height="8" rx="2" fill="#7f1d1d"/>
+<rect x="43.5" y="41" width="4" height="8" rx="2" fill="#7f1d1d"/>
+<rect x="27" y="30" width="3.5" height="8" rx="1.5" fill="#f5f5f5"/>
+<rect x="32" y="27" width="3.5" height="11" rx="1.5" fill="#fca5a5"/>
+<rect x="37" y="31" width="3.5" height="7" rx="1.5" fill="#f5f5f5"/>
+</svg>
+</div>
+<div class="pick-title">No episodes found</div>
+<div class="pick-sub">Choose audio files to play</div>
+<label class="pick-btn" for="manual">Browse files</label>
 <input type="file" id="manual" accept="audio/*" multiple>
+<div class="pick-count" id="pickCount"></div>
+</div>
 </div>
 <ul id="list"></ul>
 <div id="bar">
@@ -67,10 +92,13 @@ No folder found. Pick files manually:<br>
 <input type="range" id="seek" value="0" min="0" max="1000">
 <div class="ctrls">
 <button class="mini" id="prev">⏮</button>
+<button class="mini" id="back">−5</button>
 <button class="big" id="play">▶</button>
+<button class="mini" id="fwd">+5</button>
 <button class="mini" id="next">⏭</button>
 </div>
 <div class="tools">
+<label>Skip <input type="number" id="seekSec" min="1" max="300" value="5">s</label>
 <select id="sleep"><option value="0">Sleep: off</option><option value="15">Sleep 15m</option><option value="30">Sleep 30m</option><option value="60">Sleep 60m</option></select>
 <select id="speed"><option value="1">1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
 </div>
@@ -82,7 +110,8 @@ status=document.getElementById('status'),q=document.getElementById('q'),
 nowEl=document.getElementById('now'),seek=document.getElementById('seek'),
 cur=document.getElementById('cur'),dur=document.getElementById('dur'),
 playBtn=document.getElementById('play');
-let tracks=[],idx=-1,shuffle=false,repeat=0,filter='all',sleepT=null;
+let tracks=[],idx=-1,filter='all',sleepT=null;
+let seekSec=parseInt(localStorage.getItem('bhootfm_seeksec')||'5',10)||5;
 let favs=JSON.parse(localStorage.getItem('bhootfm_fav')||'[]');
 let state=JSON.parse(localStorage.getItem('bhootfm_state')||'{}');
 function fmt(s){if(!isFinite(s))return'0:00';s=Math.floor(s);return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
@@ -94,17 +123,15 @@ function loadNative(){
       const arr=JSON.parse(BhootFM.listTracks());
       tracks=arr.map(t=>({name:t.name,title:clean(t.name),uri:t.uri,local:true}));
       const info=JSON.parse(BhootFM.getFolderInfo());
-      document.getElementById('foldersub')=document.getElementById('foldersub');
-      document.getElementById('foldersub').textContent=info.expected+(info.found?'':' (not found)');
-      document.getElementById('fallback').style.display=info.found?'none':'block';
-      status.textContent=info.found?tracks.length+' episode(s) found':'Folder not found: '+info.expected;
+      document.getElementById('fallback').style.display=info.found&&tracks.length?'none':'flex';
+      status.textContent=tracks.length?tracks.length+' episodes':'';
       render();
       if(state.uri){const i=tracks.findIndex(t=>t.uri===state.uri);if(i>=0){load(i,false);A.currentTime=state.t||0;}}
       return true;
     }
   }catch(e){}
-  status.textContent='Native bridge unavailable — use manual picker below.';
-  document.getElementById('fallback').style.display='block';
+  status.textContent='';
+  document.getElementById('fallback').style.display='flex';
   return false;
 }
 window.__onStoragePermission=function(){loadNative()};
@@ -115,7 +142,8 @@ function render(){
     if(filter==='fav'&&!favs.includes(t.uri))return false;
     return t.title.toLowerCase().includes(term);
   });
-  if(!vis.length){list.innerHTML='<div class="empty">No episodes.<br>Put MP3s in <b>phonestorage/bhoot-fm</b> then tap ⟳ Rescan.</div>';return}
+  if(!vis.length){list.innerHTML='';document.getElementById('fallback').style.display='flex';return}
+  document.getElementById('fallback').style.display=tracks.length?'none':'flex';
   vis.forEach(t=>{
     const li=document.createElement('li');
     if(t.i===idx)li.className='playing';
@@ -137,32 +165,39 @@ function load(i,auto){
   if(auto)A.play();
   render();
 }
+function seekBy(s){if(!A.duration)return;A.currentTime=Math.min(Math.max(0,A.currentTime+s),A.duration||0)}
+function $(id){return document.getElementById(id)}
+function paintSeek(){$('back').textContent='−'+seekSec;$('fwd').textContent='+'+seekSec;const inp=$('seekSec');if(inp&&inp.value!=String(seekSec))inp.value=seekSec}
 function toggle(){if(!tracks.length)return;if(idx<0){load(0,true);return}if(A.paused)A.play();else A.pause()}
 function step(d){
   if(!tracks.length)return;
-  if(shuffle&&d>0){load(Math.floor(Math.random()*tracks.length),true);return}
   let n=idx+d;if(n<0)n=tracks.length-1;if(n>=tracks.length)n=0;load(n,true);
 }
 A.onplay=()=>playBtn.textContent='⏸';
 A.onpause=()=>playBtn.textContent='▶';
-A.onended=()=>{if(repeat===2){A.currentTime=0;A.play()}else if(repeat===1||idx<tracks.length-1||shuffle)step(1)};
+A.onended=()=>{if(idx<tracks.length-1)step(1)};
 A.ontimeupdate=()=>{cur.textContent=fmt(A.currentTime);dur.textContent=fmt(A.duration);if(A.duration)seek.value=A.currentTime/A.duration*1000;localStorage.setItem('bhootfm_state',JSON.stringify({uri:tracks[idx]?tracks[idx].uri:'',t:A.currentTime}))};
 seek.oninput=()=>{if(A.duration)A.currentTime=seek.value/1000*A.duration};
 playBtn.onclick=toggle;
 document.getElementById('next').onclick=()=>step(1);
 document.getElementById('prev').onclick=()=>step(-1);
+document.getElementById('back').onclick=()=>seekBy(-seekSec);
+document.getElementById('fwd').onclick=()=>seekBy(seekSec);
+document.getElementById('seekSec').value=seekSec;
+document.getElementById('seekSec').onchange=e=>{seekSec=Math.min(300,Math.max(1,parseInt(e.target.value,10)||5));localStorage.setItem('bhootfm_seeksec',String(seekSec));paintSeek()};
+paintSeek();
 q.oninput=render;
 document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-f]').forEach(x=>x.classList.remove('on'));b.classList.add('on');filter=b.dataset.f;render()});
 document.getElementById('rescan').onclick=()=>{loadNative()};
-document.getElementById('shuffleBtn').onclick=e=>{shuffle=!shuffle;e.target.textContent='🔀 Shuffle: '+(shuffle?'on':'off');e.target.classList.toggle('on',shuffle)};
-document.getElementById('repeatBtn').onclick=e=>{repeat=(repeat+1)%3;e.target.textContent='🔁 Repeat: '+['off','all','one'][repeat];e.target.classList.toggle('on',repeat>0)};
 document.getElementById('speed').onchange=e=>A.playbackRate=parseFloat(e.target.value);
 document.getElementById('sleep').onchange=e=>{clearTimeout(sleepT);const m=parseInt(e.target.value);if(m>0){sleepT=setTimeout(()=>A.pause(),m*60000);status.textContent='Sleep timer: '+m+' min'}};
 document.getElementById('manual').onchange=e=>{
   tracks=[...e.target.files].map(f=>({name:f.name,title:clean(f.name),uri:URL.createObjectURL(f),local:false}));
-  status.textContent=tracks.length+' file(s) picked manually';render();
+  document.getElementById('pickCount').textContent=tracks.length?tracks.length+' selected':'';
+  status.textContent=tracks.length?tracks.length+' episodes':'';
+  render();
 };
-if('mediaSession' in navigator){try{navigator.mediaSession.setActionHandler('previoustrack',()=>step(-1));navigator.mediaSession.setActionHandler('nexttrack',()=>step(1))}catch(e){}}
+if('mediaSession' in navigator){try{navigator.mediaSession.setActionHandler('previoustrack',()=>step(-1));navigator.mediaSession.setActionHandler('nexttrack',()=>step(1));navigator.mediaSession.setActionHandler('seekbackward',()=>seekBy(-seekSec));navigator.mediaSession.setActionHandler('seekforward',()=>seekBy(seekSec))}catch(e){}}
 loadNative();
 </script>
 </body>
