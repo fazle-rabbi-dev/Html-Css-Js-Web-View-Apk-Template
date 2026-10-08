@@ -25,7 +25,9 @@ h1{margin:0;font-size:20px;letter-spacing:.5px}.sub{color:var(--mut);font-size:1
 .pick-btn{display:inline-block;margin-top:16px;background:var(--red);color:#fff;border-radius:10px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer}
 .pick-count{font-size:12px;color:var(--mut);margin-top:10px;min-height:16px}
 #list{list-style:none;margin:0;padding:0 12px 190px}
-#list li{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;cursor:pointer}
+#list li{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;cursor:pointer;transition:border-color .18s,box-shadow .18s,transform .18s}
+#list li:hover{border-color:var(--red);box-shadow:0 0 14px rgba(239,68,68,.45),0 0 3px rgba(239,68,68,.8);transform:translateY(-1px)}
+#list li:active{transform:translateY(0);box-shadow:0 0 10px rgba(239,68,68,.5)}
 #list li.playing{border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
 .num{width:30px;height:30px;border-radius:50%;background:#22222f;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
 li.playing .num{background:var(--red);color:#fff}
@@ -114,27 +116,43 @@ let tracks=[],idx=-1,filter='all',sleepT=null;
 let seekSec=parseInt(localStorage.getItem('bhootfm_seeksec')||'5',10)||5;
 let favs=JSON.parse(localStorage.getItem('bhootfm_fav')||'[]');
 let state=JSON.parse(localStorage.getItem('bhootfm_state')||'{}');
+let booted=false;
 function fmt(s){if(!isFinite(s))return'0:00';s=Math.floor(s);return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
 function clean(n){return n.replace(/\.[a-z0-9]+$/i,'').replace(/[_-]+/g,' ').trim()}
 function saveFav(){localStorage.setItem('bhootfm_fav',JSON.stringify(favs))}
 function loadNative(){
   try{
     if(window.BhootFM&&BhootFM.listTracks){
+      const prevUri=(idx>=0&&tracks[idx])?tracks[idx].uri:null;
       const arr=JSON.parse(BhootFM.listTracks());
       tracks=arr.map(t=>({name:t.name,title:clean(t.name),uri:t.uri,local:true}));
       const info=JSON.parse(BhootFM.getFolderInfo());
       document.getElementById('fallback').style.display=info.found&&tracks.length?'none':'flex';
       status.textContent=tracks.length?tracks.length+' episodes':'';
-      render();
-      if(state.uri){const i=tracks.findIndex(t=>t.uri===state.uri);if(i>=0){load(i,false);A.currentTime=state.t||0;}}
-      return true;
+      if(!booted){
+        booted=true;
+        render();
+        if(state.uri){const i=tracks.findIndex(t=>t.uri===state.uri);if(i>=0){load(i,false);A.currentTime=state.t||0;}}
+      }else if(prevUri){
+        // Safe re-scan (permission grant / resume): keep playing item, never reset src.
+        const i=tracks.findIndex(t=>t.uri===prevUri);
+        if(i>=0)idx=i; else if(idx>=tracks.length)idx=-1;
+        render();
+      }else{
+        render();
+      }
+      return tracks.length>0;
     }
   }catch(e){}
   status.textContent='';
   document.getElementById('fallback').style.display='flex';
   return false;
 }
-window.__onStoragePermission=function(){loadNative()};
+window.__onStoragePermission=function(granted){if(granted===false){status.textContent='';document.getElementById('fallback').style.display='flex';return}loadNative()};
+// The first scan can run before the permission grant lands — retry a few times.
+function rescanUntilFound(){let n=0;const t=setInterval(()=>{if(tracks.length||n>=4){clearInterval(t);return}n++;loadNative()},900)}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadNative()});
+window.addEventListener('pageshow',()=>loadNative());
 function render(){
   const term=q.value.toLowerCase();
   list.innerHTML='';
@@ -199,6 +217,7 @@ document.getElementById('manual').onchange=e=>{
 };
 if('mediaSession' in navigator){try{navigator.mediaSession.setActionHandler('previoustrack',()=>step(-1));navigator.mediaSession.setActionHandler('nexttrack',()=>step(1));navigator.mediaSession.setActionHandler('seekbackward',()=>seekBy(-seekSec));navigator.mediaSession.setActionHandler('seekforward',()=>seekBy(seekSec))}catch(e){}}
 loadNative();
+rescanUntilFound();
 </script>
 </body>
 </html>
