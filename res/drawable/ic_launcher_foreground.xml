@@ -4,20 +4,18 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Balance scale: white with one gold pan -->
-    <!-- finial -->
-    <path android:fillColor="#FFFFFF" android:pathData="M51,24 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0 Z" />
-    <!-- beam -->
-    <path android:fillColor="#FFFFFF" android:pathData="M30,28 H78 V33 H30 Z" />
-    <!-- pole -->
-    <path android:fillColor="#FFFFFF" android:pathData="M51.5,33 H56.5 V76 H51.5 Z" />
-    <!-- base -->
-    <path android:fillColor="#FFFFFF" android:pathData="M40,76 H68 V82 H40 Z" />
-    <!-- hanger strings -->
-    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M36,33 L30,54 M36,33 L42,54" />
-    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M72,33 L66,54 M72,33 L78,54" />
-    <!-- left pan (white) -->
-    <path android:fillColor="#FFFFFF" android:pathData="M25,54 H43 L38,64 H30 Z" />
-    <!-- right pan (gold accent) -->
-    <path android:fillColor="#E8C87E" android:pathData="M65,54 H83 L78,64 H70 Z" />
+    <!-- dark bg -->
+    <path android:fillColor="#0A0A0F" android:pathData="M0,0 H108 V108 H0 Z" />
+    <!-- red moon glow -->
+    <path android:fillColor="#7F1D1D" android:pathData="M54,14 a40,40 0 1,0 0.1,0 Z" />
+    <path android:fillColor="#111118" android:pathData="M54,20 a34,34 0 1,0 0.1,0 Z" />
+    <!-- headphones band -->
+    <path android:fillColor="#00000000" android:strokeColor="#EF4444" android:strokeWidth="5" android:strokeLineCap="round" android:pathData="M28,58 A26,26 0 0,1 80,58" />
+    <!-- ear cups -->
+    <path android:fillColor="#EF4444" android:pathData="M22,56 h12 v20 h-12 a6,6 0 0,1 -6,-6 v-8 a6,6 0 0,1 6,-6 Z" />
+    <path android:fillColor="#EF4444" android:pathData="M86,56 h-12 v20 h12 a6,6 0 0,0 6,-6 v-8 a6,6 0 0,0 -6,-6 Z" />
+    <!-- equalizer bars -->
+    <path android:fillColor="#FFFFFF" android:pathData="M46,58 h5 v14 h-5 Z" />
+    <path android:fillColor="#FCA5A5" android:pathData="M55,52 h5 v20 h-5 Z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M64,60 h5 v12 h-5 Z" />
 </vector>

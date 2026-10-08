@@ -1,197 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Porimap — Price Calculator</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Bhoot FM</title>
 <style>
-  :root{
-    --bg:#FAFAF8; --card:#FFFFFF; --ink:#161816; --muted:#8A918D;
-    --line:#E2E4DE; --accent:#0f6a54; --field:#EDEFEA;
-  }
-  .dark{
-    --bg:#0B0D0C; --card:#111413; --ink:#EDEEEC; --muted:#7C857F;
-    --line:#1E2321; --accent:#2BA884; --field:#151918;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
-    background:var(--bg);color:var(--ink);min-height:100vh;
-    -webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
-  header{border-bottom:1px solid var(--line)}
-  .bar{max-width:520px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:12px;min-width:0}
-  .mark{flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--accent)}
-  .brand b{font-size:17px;font-weight:600;letter-spacing:-.02em}
-  .brand small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.02em}
-  #themeBtn{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
-    background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center}
-  #themeBtn:active{transform:scale(.94)}
-  main{max-width:520px;margin:0 auto;padding:32px 24px 56px;display:grid;gap:36px}
-  main > *{min-width:0}
-  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted);margin-bottom:14px}
-  .field{min-width:0;background:var(--field);border:1px solid var(--line);border-radius:16px;
-    padding:6px 18px;display:flex;align-items:baseline;gap:10px;transition:border-color .2s}
-  .field:focus-within{border-color:var(--accent);background:var(--card)}
-  .field .unit{font-size:13px;color:var(--muted);flex-shrink:0}
-  input{flex:1;min-width:0;max-width:100%;border:none;background:transparent;color:var(--ink);
-    font-size:30px;font-weight:300;letter-spacing:-.02em;padding:12px 0;outline:none;font-variant-numeric:tabular-nums}
-  input::placeholder{color:var(--muted);opacity:.55}
-  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  input[type=number]{-moz-appearance:textfield;appearance:textfield}
-  .gap{height:18px}
-  #calcBtn{width:100%;margin-top:26px;padding:17px;border:none;border-radius:16px;background:var(--ink);color:var(--bg);
-    font-size:16px;font-weight:600;letter-spacing:.01em;cursor:pointer;transition:opacity .2s,transform .1s}
-  #calcBtn:active{transform:scale(.985);opacity:.88}
-  #result{display:none;padding-top:30px;margin-top:30px;border-top:1px solid var(--line)}
-  #result.show{display:block;animation:rise .35s cubic-bezier(.2,.7,.3,1)}
-  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  #priceBig{font-size:clamp(44px,14vw,64px);font-weight:200;letter-spacing:-.04em;
-    font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.05}
-  #priceBig small{font-size:.5em;font-weight:300;color:var(--muted)}
-  #breakdown{margin-top:10px;font-size:13.5px;color:var(--muted);line-height:1.6}
-  #formula{margin-top:16px;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
-  .rowBtns{display:flex;gap:0;margin-top:20px;border-top:1px solid var(--line)}
-  .ghost{flex:1;padding:14px 0;border:none;border-bottom:1px solid var(--line);background:transparent;
-    color:var(--ink);font-size:14px;font-weight:500;cursor:pointer}
-  .ghost + .ghost{border-left:1px solid var(--line)}
-  .ghost:active{opacity:.55}
-  .hist-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
-  .hist-head h2{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted)}
-  #histCount{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-  #hist{list-style:none}
-  #hist li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
-    padding:13px 2px;border-bottom:1px solid var(--line);font-size:14.5px;min-width:0}
-  #hist li span{color:var(--muted);font-variant-numeric:tabular-nums;min-width:0;overflow-wrap:anywhere}
-  #hist li b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .empty{color:var(--muted);font-size:14px;padding:16px 2px;border-bottom:1px solid var(--line)}
-  footer{text-align:center;font-size:11.5px;letter-spacing:.08em;color:var(--muted);padding-bottom:8px}
-  #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);max-width:90vw;text-align:center;
-    background:var(--ink);color:var(--bg);padding:12px 24px;border-radius:99px;font-size:13.5px;font-weight:500;
-    display:none;z-index:50;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+:root{--bg:#0a0a0f;--card:#15151f;--red:#ef4444;--red2:#7f1d1d;--tx:#f5f5f5;--mut:#9ca3af;--line:#262633}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(600px 300px at 50% -60px,#3a0a0a,transparent),var(--bg);color:var(--tx);font-family:system-ui,Roboto,Arial,sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:rgba(10,10,15,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 14px}
+h1{margin:0;font-size:20px;letter-spacing:.5px}.sub{color:var(--mut);font-size:12px;margin-top:2px}
+.search{margin-top:10px;display:flex;gap:8px}
+.search input{flex:1;background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:10px 12px;font-size:15px;outline:none}
+.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:20px;padding:7px 12px;font-size:13px;cursor:pointer}
+.chip.on{background:var(--red);border-color:var(--red);color:#fff}
+#status{padding:10px 14px;color:var(--mut);font-size:13px}
+#list{list-style:none;margin:0;padding:0 12px 190px}
+#list li{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;cursor:pointer}
+#list li.playing{border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+.num{width:30px;height:30px;border-radius:50%;background:#22222f;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+li.playing .num{background:var(--red);color:#fff}
+.t{flex:1;min-width:0}.t b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.t span{font-size:12px;color:var(--mut)}
+.fav{background:none;border:none;font-size:20px;cursor:pointer;color:#555}
+.fav.on{color:var(--red)}
+#bar{position:fixed;bottom:0;left:0;right:0;background:#101018;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+#now{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#time{font-size:12px;color:var(--mut);display:flex;justify-content:space-between;margin-top:2px}
+input[type=range]{width:100%;accent-color:var(--red);margin:8px 0 4px}
+.ctrls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:4px}
+.ctrls button{background:#22222f;border:1px solid var(--line);color:#fff;border-radius:50%;width:46px;height:46px;font-size:19px;cursor:pointer}
+.ctrls button.big{background:var(--red);border-color:var(--red);width:60px;height:60px;font-size:24px}
+.ctrls button.mini{width:38px;height:38px;font-size:14px}
+.ctrls button.on{outline:2px solid var(--red)}
+.tools{display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+.tools select,.tools button{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px}
+.picker{padding:0 14px 10px;color:var(--mut);font-size:13px}
+.picker input{margin-top:6px;color:var(--tx)}
+audio{display:none}
+.empty{text-align:center;color:var(--mut);padding:30px 10px;font-size:14px;line-height:1.7}
 </style>
 </head>
 <body>
 <header>
-  <div class="bar">
-    <div class="brand"><div class="mark"></div><div><b>Porimap</b><small>পরিমাপ · measure the price</small></div></div>
-    <button id="themeBtn" title="Toggle theme" aria-label="Toggle theme"></button>
-  </div>
+<h1>👻 Bhoot FM</h1>
+<div class="sub" id="foldersub">phonestorage / bhoot-fm</div>
+<div class="search"><input id="q" placeholder="Search episode…"></div>
+<div class="row">
+<button class="chip on" data-f="all">All</button>
+<button class="chip" data-f="fav">♥ Favorites</button>
+<button class="chip" id="rescan">⟳ Rescan</button>
+<button class="chip" id="shuffleBtn">🔀 Shuffle: off</button>
+<button class="chip" id="repeatBtn">🔁 Repeat: off</button>
+</div>
 </header>
-
-<main>
-  <section>
-    <p class="eyebrow">RATE — PER KILOGRAM</p>
-    <div class="field"><span class="unit">৳</span><input id="rate" type="number" min="0" step="any" inputmode="decimal" placeholder="0" /></div>
-    <div class="gap"></div>
-    <p class="eyebrow">WEIGHT — GRAMS</p>
-    <div class="field"><input id="weight" type="number" min="0" step="any" inputmode="decimal" placeholder="0" /><span class="unit">g</span></div>
-    <button id="calcBtn">Calculate</button>
-
-    <div id="result">
-      <p class="eyebrow">TOTAL</p>
-      <p id="priceBig"></p>
-      <p id="breakdown"></p>
-      <p id="formula"></p>
-      <div class="rowBtns">
-        <button class="ghost" id="copyBtn">Copy</button>
-        <button class="ghost" id="clearBtn">Clear</button>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="hist-head"><h2>RECENT</h2><span id="histCount"></span></div>
-    <ul id="hist"></ul>
-  </section>
-
-  <footer>PORIMAP · WEIGH · PRICE · REPEAT</footer>
-</main>
-
-<div id="toast"></div>
-
+<div id="status">Loading…</div>
+<div class="picker" id="fallback" style="display:none">
+No folder found. Pick files manually:<br>
+<input type="file" id="manual" accept="audio/*" multiple>
+</div>
+<ul id="list"></ul>
+<div id="bar">
+<div id="now">No track</div>
+<div id="time"><span id="cur">0:00</span><span id="dur">0:00</span></div>
+<input type="range" id="seek" value="0" min="0" max="1000">
+<div class="ctrls">
+<button class="mini" id="prev">⏮</button>
+<button class="big" id="play">▶</button>
+<button class="mini" id="next">⏭</button>
+</div>
+<div class="tools">
+<select id="sleep"><option value="0">Sleep: off</option><option value="15">Sleep 15m</option><option value="30">Sleep 30m</option><option value="60">Sleep 60m</option></select>
+<select id="speed"><option value="1">1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+</div>
+</div>
+<audio id="a" preload="metadata"></audio>
 <script>
-  const $ = id => document.getElementById(id);
-  const store = {
-    load() { try { return JSON.parse(localStorage.getItem('porimap_v2')) || {}; } catch(e){ return {}; } },
-    save(d) { try { localStorage.setItem('porimap_v2', JSON.stringify(d)); } catch(e){} }
-  };
-  let data = Object.assign({ rate:'', theme:'light', hist:[] }, store.load());
-
-  const SUN = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>';
-  const MOON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.5A8 8 0 0 1 10.5 4 8 8 0 1 0 20 13.5z"/></svg>';
-
-  function applyTheme(){
-    document.documentElement.classList.toggle('dark', data.theme === 'dark');
-    $('themeBtn').innerHTML = data.theme === 'dark' ? MOON : SUN;
-  }
-  $('themeBtn').onclick = () => {
-    data.theme = data.theme === 'dark' ? 'light' : 'dark';
-    store.save(data); applyTheme();
-  };
-  applyTheme();
-
-  if (data.rate !== '') $('rate').value = data.rate;
-  $('rate').addEventListener('input', e => { data.rate = e.target.value; store.save(data); });
-
-  function toast(msg){
-    const t = $('toast'); t.textContent = msg; t.style.display = 'block';
-    clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 1800);
-  }
-
-  function renderHist(){
-    const ul = $('hist'); ul.innerHTML = '';
-    $('histCount').textContent = data.hist.length ? data.hist.length + ' entries' : '';
-    if (!data.hist.length) { ul.innerHTML = '<li class="empty">Nothing calculated yet</li>'; return; }
-    data.hist.forEach(h => {
-      const li = document.createElement('li');
-      li.innerHTML = `<span>${h.weight} g · ৳${h.rate} / kg</span><b>৳${h.total}</b>`;
-      ul.appendChild(li);
-    });
-  }
-  renderHist();
-
-  let lastTotal = '';
-  function calculate(){
-    const rate = parseFloat($('rate').value);
-    const weight = parseFloat($('weight').value);
-    if (!(rate > 0) || !(weight > 0)) { toast('Enter a valid rate and weight'); return; }
-
-    const total = Math.round((rate / 1000) * weight * 100) / 100;   // per-kg rate → gram weight
-    const taka = Math.floor(total);
-    const poisha = Math.round((total - taka) * 100);                // fraction of 1 taka
-    lastTotal = total.toFixed(2);
-
-    $('priceBig').innerHTML = `৳${taka}.<small>${String(poisha).padStart(2,'0')}</small>`;
-    $('breakdown').textContent = `${taka} taka and ${poisha} poisha — .${String(poisha).padStart(2,'0')} is ${poisha}% of one taka`;
-    $('formula').textContent = `৳${rate} / kg × ${weight} g = ৳${lastTotal}`;
-    const r = $('result');
-    r.classList.remove('show'); void r.offsetWidth; r.classList.add('show');
-
-    data.hist.unshift({ rate, weight, total: lastTotal });
-    data.hist = data.hist.slice(0, 8);
-    store.save(data); renderHist();
-  }
-  $('calcBtn').onclick = calculate;
-
-  // Enter: rate → weight → calculate
-  $('rate').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); $('weight').focus(); }
+const A=document.getElementById('a'),list=document.getElementById('list'),
+status=document.getElementById('status'),q=document.getElementById('q'),
+nowEl=document.getElementById('now'),seek=document.getElementById('seek'),
+cur=document.getElementById('cur'),dur=document.getElementById('dur'),
+playBtn=document.getElementById('play');
+let tracks=[],idx=-1,shuffle=false,repeat=0,filter='all',sleepT=null;
+let favs=JSON.parse(localStorage.getItem('bhootfm_fav')||'[]');
+let state=JSON.parse(localStorage.getItem('bhootfm_state')||'{}');
+function fmt(s){if(!isFinite(s))return'0:00';s=Math.floor(s);return Math.floor(s/60)+':'+('0'+s%60).slice(-2)}
+function clean(n){return n.replace(/\.[a-z0-9]+$/i,'').replace(/[_-]+/g,' ').trim()}
+function saveFav(){localStorage.setItem('bhootfm_fav',JSON.stringify(favs))}
+function loadNative(){
+  try{
+    if(window.BhootFM&&BhootFM.listTracks){
+      const arr=JSON.parse(BhootFM.listTracks());
+      tracks=arr.map(t=>({name:t.name,title:clean(t.name),uri:t.uri,local:true}));
+      const info=JSON.parse(BhootFM.getFolderInfo());
+      document.getElementById('foldersub')=document.getElementById('foldersub');
+      document.getElementById('foldersub').textContent=info.expected+(info.found?'':' (not found)');
+      document.getElementById('fallback').style.display=info.found?'none':'block';
+      status.textContent=info.found?tracks.length+' episode(s) found':'Folder not found: '+info.expected;
+      render();
+      if(state.uri){const i=tracks.findIndex(t=>t.uri===state.uri);if(i>=0){load(i,false);A.currentTime=state.t||0;}}
+      return true;
+    }
+  }catch(e){}
+  status.textContent='Native bridge unavailable — use manual picker below.';
+  document.getElementById('fallback').style.display='block';
+  return false;
+}
+window.__onStoragePermission=function(){loadNative()};
+function render(){
+  const term=q.value.toLowerCase();
+  list.innerHTML='';
+  const vis=tracks.map((t,i)=>({...t,i})).filter(t=>{
+    if(filter==='fav'&&!favs.includes(t.uri))return false;
+    return t.title.toLowerCase().includes(term);
   });
-  $('weight').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); calculate(); }
+  if(!vis.length){list.innerHTML='<div class="empty">No episodes.<br>Put MP3s in <b>phonestorage/bhoot-fm</b> then tap ⟳ Rescan.</div>';return}
+  vis.forEach(t=>{
+    const li=document.createElement('li');
+    if(t.i===idx)li.className='playing';
+    li.innerHTML='<div class="num">'+(t.i===idx?'♪':(t.i+1))+'</div><div class="t"><b></b><span></span></div>';
+    li.querySelector('b').textContent=t.title;
+    li.querySelector('span').textContent=t.name;
+    const f=document.createElement('button');f.className='fav'+(favs.includes(t.uri)?' on':'');f.textContent='♥';
+    f.onclick=e=>{e.stopPropagation();const k=t.uri;favs=favs.includes(k)?favs.filter(x=>x!==k):[...favs,k];saveFav();render();};
+    li.appendChild(f);
+    li.onclick=()=>{load(t.i,true)};
+    list.appendChild(li);
   });
-
-  $('clearBtn').onclick = () => {
-    $('weight').value = ''; $('result').classList.remove('show');
-  };
-  $('copyBtn').onclick = () => {
-    if (!lastTotal) return;
-    const done = () => toast('Copied ৳' + lastTotal);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText('৳' + lastTotal).then(done).catch(() => toast('৳' + lastTotal));
-    } else { toast('৳' + lastTotal); }
-  };
+}
+function load(i,auto){
+  idx=i;const t=tracks[i];if(!t)return;
+  A.src=t.uri;A.playbackRate=parseFloat(document.getElementById('speed').value||'1');
+  nowEl.textContent=t.title;
+  localStorage.setItem('bhootfm_state',JSON.stringify({uri:t.uri}));
+  if(auto)A.play();
+  render();
+}
+function toggle(){if(!tracks.length)return;if(idx<0){load(0,true);return}if(A.paused)A.play();else A.pause()}
+function step(d){
+  if(!tracks.length)return;
+  if(shuffle&&d>0){load(Math.floor(Math.random()*tracks.length),true);return}
+  let n=idx+d;if(n<0)n=tracks.length-1;if(n>=tracks.length)n=0;load(n,true);
+}
+A.onplay=()=>playBtn.textContent='⏸';
+A.onpause=()=>playBtn.textContent='▶';
+A.onended=()=>{if(repeat===2){A.currentTime=0;A.play()}else if(repeat===1||idx<tracks.length-1||shuffle)step(1)};
+A.ontimeupdate=()=>{cur.textContent=fmt(A.currentTime);dur.textContent=fmt(A.duration);if(A.duration)seek.value=A.currentTime/A.duration*1000;localStorage.setItem('bhootfm_state',JSON.stringify({uri:tracks[idx]?tracks[idx].uri:'',t:A.currentTime}))};
+seek.oninput=()=>{if(A.duration)A.currentTime=seek.value/1000*A.duration};
+playBtn.onclick=toggle;
+document.getElementById('next').onclick=()=>step(1);
+document.getElementById('prev').onclick=()=>step(-1);
+q.oninput=render;
+document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-f]').forEach(x=>x.classList.remove('on'));b.classList.add('on');filter=b.dataset.f;render()});
+document.getElementById('rescan').onclick=()=>{loadNative()};
+document.getElementById('shuffleBtn').onclick=e=>{shuffle=!shuffle;e.target.textContent='🔀 Shuffle: '+(shuffle?'on':'off');e.target.classList.toggle('on',shuffle)};
+document.getElementById('repeatBtn').onclick=e=>{repeat=(repeat+1)%3;e.target.textContent='🔁 Repeat: '+['off','all','one'][repeat];e.target.classList.toggle('on',repeat>0)};
+document.getElementById('speed').onchange=e=>A.playbackRate=parseFloat(e.target.value);
+document.getElementById('sleep').onchange=e=>{clearTimeout(sleepT);const m=parseInt(e.target.value);if(m>0){sleepT=setTimeout(()=>A.pause(),m*60000);status.textContent='Sleep timer: '+m+' min'}};
+document.getElementById('manual').onchange=e=>{
+  tracks=[...e.target.files].map(f=>({name:f.name,title:clean(f.name),uri:URL.createObjectURL(f),local:false}));
+  status.textContent=tracks.length+' file(s) picked manually';render();
+};
+if('mediaSession' in navigator){try{navigator.mediaSession.setActionHandler('previoustrack',()=>step(-1));navigator.mediaSession.setActionHandler('nexttrack',()=>step(1))}catch(e){}}
+loadNative();
 </script>
 </body>
 </html>

@@ -25,8 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Take a moment &#8226; breathe"
-        android:textColor="#D9EDE7"
+        android:text="bhoot-fm &#8226; phone storage"
+        android:textColor="#FCA5A5"
         android:textSize="14sp" />
 
     <ProgressBar

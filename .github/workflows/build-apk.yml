@@ -59,11 +59,11 @@ jobs:
           }
 
           android {
-              namespace = "com.fazlerabbi.porimap"
+              namespace = "com.bhootfm.player"
               compileSdk = 34
 
               defaultConfig {
-                  applicationId = "com.fazlerabbi.porimap"
+                  applicationId = "com.bhootfm.player"
                   minSdk = 24
                   targetSdk = 34
                   versionCode = 1
@@ -96,9 +96,9 @@ jobs:
       - run: gradle :app:assembleDebug
 
       - name: Rename APK
-        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/Porimap.apk
+        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/BhootFM.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Porimap
-          path: app/build/outputs/apk/debug/Porimap.apk
+          name: BhootFM
+          path: app/build/outputs/apk/debug/BhootFM.apk
