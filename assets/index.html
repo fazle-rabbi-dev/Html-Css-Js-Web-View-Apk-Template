@@ -3,195 +3,396 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Porimap — Price Calculator</title>
+<title>VidSum — YouTube Video Summarizer</title>
 <style>
   :root{
     --bg:#FAFAF8; --card:#FFFFFF; --ink:#161816; --muted:#8A918D;
-    --line:#E2E4DE; --accent:#0f6a54; --field:#EDEFEA;
+    --line:#E2E4DE; --accent:#C81E2E; --accent-soft:#FBE9EB; --field:#EDEFEA;
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",system-ui,sans-serif;
   }
   .dark{
-    --bg:#0B0D0C; --card:#111413; --ink:#EDEEEC; --muted:#7C857F;
-    --line:#1E2321; --accent:#2BA884; --field:#151918;
+    --bg:#0B0D0C; --card:#131615; --ink:#EDEEEC; --muted:#7C857F;
+    --line:#1E2321; --accent:#FF5A6A; --accent-soft:#241114; --field:#151918;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+  body{font-family:var(--sans);
     background:var(--bg);color:var(--ink);min-height:100vh;
-    -webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
-  header{border-bottom:1px solid var(--line)}
-  .bar{max-width:520px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:12px;min-width:0}
-  .mark{flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--accent)}
-  .brand b{font-size:17px;font-weight:600;letter-spacing:-.02em}
-  .brand small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.02em}
-  #themeBtn{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background .3s,color .3s}
+  header{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20}
+  .bar{max-width:680px;margin:0 auto;padding:0 20px;min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .mark{width:32px;height:32px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .brand b{font-size:17px;font-weight:700;letter-spacing:-.02em}
+  .brand small{display:block;font-size:11.5px;font-weight:400;color:var(--muted)}
+  #themeBtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
     background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center}
   #themeBtn:active{transform:scale(.94)}
-  main{max-width:520px;margin:0 auto;padding:32px 24px 56px;display:grid;gap:36px}
-  main > *{min-width:0}
-  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted);margin-bottom:14px}
-  .field{min-width:0;background:var(--field);border:1px solid var(--line);border-radius:16px;
-    padding:6px 18px;display:flex;align-items:baseline;gap:10px;transition:border-color .2s}
-  .field:focus-within{border-color:var(--accent);background:var(--card)}
-  .field .unit{font-size:13px;color:var(--muted);flex-shrink:0}
-  input{flex:1;min-width:0;max-width:100%;border:none;background:transparent;color:var(--ink);
-    font-size:30px;font-weight:300;letter-spacing:-.02em;padding:12px 0;outline:none;font-variant-numeric:tabular-nums}
-  input::placeholder{color:var(--muted);opacity:.55}
-  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  input[type=number]{-moz-appearance:textfield;appearance:textfield}
-  .gap{height:18px}
-  #calcBtn{width:100%;margin-top:26px;padding:17px;border:none;border-radius:16px;background:var(--ink);color:var(--bg);
-    font-size:16px;font-weight:600;letter-spacing:.01em;cursor:pointer;transition:opacity .2s,transform .1s}
-  #calcBtn:active{transform:scale(.985);opacity:.88}
-  #result{display:none;padding-top:30px;margin-top:30px;border-top:1px solid var(--line)}
-  #result.show{display:block;animation:rise .35s cubic-bezier(.2,.7,.3,1)}
+  .hact{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  #histBtn{height:38px;padding:0 16px;border-radius:99px;border:1px solid var(--line);
+    background:transparent;color:var(--ink);font-size:13.5px;font-weight:600;cursor:pointer;
+    display:flex;align-items:center;gap:7px;font-family:var(--sans)}
+  #histBtn.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  #histCount{font-size:11px;font-weight:700;background:var(--accent);color:#fff;border-radius:99px;
+    min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+  #histBtn.on #histCount{background:var(--bg);color:var(--ink)}
+  main{max-width:680px;margin:0 auto;padding:32px 20px 60px;display:grid;gap:30px}
+  main>*{min-width:0}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--muted);margin-bottom:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .urlrow{display:flex;gap:10px}
+  .urlfield{flex:1;min-width:0;background:var(--field);border:1px solid var(--line);border-radius:14px;padding:0 14px;display:flex;align-items:center}
+  .urlfield:focus-within{border-color:var(--accent);background:var(--card)}
+  .urlfield input{flex:1;min-width:0;border:none;background:transparent;color:var(--ink);font-size:15px;padding:14px 0;outline:none}
+  #pasteBtn{flex-shrink:0;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;padding:0 14px;font-size:13.5px;font-weight:600;cursor:pointer}
+  #sumBtn{width:100%;margin-top:12px;padding:16px;border:none;border-radius:14px;background:var(--accent);color:#fff;
+    font-size:16px;font-weight:700;cursor:pointer}
+  #sumBtn:disabled{opacity:.55;cursor:wait}
+  #sumBtn:active{transform:scale(.985)}
+  #preview{display:none;margin-top:14px;gap:12px;align-items:center}
+  #preview.show{display:flex}
+  #preview img{width:120px;height:68px;object-fit:cover;border-radius:10px;border:1px solid var(--line);flex-shrink:0}
+  #preview p{font-size:13px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+  #status{margin-top:12px;font-size:13.5px;color:var(--muted);line-height:1.6;min-height:20px}
+  #status.err{color:var(--accent)}
+  #status.ok{color:var(--ink)}
+  details.card summary{cursor:pointer;font-size:14.5px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  details.card summary::-webkit-details-marker{display:none}
+  details.card summary span{font-size:12px;color:var(--muted);font-weight:500}
+  .sgrid{margin-top:16px;display:grid;gap:12px}
+  label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em}
+  .sgrid input{width:100%;margin-top:6px;border:1px solid var(--line);background:var(--field);color:var(--ink);
+    border-radius:12px;padding:12px 14px;font-size:14px;outline:none;font-family:ui-monospace,monospace}
+  .sgrid input:focus{border-color:var(--accent);background:var(--card)}
+  .srow{display:flex;gap:10px;margin-top:4px}
+  .srow button{flex:1;padding:12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer}
+  #saveBtn{border:none;background:var(--ink);color:var(--bg)}
+  #clearKeys{border:1px solid var(--line);background:transparent;color:var(--ink)}
+  .hint{font-size:12px;color:var(--muted);line-height:1.6}
+  /* Summary typography — calm sans reading */
+  #out{display:none}
+  #out.show{display:block;animation:rise .35s cubic-bezier(.2,.7,.3,1)}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  #priceBig{font-size:clamp(44px,14vw,64px);font-weight:200;letter-spacing:-.04em;
-    font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.05}
-  #priceBig small{font-size:.5em;font-weight:300;color:var(--muted)}
-  #breakdown{margin-top:10px;font-size:13.5px;color:var(--muted);line-height:1.6}
-  #formula{margin-top:16px;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
-  .rowBtns{display:flex;gap:0;margin-top:20px;border-top:1px solid var(--line)}
+  #outMeta{display:flex;gap:14px;align-items:center;margin-bottom:8px}
+  #outMeta img{width:128px;height:72px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+  #outMeta div{min-width:0}
+  #outTitle{font-family:var(--sans);font-size:24px;font-weight:700;line-height:1.35;letter-spacing:-.015em;overflow-wrap:anywhere}
+  #outSub{font-size:13.5px;color:var(--muted);margin-top:6px;line-height:1.6;letter-spacing:.01em}
+  .article{font-family:var(--sans);font-size:18px;font-weight:400;line-height:1.9;letter-spacing:.012em;color:var(--ink);margin-top:16px;overflow-wrap:anywhere}
+  .article h1,.article h2,.article h3{font-family:var(--sans);
+    line-height:1.4;letter-spacing:-.01em;margin:1.6em 0 .6em;font-weight:700}
+  .article h1{font-size:26px}.article h2{font-size:22px}.article h3{font-size:19px}
+  .article h2{padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .article p{margin:1em 0;letter-spacing:.012em}
+  .article ul{margin:1em 0 1em 1.25em;display:grid;gap:.7em}
+  .article li{line-height:1.85;letter-spacing:.012em}
+  .article li::marker{color:var(--accent)}
+  .article strong{font-weight:700}
+  .article blockquote{border-left:3px solid var(--accent);padding:8px 18px;margin:1.4em 0;color:var(--muted);font-style:italic;line-height:1.85}
+  .article blockquote p{margin:.4em 0}
+  .article code{font-family:ui-monospace,monospace;font-size:.85em;background:var(--field);padding:2px 8px;border-radius:6px}
+  /* History */
+  body[data-view="history"] #homeInput,body[data-view="history"] #out,body[data-view="history"] #settings{display:none}
+  body[data-view="home"] #histView{display:none}
+  #histView{display:grid;gap:14px;min-width:0}
+  #histView>*{min-width:0}
+  .hist-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .hist-head h2{font-size:22px;font-weight:700;letter-spacing:-.015em}
+  #histClear{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;
+    padding:8px 16px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--sans);flex-shrink:0}
+  #histList{list-style:none;display:grid;gap:12px;min-width:0}
+  #histList li{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;
+    display:flex;gap:13px;align-items:center;cursor:pointer;min-width:0;overflow:hidden}
+  #histList li:active{opacity:.7}
+  #histList img{width:96px;height:54px;object-fit:cover;border-radius:10px;flex-shrink:0}
+  #histList .ht{min-width:0;flex:1}
+  #histList .ht b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    font-size:14.5px;font-weight:700;letter-spacing:-.01em;line-height:1.45;overflow-wrap:anywhere;white-space:normal}
+  #histList .ht span{display:block;font-size:12.5px;color:var(--muted);margin-top:4px;letter-spacing:.015em;line-height:1.55;overflow-wrap:anywhere}
+  .hdel{flex-shrink:0;border:none;background:var(--field);color:var(--muted);width:34px;height:34px;
+    border-radius:50%;font-size:15px;cursor:pointer;line-height:1}
+  .hempty{color:var(--muted);font-size:15px;line-height:1.8;letter-spacing:.01em;padding:20px 4px}
+  .rowBtns{display:flex;margin-top:20px;border-top:1px solid var(--line)}
   .ghost{flex:1;padding:14px 0;border:none;border-bottom:1px solid var(--line);background:transparent;
-    color:var(--ink);font-size:14px;font-weight:500;cursor:pointer}
+    color:var(--ink);font-size:14px;font-weight:600;cursor:pointer}
   .ghost + .ghost{border-left:1px solid var(--line)}
   .ghost:active{opacity:.55}
-  .hist-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
-  .hist-head h2{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted)}
-  #histCount{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-  #hist{list-style:none}
-  #hist li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
-    padding:13px 2px;border-bottom:1px solid var(--line);font-size:14.5px;min-width:0}
-  #hist li span{color:var(--muted);font-variant-numeric:tabular-nums;min-width:0;overflow-wrap:anywhere}
-  #hist li b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .empty{color:var(--muted);font-size:14px;padding:16px 2px;border-bottom:1px solid var(--line)}
-  footer{text-align:center;font-size:11.5px;letter-spacing:.08em;color:var(--muted);padding-bottom:8px}
+  footer{text-align:center;font-size:11px;letter-spacing:.1em;color:var(--muted)}
   #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);max-width:90vw;text-align:center;
     background:var(--ink);color:var(--bg);padding:12px 24px;border-radius:99px;font-size:13.5px;font-weight:500;
     display:none;z-index:50;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);border-top-color:var(--accent);
+    border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:8px}
+  @keyframes sp{to{transform:rotate(360deg)}}
 </style>
 </head>
-<body>
+<body data-view="home">
 <header>
   <div class="bar">
-    <div class="brand"><div class="mark"></div><div><b>Porimap</b><small>পরিমাপ · measure the price</small></div></div>
-    <button id="themeBtn" title="Toggle theme" aria-label="Toggle theme"></button>
+    <div class="brand">
+      <div class="mark"><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
+      <div><b>VidSum</b><small>YouTube video summarizer</small></div>
+    </div>
+    <div class="hact">
+      <button id="histBtn" aria-label="Open history">History <span id="histCount">0</span></button>
+      <button id="themeBtn" title="Toggle theme" aria-label="Toggle theme"></button>
+    </div>
   </div>
 </header>
 
 <main>
-  <section>
-    <p class="eyebrow">RATE — PER KILOGRAM</p>
-    <div class="field"><span class="unit">৳</span><input id="rate" type="number" min="0" step="any" inputmode="decimal" placeholder="0" /></div>
-    <div class="gap"></div>
-    <p class="eyebrow">WEIGHT — GRAMS</p>
-    <div class="field"><input id="weight" type="number" min="0" step="any" inputmode="decimal" placeholder="0" /><span class="unit">g</span></div>
-    <button id="calcBtn">Calculate</button>
+  <section id="histView">
+    <div class="hist-head"><h2>History</h2><button id="histClear">Clear all</button></div>
+    <ul id="histList"></ul>
+  </section>
 
-    <div id="result">
-      <p class="eyebrow">TOTAL</p>
-      <p id="priceBig"></p>
-      <p id="breakdown"></p>
-      <p id="formula"></p>
-      <div class="rowBtns">
-        <button class="ghost" id="copyBtn">Copy</button>
-        <button class="ghost" id="clearBtn">Clear</button>
-      </div>
+  <section id="homeInput">
+    <p class="eyebrow">VIDEO LINK</p>
+    <div class="urlrow">
+      <div class="urlfield"><input id="url" type="url" inputmode="url" placeholder="Paste YouTube link…" autocomplete="off" /></div>
+      <button id="pasteBtn">Paste</button>
+    </div>
+    <div id="preview"><img id="pvImg" alt="" /><p id="pvTxt"></p></div>
+    <button id="sumBtn">Summarize</button>
+    <p id="status"></p>
+  </section>
+
+  <section id="out" class="card">
+    <div id="outMeta"><img id="outImg" alt="" /><div><h2 id="outTitle"></h2><p id="outSub"></p></div></div>
+    <div id="summaryBody" class="article"></div>
+    <div class="rowBtns">
+      <button class="ghost" id="copyBtn">Copy summary</button>
+      <button class="ghost" id="clearBtn">Clear</button>
     </div>
   </section>
 
-  <section>
-    <div class="hist-head"><h2>RECENT</h2><span id="histCount"></span></div>
-    <ul id="hist"></ul>
-  </section>
+  <details class="card" id="settings">
+    <summary>API Settings <span id="keyState"></span></summary>
+    <div class="sgrid">
+      <div><label>RAPIDAPI KEY (transcription)</label><input id="rapidKey" type="password" placeholder="x-rapidapi-key" autocomplete="off" /></div>
+      <div><label>GEMINI API KEY</label><input id="geminiKey" type="password" placeholder="AIza…" autocomplete="off" /></div>
+      <div><label>GEMINI MODEL ID</label><input id="modelId" type="text" placeholder="gemini-2.5-flash" autocomplete="off" spellcheck="false" /></div>
+      <div><label>SUMMARY LANGUAGE</label><input id="langId" type="text" placeholder="English" autocomplete="off" spellcheck="false" /></div>
+      <div class="srow"><button id="saveBtn">Save keys</button><button id="clearKeys">Remove</button></div>
+      <p class="hint">Saved only in this device's localStorage (<b>vidsum_v1</b>). Transcript: <b>youtube-transcript3.p.rapidapi.com/api/transcript?videoId=…</b> · Summary: Gemini <b>:generateContent</b> REST.</p>
+    </div>
+  </details>
 
-  <footer>PORIMAP · WEIGH · PRICE · REPEAT</footer>
+  <footer>VIDSUM · WATCH LESS · KNOW MORE</footer>
 </main>
 
 <div id="toast"></div>
 
 <script>
-  const $ = id => document.getElementById(id);
-  const store = {
-    load() { try { return JSON.parse(localStorage.getItem('porimap_v2')) || {}; } catch(e){ return {}; } },
-    save(d) { try { localStorage.setItem('porimap_v2', JSON.stringify(d)); } catch(e){} }
-  };
-  let data = Object.assign({ rate:'', theme:'light', hist:[] }, store.load());
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var LS = "vidsum_v1";
+  var TRANSCRIPT_HOST = "youtube-transcript3.p.rapidapi.com";
 
-  const SUN = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>';
-  const MOON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.5A8 8 0 0 1 10.5 4 8 8 0 1 0 20 13.5z"/></svg>';
+  function load(){ try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch(e){ return {}; } }
+  function save(d){ try { localStorage.setItem(LS, JSON.stringify(d)); } catch(e){} }
+  var data = Object.assign({ rapidKey:"", geminiKey:"", modelId:"gemini-2.5-flash", lang:"English", theme:"light", hist:[] }, load());
+  if(!Array.isArray(data.hist)) data.hist = [];
 
-  function applyTheme(){
-    document.documentElement.classList.toggle('dark', data.theme === 'dark');
-    $('themeBtn').innerHTML = data.theme === 'dark' ? MOON : SUN;
-  }
-  $('themeBtn').onclick = () => {
-    data.theme = data.theme === 'dark' ? 'light' : 'dark';
-    store.save(data); applyTheme();
-  };
+  var SUN = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>';
+  var MOON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.5A8 8 0 0 1 10.5 4 8 8 0 1 0 20 13.5z"/></svg>';
+
+  function applyTheme(){ document.documentElement.classList.toggle("dark", data.theme === "dark"); $("themeBtn").innerHTML = data.theme === "dark" ? MOON : SUN; }
+  $("themeBtn").onclick = function(){ data.theme = data.theme === "dark" ? "light" : "dark"; save(data); applyTheme(); };
   applyTheme();
 
-  if (data.rate !== '') $('rate').value = data.rate;
-  $('rate').addEventListener('input', e => { data.rate = e.target.value; store.save(data); });
+  function toast(m){ var t = $("toast"); t.textContent = m; t.style.display = "block"; clearTimeout(t._h); t._h = setTimeout(function(){ t.style.display = "none"; }, 2000); }
+  function setStatus(msg, cls){ var s = $("status"); s.className = cls || ""; s.innerHTML = msg || ""; }
 
-  function toast(msg){
-    const t = $('toast'); t.textContent = msg; t.style.display = 'block';
-    clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 1800);
+  // Settings
+  $("rapidKey").value = data.rapidKey || "";
+  $("geminiKey").value = data.geminiKey || "";
+  $("modelId").value = data.modelId || "gemini-2.5-flash";
+  $("langId").value = data.lang || "English";
+  function refreshKeyState(){ $("keyState").textContent = (data.rapidKey && data.geminiKey) ? "● saved" : "○ keys missing"; }
+  refreshKeyState();
+  $("saveBtn").onclick = function(){
+    data.rapidKey = $("rapidKey").value.trim();
+    data.geminiKey = $("geminiKey").value.trim();
+    data.modelId = $("modelId").value.trim() || "gemini-2.5-flash";
+    data.lang = $("langId").value.trim() || "English";
+    save(data); refreshKeyState(); toast("Keys saved locally");
+  };
+  $("clearKeys").onclick = function(){
+    data.rapidKey = ""; data.geminiKey = ""; $("rapidKey").value = ""; $("geminiKey").value = "";
+    save(data); refreshKeyState(); toast("Keys removed");
+  };
+
+  function getVideoId(url){
+    if(!url) return null;
+    var m = url.match(/(?:youtube\.com\/(?:watch\?[^#]*v=|shorts\/|embed\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    if(m) return m[1];
+    if(/^[A-Za-z0-9_-]{11}$/.test(url.trim())) return url.trim();
+    return null;
   }
 
+  $("url").addEventListener("input", function(){
+    var id = getVideoId($("url").value.trim());
+    if(id){ $("preview").classList.add("show"); $("pvImg").src = "https://img.youtube.com/vi/" + id + "/hqdefault.jpg"; $("pvTxt").textContent = "Video ID: " + id; }
+    else $("preview").classList.remove("show");
+  });
+  $("pasteBtn").onclick = function(){
+    if(navigator.clipboard && navigator.clipboard.readText){
+      navigator.clipboard.readText().then(function(t){ $("url").value = t.trim(); $("url").dispatchEvent(new Event("input")); }).catch(function(){ toast("Paste manually (clipboard blocked)"); });
+    } else toast("Long-press the field to paste");
+  };
+
+  function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function inlineFmt(s){
+    s = esc(s);
+    s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    s = s.replace(/(^|\W)\*([^*\n]+)\*/g, "$1<strong>$2</strong>");
+    s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+    return s;
+  }
+  function md(src){
+    var lines = src.split("\n"), html = "", inList = false, quote = [];
+    function flushQuote(){
+      if(quote.length){ html += "<blockquote>" + quote.map(function(q){ return "<p>" + inlineFmt(q) + "</p>"; }).join("") + "</blockquote>"; quote = []; }
+    }
+    lines.forEach(function(raw){
+      var line = raw.trim();
+      if(/^&gt;/.test(esc(raw).trim()) || /^>/.test(line)){ quote.push(line.replace(/^>\s?/, "")); return; }
+      flushQuote();
+      var h = line.match(/^(#{1,3})\s+(.*)/);
+      if(h){ if(inList){ html += "</ul>"; inList = false; } var lvl = h[1].length; html += "<h" + (lvl+1) + ">" + inlineFmt(h[2]) + "</h" + (lvl+1) + ">"; return; }
+      if(/^([-*•]\s+)/.test(line)){ if(!inList){ html += "<ul>"; inList = true; } html += "<li>" + inlineFmt(line.replace(/^[-*•]\s+/, "")) + "</li>"; return; }
+      if(/^\d+[.)]\s+/.test(line)){ if(!inList){ html += "<ul>"; inList = true; } html += "<li>" + inlineFmt(line.replace(/^\d+[.)]\s+/, "")) + "</li>"; return; }
+      if(line === "" || line === "---"){ if(inList){ html += "</ul>"; inList = false; } return; }
+      if(inList){ html += "</ul>"; inList = false; }
+      html += "<p>" + inlineFmt(line) + "</p>";
+    });
+    flushQuote();
+    if(inList) html += "</ul>";
+    return html;
+  }
+
+  var lastSummary = "";
+  var lastVideoId = "";
+  function setView(v){
+    document.body.setAttribute("data-view", v);
+    $("histBtn").classList.toggle("on", v === "history");
+    $("histBtn").firstChild.textContent = v === "history" ? "Home " : "History ";
+    window.scrollTo(0, 0);
+  }
+  $("histBtn").onclick = function(){ setView(document.body.getAttribute("data-view") === "history" ? "home" : "history"); };
+
+  function fmtDate(ts){
+    try { var d = new Date(ts); return d.toLocaleDateString(undefined, { month:"short", day:"numeric" }) + " · " + d.toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" }); }
+    catch(e){ return ""; }
+  }
   function renderHist(){
-    const ul = $('hist'); ul.innerHTML = '';
-    $('histCount').textContent = data.hist.length ? data.hist.length + ' entries' : '';
-    if (!data.hist.length) { ul.innerHTML = '<li class="empty">Nothing calculated yet</li>'; return; }
-    data.hist.forEach(h => {
-      const li = document.createElement('li');
-      li.innerHTML = `<span>${h.weight} g · ৳${h.rate} / kg</span><b>৳${h.total}</b>`;
+    var ul = $("histList"); ul.innerHTML = "";
+    $("histCount").textContent = data.hist.length;
+    $("histCount").style.display = data.hist.length ? "inline-flex" : "none";
+    if(!data.hist.length){ ul.innerHTML = '<li class="hempty" style="cursor:default">No summaries yet — summaries you generate are saved here on this device.</li>'; return; }
+    data.hist.forEach(function(h){
+      var li = document.createElement("li");
+      var firstLine = (h.text.split("\n").filter(function(l){ return l.trim() && !/^#/.test(l.trim()); })[0] || h.text).slice(0, 90);
+      li.innerHTML = '<img alt="" /><div class="ht"><b></b><span></span></div><button class="hdel" title="Delete">×</button>';
+      li.querySelector("img").src = "https://img.youtube.com/vi/" + h.videoId + "/hqdefault.jpg";
+      li.querySelector("b").textContent = "youtube.com/watch?v=" + h.videoId;
+      li.querySelector("span").textContent = fmtDate(h.date) + " · " + h.model + (h.lang ? " · " + h.lang : "") + " · " + firstLine + "…";
+      li.querySelector(".hdel").onclick = function(ev){
+        ev.stopPropagation();
+        data.hist = data.hist.filter(function(x){ return x.id !== h.id; });
+        save(data); renderHist(); toast("Deleted");
+      };
+      li.onclick = function(){
+        lastSummary = h.text; lastVideoId = h.videoId;
+        $("outImg").src = "https://img.youtube.com/vi/" + h.videoId + "/hqdefault.jpg";
+        $("outTitle").textContent = "Summary";
+        $("outSub").textContent = "youtube.com/watch?v=" + h.videoId + " · " + h.model + (h.lang ? " · " + h.lang : "") + " · " + fmtDate(h.date);
+        $("summaryBody").innerHTML = md(h.text);
+        $("out").classList.add("show");
+        setView("home");
+        setStatus("");
+        setTimeout(function(){ $("out").scrollIntoView({ behavior:"smooth", block:"start" }); }, 50);
+      };
       ul.appendChild(li);
     });
   }
   renderHist();
-
-  let lastTotal = '';
-  function calculate(){
-    const rate = parseFloat($('rate').value);
-    const weight = parseFloat($('weight').value);
-    if (!(rate > 0) || !(weight > 0)) { toast('Enter a valid rate and weight'); return; }
-
-    const total = Math.round((rate / 1000) * weight * 100) / 100;   // per-kg rate → gram weight
-    const taka = Math.floor(total);
-    const poisha = Math.round((total - taka) * 100);                // fraction of 1 taka
-    lastTotal = total.toFixed(2);
-
-    $('priceBig').innerHTML = `৳${taka}.<small>${String(poisha).padStart(2,'0')}</small>`;
-    $('breakdown').textContent = `${taka} taka and ${poisha} poisha — .${String(poisha).padStart(2,'0')} is ${poisha}% of one taka`;
-    $('formula').textContent = `৳${rate} / kg × ${weight} g = ৳${lastTotal}`;
-    const r = $('result');
-    r.classList.remove('show'); void r.offsetWidth; r.classList.add('show');
-
-    data.hist.unshift({ rate, weight, total: lastTotal });
-    data.hist = data.hist.slice(0, 8);
-    store.save(data); renderHist();
+  $("histClear").onclick = function(){
+    if(!data.hist.length) return;
+    data.hist = []; save(data); renderHist(); toast("History cleared");
+  };
+  function getTranscript(videoId){
+    var url = "https://" + TRANSCRIPT_HOST + "/api/transcript?videoId=" + encodeURIComponent(videoId);
+    return fetch(url, { method:"GET", headers:{ "x-rapidapi-key": data.rapidKey, "x-rapidapi-host": TRANSCRIPT_HOST } })
+      .then(function(r){ return r.json().then(function(j){ return { ok:r.ok, body:j }; }); })
+      .then(function(res){
+        var b = res.body;
+        if(!res.ok || !b || !b.transcript) throw new Error("Transcript failed — check RapidAPI key / quota.");
+        var arr = Array.isArray(b.transcript) ? b.transcript : (b.transcript.transcript || []);
+        var text = arr.map(function(o){ return typeof o === "string" ? o : (o.text || ""); }).join(" ").replace(/\s+/g," ").trim();
+        if(!text) throw new Error("Empty transcript for this video.");
+        return text;
+      });
   }
-  $('calcBtn').onclick = calculate;
+  function geminiSummary(transcript){
+    var model = (data.modelId || "gemini-2.5-flash").trim();
+    var lang = (data.lang || "English").trim();
+    var prompt = "Write the summary in " + lang + ". Summarize this YouTube video transcript clearly. Structure with markdown:\n## TL;DR (2-3 sentences)\n## Key points (bullets)\n## Takeaways\nKeep it faithful, no invented facts. Transcript:\n\n" + transcript.slice(0, 30000);
+    var url = "https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(model) + ":generateContent?key=" + encodeURIComponent(data.geminiKey);
+    return fetch(url, { method:"POST", headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] }) })
+      .then(function(r){ return r.json().then(function(j){ return { ok:r.ok, body:j }; }); })
+      .then(function(res){
+        if(!res.ok) throw new Error((res.body && res.body.error && res.body.error.message) || "Gemini request failed.");
+        var parts = res.body.candidates && res.body.candidates[0] && res.body.candidates[0].content && res.body.candidates[0].content.parts;
+        var txt = parts ? parts.map(function(p){ return p.text || ""; }).join("\n") : "";
+        if(!txt.trim()) throw new Error("Gemini returned an empty summary.");
+        return txt.trim();
+      });
+  }
 
-  // Enter: rate → weight → calculate
-  $('rate').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); $('weight').focus(); }
-  });
-  $('weight').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); calculate(); }
-  });
+  $("sumBtn").onclick = function(){
+    var videoUrl = $("url").value.trim();
+    var videoId = getVideoId(videoUrl);
+    if(!videoId){ setStatus("Enter a valid YouTube link.", "err"); return; }
+    if(!data.rapidKey){ setStatus("Add your RapidAPI key in API Settings below.", "err"); $("settings").open = true; return; }
+    if(!data.geminiKey){ setStatus("Add your Gemini API key in API Settings below.", "err"); $("settings").open = true; return; }
+    var btn = $("sumBtn"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Working…';
+    $("out").classList.remove("show");
+    setStatus('<span class="spin"></span>Fetching transcript…', "");
+    getTranscript(videoId).then(function(transcript){
+      setStatus('<span class="spin"></span>Generating summary with ' + esc(data.modelId) + '… (' + Math.round(transcript.length/1000) + 'k chars)…', "");
+      return geminiSummary(transcript);
+    }).then(function(summary){
+      lastSummary = summary; lastVideoId = videoId;
+      data.hist.unshift({ id: Date.now(), videoId: videoId, url: videoUrl, model: data.modelId, lang: (data.lang || "English"), date: Date.now(), text: summary });
+      data.hist = data.hist.slice(0, 30);
+      save(data); renderHist();
+      $("outImg").src = "https://img.youtube.com/vi/" + videoId + "/hqdefault.jpg";
+      $("outTitle").textContent = "Summary";
+      $("outSub").textContent = "youtube.com/watch?v=" + videoId + " · " + data.modelId + " · " + (data.lang || "English");
+      $("summaryBody").innerHTML = md(summary);
+      $("out").classList.add("show");
+      setStatus("Done.", "ok");
+      $("out").scrollIntoView({ behavior:"smooth", block:"start" });
+    }).catch(function(e){
+      setStatus(esc(e.message || "Something went wrong."), "err");
+    }).finally(function(){
+      btn.disabled = false; btn.textContent = "Summarize";
+    });
+  };
+  $("url").addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); $("sumBtn").click(); } });
 
-  $('clearBtn').onclick = () => {
-    $('weight').value = ''; $('result').classList.remove('show');
+  $("copyBtn").onclick = function(){
+    if(!lastSummary) return;
+    function done(){ toast("Summary copied"); }
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(lastSummary).then(done).catch(function(){ fallback(); });
+    else fallback();
+    function fallback(){ var ta = document.createElement("textarea"); ta.value = lastSummary; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); done(); }catch(e){ toast("Copy failed"); } ta.remove(); }
   };
-  $('copyBtn').onclick = () => {
-    if (!lastTotal) return;
-    const done = () => toast('Copied ৳' + lastTotal);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText('৳' + lastTotal).then(done).catch(() => toast('৳' + lastTotal));
-    } else { toast('৳' + lastTotal); }
-  };
+  $("clearBtn").onclick = function(){ $("out").classList.remove("show"); lastSummary = ""; $("url").value = ""; $("preview").classList.remove("show"); setStatus(""); };
+})();
 </script>
 </body>
 </html>

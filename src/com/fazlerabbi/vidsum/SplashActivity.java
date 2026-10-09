@@ -1,4 +1,4 @@
-package com.fazlerabbi.porimap;
+package com.fazlerabbi.vidsum;
 
 import android.app.Activity;
 import android.content.Intent;
