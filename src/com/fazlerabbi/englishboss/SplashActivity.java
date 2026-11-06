@@ -1,4 +1,4 @@
-package com.fazlerabbi.porimap;
+package com.fazlerabbi.englishboss;
 
 import android.app.Activity;
 import android.content.Intent;

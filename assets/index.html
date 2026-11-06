@@ -1,197 +1,141 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Porimap — Price Calculator</title>
-<style>
-  :root{
-    --bg:#FAFAF8; --card:#FFFFFF; --ink:#161816; --muted:#8A918D;
-    --line:#E2E4DE; --accent:#0f6a54; --field:#EDEFEA;
-  }
-  .dark{
-    --bg:#0B0D0C; --card:#111413; --ink:#EDEEEC; --muted:#7C857F;
-    --line:#1E2321; --accent:#2BA884; --field:#151918;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
-    background:var(--bg);color:var(--ink);min-height:100vh;
-    -webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
-  header{border-bottom:1px solid var(--line)}
-  .bar{max-width:520px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:12px;min-width:0}
-  .mark{flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--accent)}
-  .brand b{font-size:17px;font-weight:600;letter-spacing:-.02em}
-  .brand small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.02em}
-  #themeBtn{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
-    background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center}
-  #themeBtn:active{transform:scale(.94)}
-  main{max-width:520px;margin:0 auto;padding:32px 24px 56px;display:grid;gap:36px}
-  main > *{min-width:0}
-  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted);margin-bottom:14px}
-  .field{min-width:0;background:var(--field);border:1px solid var(--line);border-radius:16px;
-    padding:6px 18px;display:flex;align-items:baseline;gap:10px;transition:border-color .2s}
-  .field:focus-within{border-color:var(--accent);background:var(--card)}
-  .field .unit{font-size:13px;color:var(--muted);flex-shrink:0}
-  input{flex:1;min-width:0;max-width:100%;border:none;background:transparent;color:var(--ink);
-    font-size:30px;font-weight:300;letter-spacing:-.02em;padding:12px 0;outline:none;font-variant-numeric:tabular-nums}
-  input::placeholder{color:var(--muted);opacity:.55}
-  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  input[type=number]{-moz-appearance:textfield;appearance:textfield}
-  .gap{height:18px}
-  #calcBtn{width:100%;margin-top:26px;padding:17px;border:none;border-radius:16px;background:var(--ink);color:var(--bg);
-    font-size:16px;font-weight:600;letter-spacing:.01em;cursor:pointer;transition:opacity .2s,transform .1s}
-  #calcBtn:active{transform:scale(.985);opacity:.88}
-  #result{display:none;padding-top:30px;margin-top:30px;border-top:1px solid var(--line)}
-  #result.show{display:block;animation:rise .35s cubic-bezier(.2,.7,.3,1)}
-  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  #priceBig{font-size:clamp(44px,14vw,64px);font-weight:200;letter-spacing:-.04em;
-    font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.05}
-  #priceBig small{font-size:.5em;font-weight:300;color:var(--muted)}
-  #breakdown{margin-top:10px;font-size:13.5px;color:var(--muted);line-height:1.6}
-  #formula{margin-top:16px;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
-  .rowBtns{display:flex;gap:0;margin-top:20px;border-top:1px solid var(--line)}
-  .ghost{flex:1;padding:14px 0;border:none;border-bottom:1px solid var(--line);background:transparent;
-    color:var(--ink);font-size:14px;font-weight:500;cursor:pointer}
-  .ghost + .ghost{border-left:1px solid var(--line)}
-  .ghost:active{opacity:.55}
-  .hist-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
-  .hist-head h2{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted)}
-  #histCount{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-  #hist{list-style:none}
-  #hist li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
-    padding:13px 2px;border-bottom:1px solid var(--line);font-size:14.5px;min-width:0}
-  #hist li span{color:var(--muted);font-variant-numeric:tabular-nums;min-width:0;overflow-wrap:anywhere}
-  #hist li b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .empty{color:var(--muted);font-size:14px;padding:16px 2px;border-bottom:1px solid var(--line)}
-  footer{text-align:center;font-size:11.5px;letter-spacing:.08em;color:var(--muted);padding-bottom:8px}
-  #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);max-width:90vw;text-align:center;
-    background:var(--ink);color:var(--bg);padding:12px 24px;border-radius:99px;font-size:13.5px;font-weight:500;
-    display:none;z-index:50;box-shadow:0 8px 30px rgba(0,0,0,.18)}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="A quiet, searchable collection of everyday English phrases with Bangla meanings." />
+  <title>English Boss — everyday English, in your pocket</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <script>
+    /* Apply the saved theme before first paint. */
+    (function () {
+      try {
+        var saved = localStorage.getItem("eb-theme");
+        var dark = saved ? saved === "dark"
+          : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.classList.add("dark");
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
-<header>
-  <div class="bar">
-    <div class="brand"><div class="mark"></div><div><b>Porimap</b><small>পরিমাপ · measure the price</small></div></div>
-    <button id="themeBtn" title="Toggle theme" aria-label="Toggle theme"></button>
-  </div>
-</header>
+  <a class="skip-link" href="#main">Skip to phrases</a>
 
-<main>
-  <section>
-    <p class="eyebrow">RATE — PER KILOGRAM</p>
-    <div class="field"><span class="unit">৳</span><input id="rate" type="number" min="0" step="any" inputmode="decimal" placeholder="0" /></div>
-    <div class="gap"></div>
-    <p class="eyebrow">WEIGHT — GRAMS</p>
-    <div class="field"><input id="weight" type="number" min="0" step="any" inputmode="decimal" placeholder="0" /><span class="unit">g</span></div>
-    <button id="calcBtn">Calculate</button>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
 
-    <div id="result">
-      <p class="eyebrow">TOTAL</p>
-      <p id="priceBig"></p>
-      <p id="breakdown"></p>
-      <p id="formula"></p>
-      <div class="rowBtns">
-        <button class="ghost" id="copyBtn">Copy</button>
-        <button class="ghost" id="clearBtn">Clear</button>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button id="menuBtn" class="icon-btn menu-btn" type="button"
+              aria-label="Open chapters" aria-controls="sidebar" aria-expanded="false">
+        <span class="icon" data-icon="menu" aria-hidden="true"></span>
+      </button>
+
+      <a class="brand" href="#top" aria-label="English Boss — back to top">
+        <span class="brand-mark" aria-hidden="true">
+          <span class="icon" data-icon="leaf"></span>
+        </span>
+        <span class="brand-text">
+          <strong>English Boss</strong>
+          <small>a pocket phrasebook</small>
+        </span>
+      </a>
+
+      <div class="search" role="search">
+        <span class="search-icon icon" data-icon="search" aria-hidden="true"></span>
+        <input id="searchInput" class="search-input" type="search" inputmode="search"
+               placeholder="Search English, Bangla, or phonetic…"
+               aria-label="Search phrases" autocomplete="off" spellcheck="false" />
+        <button id="clearSearch" class="clear-btn" type="button" aria-label="Clear search" hidden>
+          <span class="icon" data-icon="close" aria-hidden="true"></span>
+        </button>
+        <kbd class="search-kbd" aria-hidden="true">/</kbd>
       </div>
+
+      <button id="themeBtn" class="icon-btn theme-btn" type="button" aria-label="Switch theme">
+        <span class="icon theme-icon-sun" data-icon="sun" aria-hidden="true"></span>
+        <span class="icon theme-icon-moon" data-icon="moon" aria-hidden="true"></span>
+      </button>
     </div>
-  </section>
+  </header>
 
-  <section>
-    <div class="hist-head"><h2>RECENT</h2><span id="histCount"></span></div>
-    <ul id="hist"></ul>
-  </section>
+  <div class="shell" id="top">
+    <aside id="sidebar" class="sidebar" aria-label="Chapters">
+      <div class="sidebar-head">
+        <span>Chapters</span>
+        <span class="pill" id="chapterCount">16</span>
+      </div>
+      <nav class="chapter-nav" id="chapterNav"></nav>
+      <div class="sidebar-foot">
+        <p><span class="icon" data-icon="sparkle" aria-hidden="true"></span>
+          Say it out loud. That's the trick.</p>
+      </div>
+    </aside>
 
-  <footer>PORIMAP · WEIGH · PRICE · REPEAT</footer>
-</main>
+    <div class="backdrop" id="backdrop" hidden></div>
 
-<div id="toast"></div>
+    <main class="main" id="main">
+      <section class="hero" id="hero">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <p class="eyebrow">
+          <span class="eyebrow-line" aria-hidden="true"></span>
+          Everyday English · সহজ ইংরেজি
+        </p>
+        <h1>Borrow the words<br /><em>you already feel.</em></h1>
+        <p class="hero-copy">
+          A quiet collection of everyday phrases — the ones that show up in real
+          conversations, client calls, and messages. Read them, copy them, say them.
+        </p>
+        <ul class="hero-stats">
+          <li><strong id="statPhrases">451</strong><span>phrases</span></li>
+          <li><strong id="statChapters">16</strong><span>chapters</span></li>
+          <li><strong>100%</strong><span>offline</span></li>
+        </ul>
 
-<script>
-  const $ = id => document.getElementById(id);
-  const store = {
-    load() { try { return JSON.parse(localStorage.getItem('porimap_v2')) || {}; } catch(e){ return {}; } },
-    save(d) { try { localStorage.setItem('porimap_v2', JSON.stringify(d)); } catch(e){} }
-  };
-  let data = Object.assign({ rate:'', theme:'light', hist:[] }, store.load());
+        <div class="hero-note" aria-hidden="true">
+          <span class="note-tape"></span>
+          <span class="note-label">Start here</span>
+          <p class="note-bangla" lang="bn">আমার মনে হয় এটা ঠিক আছে।</p>
+          <p class="note-english">I think it’s fine.</p>
+          <span class="note-mark">chapter 01</span>
+        </div>
+      </section>
 
-  const SUN = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>';
-  const MOON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.5A8 8 0 0 1 10.5 4 8 8 0 1 0 20 13.5z"/></svg>';
+      <div class="result-bar" id="resultBar" hidden>
+        <p id="resultText"></p>
+        <button class="text-btn" id="clearSearchBtn" type="button">Clear search</button>
+      </div>
 
-  function applyTheme(){
-    document.documentElement.classList.toggle('dark', data.theme === 'dark');
-    $('themeBtn').innerHTML = data.theme === 'dark' ? MOON : SUN;
-  }
-  $('themeBtn').onclick = () => {
-    data.theme = data.theme === 'dark' ? 'light' : 'dark';
-    store.save(data); applyTheme();
-  };
-  applyTheme();
+      <div id="chapters" class="chapters"></div>
 
-  if (data.rate !== '') $('rate').value = data.rate;
-  $('rate').addEventListener('input', e => { data.rate = e.target.value; store.save(data); });
+      <div class="empty" id="emptyState" hidden>
+        <span class="empty-icon icon" data-icon="search" aria-hidden="true"></span>
+        <h2>No phrases found</h2>
+        <p>Nothing matches <strong id="emptyQuery"></strong>. Try a shorter word or a different spelling.</p>
+        <button class="primary-btn" id="emptyClearBtn" type="button">Clear search</button>
+      </div>
 
-  function toast(msg){
-    const t = $('toast'); t.textContent = msg; t.style.display = 'block';
-    clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 1800);
-  }
+      <footer class="site-footer">
+        <p><span class="icon" data-icon="book" aria-hidden="true"></span>
+          English Boss — built for daily practice.</p>
+        <p class="footer-note">Phrases from my own notebook. Press <kbd>/</kbd> to search.</p>
+      </footer>
+    </main>
+  </div>
 
-  function renderHist(){
-    const ul = $('hist'); ul.innerHTML = '';
-    $('histCount').textContent = data.hist.length ? data.hist.length + ' entries' : '';
-    if (!data.hist.length) { ul.innerHTML = '<li class="empty">Nothing calculated yet</li>'; return; }
-    data.hist.forEach(h => {
-      const li = document.createElement('li');
-      li.innerHTML = `<span>${h.weight} g · ৳${h.rate} / kg</span><b>৳${h.total}</b>`;
-      ul.appendChild(li);
-    });
-  }
-  renderHist();
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">
+    <span class="icon" data-icon="arrowUp" aria-hidden="true"></span>
+  </button>
 
-  let lastTotal = '';
-  function calculate(){
-    const rate = parseFloat($('rate').value);
-    const weight = parseFloat($('weight').value);
-    if (!(rate > 0) || !(weight > 0)) { toast('Enter a valid rate and weight'); return; }
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    const total = Math.round((rate / 1000) * weight * 100) / 100;   // per-kg rate → gram weight
-    const taka = Math.floor(total);
-    const poisha = Math.round((total - taka) * 100);                // fraction of 1 taka
-    lastTotal = total.toFixed(2);
-
-    $('priceBig').innerHTML = `৳${taka}.<small>${String(poisha).padStart(2,'0')}</small>`;
-    $('breakdown').textContent = `${taka} taka and ${poisha} poisha — .${String(poisha).padStart(2,'0')} is ${poisha}% of one taka`;
-    $('formula').textContent = `৳${rate} / kg × ${weight} g = ৳${lastTotal}`;
-    const r = $('result');
-    r.classList.remove('show'); void r.offsetWidth; r.classList.add('show');
-
-    data.hist.unshift({ rate, weight, total: lastTotal });
-    data.hist = data.hist.slice(0, 8);
-    store.save(data); renderHist();
-  }
-  $('calcBtn').onclick = calculate;
-
-  // Enter: rate → weight → calculate
-  $('rate').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); $('weight').focus(); }
-  });
-  $('weight').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); calculate(); }
-  });
-
-  $('clearBtn').onclick = () => {
-    $('weight').value = ''; $('result').classList.remove('show');
-  };
-  $('copyBtn').onclick = () => {
-    if (!lastTotal) return;
-    const done = () => toast('Copied ৳' + lastTotal);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText('৳' + lastTotal).then(done).catch(() => toast('৳' + lastTotal));
-    } else { toast('৳' + lastTotal); }
-  };
-</script>
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

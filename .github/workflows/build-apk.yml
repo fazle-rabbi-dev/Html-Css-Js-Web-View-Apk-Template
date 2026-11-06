@@ -44,7 +44,7 @@ jobs:
                   mavenCentral()
               }
           }
-          rootProject.name = "WebView Apk Template"
+          rootProject.name = "English Boss"
           include(":app")
           EOF
           cat > build.gradle <<'EOF'
@@ -59,11 +59,11 @@ jobs:
           }
 
           android {
-              namespace = "com.fazlerabbi.porimap"
+              namespace = "com.fazlerabbi.englishboss"
               compileSdk = 34
 
               defaultConfig {
-                  applicationId = "com.fazlerabbi.porimap"
+                  applicationId = "com.fazlerabbi.englishboss"
                   minSdk = 24
                   targetSdk = 34
                   versionCode = 1
@@ -84,6 +84,11 @@ jobs:
                       assets.srcDirs("../assets")
                   }
               }
+
+              androidResources {
+                  // Keep repo docs / build tooling out of the APK.
+                  ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.git:.*:*.md:*.mjs"
+              }
           }
           EOF
 
@@ -96,9 +101,9 @@ jobs:
       - run: gradle :app:assembleDebug
 
       - name: Rename APK
-        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/Porimap.apk
+        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/English-Boss.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Porimap
-          path: app/build/outputs/apk/debug/Porimap.apk
+          name: English-Boss
+          path: app/build/outputs/apk/debug/English-Boss.apk

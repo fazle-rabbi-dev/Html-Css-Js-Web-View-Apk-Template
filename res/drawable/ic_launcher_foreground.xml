@@ -4,20 +4,25 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Balance scale: white with one gold pan -->
-    <!-- finial -->
-    <path android:fillColor="#FFFFFF" android:pathData="M51,24 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0 Z" />
-    <!-- beam -->
-    <path android:fillColor="#FFFFFF" android:pathData="M30,28 H78 V33 H30 Z" />
-    <!-- pole -->
-    <path android:fillColor="#FFFFFF" android:pathData="M51.5,33 H56.5 V76 H51.5 Z" />
-    <!-- base -->
-    <path android:fillColor="#FFFFFF" android:pathData="M40,76 H68 V82 H40 Z" />
-    <!-- hanger strings -->
-    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M36,33 L30,54 M36,33 L42,54" />
-    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M72,33 L66,54 M72,33 L78,54" />
-    <!-- left pan (white) -->
-    <path android:fillColor="#FFFFFF" android:pathData="M25,54 H43 L38,64 H30 Z" />
-    <!-- right pan (gold accent) -->
-    <path android:fillColor="#E8C87E" android:pathData="M65,54 H83 L78,64 H70 Z" />
+    <!-- Leaf mark (from assets/assets/favicon.svg), cream on terracotta. -->
+    <group
+        android:translateX="24.1"
+        android:translateY="24.1"
+        android:scaleX="2.6"
+        android:scaleY="2.6">
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFF7EC"
+            android:strokeWidth="1.7"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M11,20A7,7 0 0,1 9.8,6.1C15.5,5 17,4.48 19,2c1,2 2,4.18 2,8 0,5.5 -4.78,10 -10,10Z" />
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFF7EC"
+            android:strokeWidth="1.7"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M2,21c0,-3 1.85,-5.36 5.08,-6C9.5,14.52 12,13 13,12" />
+    </group>
 </vector>
