@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Take a moment &#8226; breathe"
+        android:text="Native bridge lab &#8226; zero deps"
         android:textColor="#D9EDE7"
         android:textSize="14sp" />
 

@@ -1,4 +1,4 @@
-package com.fazlerabbi.porimap;
+package com.fazlerabbi.bridgelab;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.webkit.WebView;
 
 public class SplashActivity extends Activity {
 
-    private static final int SPLASH_DELAY_MS = 1600;
+    private static final int SPLASH_DELAY_MS = 1200;
 
     /** Holds a warmed-up WebView so Chromium initializes while the splash shows. */
     private static WebView warmup;

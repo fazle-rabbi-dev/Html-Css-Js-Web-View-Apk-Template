@@ -1,23 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Balance scale: white with one gold pan -->
-    <!-- finial -->
-    <path android:fillColor="#FFFFFF" android:pathData="M51,24 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0 Z" />
-    <!-- beam -->
-    <path android:fillColor="#FFFFFF" android:pathData="M30,28 H78 V33 H30 Z" />
-    <!-- pole -->
-    <path android:fillColor="#FFFFFF" android:pathData="M51.5,33 H56.5 V76 H51.5 Z" />
-    <!-- base -->
-    <path android:fillColor="#FFFFFF" android:pathData="M40,76 H68 V82 H40 Z" />
-    <!-- hanger strings -->
-    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M36,33 L30,54 M36,33 L42,54" />
-    <path android:fillColor="#00000000" android:strokeColor="#FFFFFF" android:strokeWidth="2.5" android:strokeLineCap="round" android:pathData="M72,33 L66,54 M72,33 L78,54" />
-    <!-- left pan (white) -->
-    <path android:fillColor="#FFFFFF" android:pathData="M25,54 H43 L38,64 H30 Z" />
-    <!-- right pan (gold accent) -->
-    <path android:fillColor="#E8C87E" android:pathData="M65,54 H83 L78,64 H70 Z" />
+    <!-- Bridge Lab: two nodes exchanging data (JS <-> native) -->
+    <!-- left node (web) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,54 a6.5,6.5 0 1,0 13,0 a6.5,6.5 0 1,0 -13,0 Z" />
+    <!-- right node (native) -->
+    <path
+        android:fillColor="#E8C87E"
+        android:pathData="M65,54 a6.5,6.5 0 1,0 13,0 a6.5,6.5 0 1,0 -13,0 Z" />
+
+    <!-- request arrow (top, white) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M44,46 H64 M58,40 L64,46 L58,52" />
+
+    <!-- response arrow (bottom, gold) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E8C87E"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M64,62 H44 M50,56 L44,62 L50,68" />
 </vector>

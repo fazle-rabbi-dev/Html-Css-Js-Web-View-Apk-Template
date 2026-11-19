@@ -8,14 +8,14 @@ Turn any HTML/CSS/JS website into an installable Android app. No Kotlin, no Andr
 
 A tiny native shell (`MainActivity.java`) opens a full-screen `WebView` that loads `assets/index.html`. Your web code runs offline-capable inside the APK — same idea as a PWA, but as a real installable app with no browser chrome.
 
-> Current bundled app: **Sukoon** — an offline tasbih/dhikr counter with Azkar collection, streaks, and stats.
+> Current bundled app: **Bridge Lab** — a hands-on demo of every native bridge this template can wire up (camera, mic, geolocation, file picker, share, clipboard, notifications, storage, async callbacks) plus an honest list of what it can't.
 
 ## Get an APK (easiest — cloud build)
 
 1. Fork / clone this repo.
 2. Replace the files in `assets/` with your own site (keep `index.html` as the entry point).
 3. Push to GitHub → the **Build APK** workflow runs automatically.
-4. Go to **Actions** → latest run → download the **app-debug** artifact.
+4. Go to **Actions** → latest run → download the **BridgeLab** artifact.
 5. Copy the APK to your phone and install.
 
 No computer setup needed beyond `git push`.
@@ -29,11 +29,30 @@ No computer setup needed beyond `git push`.
 
 ```
 assets/            ← YOUR APP LIVES HERE (index.html entry point)
-src/.../MainActivity.java   ← WebView shell (JS + DOM storage enabled)
+src/com/fazlerabbi/bridgelab/MainActivity.java   ← WebView shell + native bridge
 res/               ← icon, layout, strings
-AndroidManifest.xml          ← INTERNET permission, launcher activity
+AndroidManifest.xml          ← permissions, launcher activity
 .github/workflows/ ← cloud APK build
 ```
+
+## Native bridge (what Bridge Lab proves)
+
+The shell exposes a `Native` object to JS via `addJavascriptInterface`:
+
+```js
+Native.toastMsg('hi');                  // void, fire and forget
+Native.shareText('...');                // opens the system share sheet
+Native.setValue('k', 'v');              // SharedPreferences
+const info = JSON.parse(Native.deviceInfo());
+Native.ping('payload', 'cb1');          // async, answered by window.BridgeLab.onNative
+```
+
+Native → JS callbacks go through `webView.evaluateJavascript(...)`. Camera/mic go through
+`WebChromeClient.onPermissionRequest`, geolocation through `onGeolocationPermissionsShowPrompt`,
+file input through `onShowFileChooser` — all with runtime permission handling.
+
+No dependencies, no AndroidX. Open `assets/index.html` in a browser and the banner says
+`bridge: missing` — the native-only cards explain themselves.
 
 ## Notes
 
