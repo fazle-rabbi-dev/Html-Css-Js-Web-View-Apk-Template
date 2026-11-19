@@ -1,197 +1,251 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Porimap — Price Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Awesome English - 离线版</title>
 <style>
-  :root{
-    --bg:#FAFAF8; --card:#FFFFFF; --ink:#161816; --muted:#8A918D;
-    --line:#E2E4DE; --accent:#0f6a54; --field:#EDEFEA;
+  :root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --secondary: #555;
+    --link: #0066cc;
+    --border: #e5e5e5;
+    --card: #f8f9fa;
+    --accent: #0d6efd;
   }
-  .dark{
-    --bg:#0B0D0C; --card:#111413; --ink:#EDEEEC; --muted:#7C857F;
-    --line:#1E2321; --accent:#2BA884; --field:#151918;
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --secondary: #aaa;
+      --link: #4dabf7;
+      --border: #333;
+      --card: #1e1e1e;
+      --accent: #4dabf7;
+    }
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
-    background:var(--bg);color:var(--ink);min-height:100vh;
-    -webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
-  header{border-bottom:1px solid var(--line)}
-  .bar{max-width:520px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:12px;min-width:0}
-  .mark{flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--accent)}
-  .brand b{font-size:17px;font-weight:600;letter-spacing:-.02em}
-  .brand small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.02em}
-  #themeBtn{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
-    background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center}
-  #themeBtn:active{transform:scale(.94)}
-  main{max-width:520px;margin:0 auto;padding:32px 24px 56px;display:grid;gap:36px}
-  main > *{min-width:0}
-  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted);margin-bottom:14px}
-  .field{min-width:0;background:var(--field);border:1px solid var(--line);border-radius:16px;
-    padding:6px 18px;display:flex;align-items:baseline;gap:10px;transition:border-color .2s}
-  .field:focus-within{border-color:var(--accent);background:var(--card)}
-  .field .unit{font-size:13px;color:var(--muted);flex-shrink:0}
-  input{flex:1;min-width:0;max-width:100%;border:none;background:transparent;color:var(--ink);
-    font-size:30px;font-weight:300;letter-spacing:-.02em;padding:12px 0;outline:none;font-variant-numeric:tabular-nums}
-  input::placeholder{color:var(--muted);opacity:.55}
-  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  input[type=number]{-moz-appearance:textfield;appearance:textfield}
-  .gap{height:18px}
-  #calcBtn{width:100%;margin-top:26px;padding:17px;border:none;border-radius:16px;background:var(--ink);color:var(--bg);
-    font-size:16px;font-weight:600;letter-spacing:.01em;cursor:pointer;transition:opacity .2s,transform .1s}
-  #calcBtn:active{transform:scale(.985);opacity:.88}
-  #result{display:none;padding-top:30px;margin-top:30px;border-top:1px solid var(--line)}
-  #result.show{display:block;animation:rise .35s cubic-bezier(.2,.7,.3,1)}
-  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  #priceBig{font-size:clamp(44px,14vw,64px);font-weight:200;letter-spacing:-.04em;
-    font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.05}
-  #priceBig small{font-size:.5em;font-weight:300;color:var(--muted)}
-  #breakdown{margin-top:10px;font-size:13.5px;color:var(--muted);line-height:1.6}
-  #formula{margin-top:16px;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
-  .rowBtns{display:flex;gap:0;margin-top:20px;border-top:1px solid var(--line)}
-  .ghost{flex:1;padding:14px 0;border:none;border-bottom:1px solid var(--line);background:transparent;
-    color:var(--ink);font-size:14px;font-weight:500;cursor:pointer}
-  .ghost + .ghost{border-left:1px solid var(--line)}
-  .ghost:active{opacity:.55}
-  .hist-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
-  .hist-head h2{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--muted)}
-  #histCount{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-  #hist{list-style:none}
-  #hist li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
-    padding:13px 2px;border-bottom:1px solid var(--line);font-size:14.5px;min-width:0}
-  #hist li span{color:var(--muted);font-variant-numeric:tabular-nums;min-width:0;overflow-wrap:anywhere}
-  #hist li b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .empty{color:var(--muted);font-size:14px;padding:16px 2px;border-bottom:1px solid var(--line)}
-  footer{text-align:center;font-size:11.5px;letter-spacing:.08em;color:var(--muted);padding-bottom:8px}
-  #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);max-width:90vw;text-align:center;
-    background:var(--ink);color:var(--bg);padding:12px 24px;border-radius:99px;font-size:13.5px;font-weight:500;
-    display:none;z-index:50;box-shadow:0 8px 30px rgba(0,0,0,.18)}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 16px;
+    padding-bottom: 80px;
+    font-size: 16px;
+  }
+  h1 { font-size: 1.8rem; margin: 20px 0 10px; }
+  h2 { font-size: 1.4rem; margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--accent); }
+  h3 { font-size: 1.15rem; margin: 24px 0 8px; color: var(--accent); }
+  h4 { font-size: 1.05rem; margin: 16px 0 6px; }
+  p { margin: 8px 0; color: var(--secondary); }
+  ul { list-style: none; padding-left: 0; }
+  li {
+    background: var(--card);
+    margin: 8px 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  a { color: var(--link); text-decoration: none; font-weight: 500; }
+  a:active { opacity: 0.7; }
+  .desc { display: block; font-size: 0.9rem; color: var(--secondary); margin-top: 4px; font-weight: normal; }
+  
+  /* 顶部固定目录 */
+  .toc {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    margin: -16px -16px 20px -16px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .toc a {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-right: 6px;
+    background: var(--card);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border);
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .header p { font-size: 0.95rem; }
+  .note {
+    background: var(--card);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin: 16px 0;
+    border-left: 4px solid var(--accent);
+  }
 </style>
 </head>
 <body>
-<header>
-  <div class="bar">
-    <div class="brand"><div class="mark"></div><div><b>Porimap</b><small>পরিমাপ · measure the price</small></div></div>
-    <button id="themeBtn" title="Toggle theme" aria-label="Toggle theme"></button>
-  </div>
-</header>
 
-<main>
-  <section>
-    <p class="eyebrow">RATE — PER KILOGRAM</p>
-    <div class="field"><span class="unit">৳</span><input id="rate" type="number" min="0" step="any" inputmode="decimal" placeholder="0" /></div>
-    <div class="gap"></div>
-    <p class="eyebrow">WEIGHT — GRAMS</p>
-    <div class="field"><input id="weight" type="number" min="0" step="any" inputmode="decimal" placeholder="0" /><span class="unit">g</span></div>
-    <button id="calcBtn">Calculate</button>
+<div class="toc">
+  <a href="#top-picks">Top Picks</a>
+  <a href="#methods">方法技巧</a>
+  <a href="#listening">听力</a>
+  <a href="#speaking">口语</a>
+  <a href="#watching">观看</a>
+  <a href="#reading">阅读</a>
+  <a href="#writing">写作</a>
+  <a href="#ai">AI学习</a>
+  <a href="#grammar">语法</a>
+  <a href="#vocabulary">词汇</a>
+  <a href="#tools">工具</a>
+</div>
 
-    <div id="result">
-      <p class="eyebrow">TOTAL</p>
-      <p id="priceBig"></p>
-      <p id="breakdown"></p>
-      <p id="formula"></p>
-      <div class="rowBtns">
-        <button class="ghost" id="copyBtn">Copy</button>
-        <button class="ghost" id="clearBtn">Clear</button>
-      </div>
-    </div>
-  </section>
+<div class="header">
+  <h1>Awesome English</h1>
+  <p>精选英语学习资源（完全离线版）</p>
+  <p style="font-size:0.85rem;margin-top:8px;">原项目：yvoronoy/awesome-english · CC0</p>
+</div>
 
-  <section>
-    <div class="hist-head"><h2>RECENT</h2><span id="histCount"></span></div>
-    <ul id="hist"></ul>
-  </section>
+<div class="note">
+  本页面为离线版本。点击链接时，有网络会用浏览器打开对应网站；无网络时仅可浏览列表内容。
+</div>
 
-  <footer>PORIMAP · WEIGH · PRICE · REPEAT</footer>
-</main>
+<!-- Top Picks -->
+<h2 id="top-picks">Top Picks</h2>
+<ul>
+  <li><a href="https://apps.ankiweb.net/">Anki</a><span class="desc">高效闪卡软件，通过每日复习扩展词汇</span></li>
+  <li><a href="https://www.nytimes.com/column/hard-fork">Hard Fork by The New York Times</a><span class="desc">科技领域周播播客</span></li>
+  <li><a href="https://www.npr.org/">NPR</a><span class="desc">美国国家公共电台，带文字稿，适合每日听力</span></li>
+  <li><a href="https://www.cambridge.org/us/cambridgeenglish/catalog/grammar-vocabulary-and-pronunciation/english-grammar-use-5th-edition">English Grammar in Use (Murphy)</a><span class="desc">最畅销的英语语法书</span></li>
+  <li><a href="#reading">Harry Potter Series</a><span class="desc">语言难度逐渐提升的经典系列</span></li>
+  <li><a href="https://chat.openai.com/">ChatGPT</a><span class="desc">多功能 AI，可用于对话练习、写作帮助、词汇探索</span></li>
+</ul>
 
-<div id="toast"></div>
+<!-- Methods -->
+<h2 id="methods">Methods & Techniques</h2>
+<ul>
+  <li><a href="https://refold.la/">Comprehensible Input</a><span class="desc">通过理解略高于当前水平的内容来习得语言</span></li>
+  <li><a href="https://www.youtube.com/results?search_query=shadowing+english">Shadowing</a><span class="desc">边听边跟读，训练发音、节奏和听力</span></li>
+  <li><a href="https://refold.la/">Sentence Mining</a><span class="desc">把真实内容中的句子做成闪卡（配合 Anki）</span></li>
+  <li><a href="https://www.er-central.com/">Extensive Reading</a><span class="desc">大量阅读简单有趣的材料，自然积累词汇和流利度</span></li>
+  <li><a href="https://refold.la/">Refold</a><span class="desc">免费分步路线图，结合可理解输入、沉浸和句子挖掘</span></li>
+</ul>
 
-<script>
-  const $ = id => document.getElementById(id);
-  const store = {
-    load() { try { return JSON.parse(localStorage.getItem('porimap_v2')) || {}; } catch(e){ return {}; } },
-    save(d) { try { localStorage.setItem('porimap_v2', JSON.stringify(d)); } catch(e){} }
-  };
-  let data = Object.assign({ rate:'', theme:'light', hist:[] }, store.load());
+<!-- Listening -->
+<h2 id="listening">Listening 听力</h2>
 
-  const SUN = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/></svg>';
-  const MOON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.5A8 8 0 0 1 10.5 4 8 8 0 1 0 20 13.5z"/></svg>';
+<h3>Podcasts 播客</h3>
+<h4>Beginner Friendly</h4>
+<ul>
+  <li><a href="https://www.bbc.co.uk/learningenglish/english/features/6-minute-english">6 Minute English</a><span class="desc">BBC 日常英语短节目</span></li>
+  <li><a href="https://www.eslpod.com/">ESL Podcasts</a><span class="desc">适合提升听说的经典播客</span></li>
+</ul>
 
-  function applyTheme(){
-    document.documentElement.classList.toggle('dark', data.theme === 'dark');
-    $('themeBtn').innerHTML = data.theme === 'dark' ? MOON : SUN;
-  }
-  $('themeBtn').onclick = () => {
-    data.theme = data.theme === 'dark' ? 'light' : 'dark';
-    store.save(data); applyTheme();
-  };
-  applyTheme();
+<h4>Intermediate</h4>
+<ul>
+  <li><a href="https://www.allearsenglish.com/">All Ears English</a><span class="desc">高级美式口语对话</span></li>
+  <li><a href="https://culips.com/">Culips Podcast</a><span class="desc">日常会话英语</span></li>
+  <li><a href="https://teacherluke.co.uk/">Luke's English Podcast</a><span class="desc">教师兼脱口秀演员主持，内容有趣</span></li>
+  <li><a href="https://edition.cnn.com/cnn10">CNN 10</a><span class="desc">10分钟全球新闻速览</span></li>
+</ul>
 
-  if (data.rate !== '') $('rate').value = data.rate;
-  $('rate').addEventListener('input', e => { data.rate = e.target.value; store.save(data); });
+<h4>Advanced</h4>
+<ul>
+  <li><a href="https://www.waywordradio.org/">A Way with Words</a><span class="desc">语言历史与文化探索</span></li>
+  <li><a href="https://www.thisamericanlife.org/">This American Life</a><span class="desc">知名叙事播客</span></li>
+  <li><a href="https://www.leonardoenglish.com/">English Learning for Curious Minds</a><span class="desc">历史、政治等有趣话题，带文字稿和词汇</span></li>
+</ul>
 
-  function toast(msg){
-    const t = $('toast'); t.textContent = msg; t.style.display = 'block';
-    clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 1800);
-  }
+<h3>Tech & Interview Podcasts</h3>
+<ul>
+  <li><a href="https://www.nytimes.com/column/hard-fork">Hard Fork</a></li>
+  <li><a href="https://lexfridman.com/podcast/">Lex Fridman Podcast</a></li>
+  <li><a href="https://fs.blog/knowledge-project-podcast/">The Knowledge Project</a></li>
+  <li><a href="https://www.youtube.com/c/JoeRogan">Joe Rogan Experience</a></li>
+  <li><a href="https://www.npr.org/programs/fresh-air/">Fresh Air</a></li>
+</ul>
 
-  function renderHist(){
-    const ul = $('hist'); ul.innerHTML = '';
-    $('histCount').textContent = data.hist.length ? data.hist.length + ' entries' : '';
-    if (!data.hist.length) { ul.innerHTML = '<li class="empty">Nothing calculated yet</li>'; return; }
-    data.hist.forEach(h => {
-      const li = document.createElement('li');
-      li.innerHTML = `<span>${h.weight} g · ৳${h.rate} / kg</span><b>৳${h.total}</b>`;
-      ul.appendChild(li);
-    });
-  }
-  renderHist();
+<h3>Live Radio & Sites</h3>
+<ul>
+  <li><a href="https://www.npr.org/">NPR</a></li>
+  <li><a href="https://www.bbc.co.uk/sounds">BBC</a></li>
+  <li><a href="https://www.bbc.co.uk/learningenglish">BBC Learning English</a></li>
+  <li><a href="https://learnenglish.britishcouncil.org/">British Council LearnEnglish</a></li>
+  <li><a href="https://www.esl-lab.com/">ESL Lab</a></li>
+  <li><a href="https://www.engvid.com/">EngVid</a></li>
+</ul>
 
-  let lastTotal = '';
-  function calculate(){
-    const rate = parseFloat($('rate').value);
-    const weight = parseFloat($('weight').value);
-    if (!(rate > 0) || !(weight > 0)) { toast('Enter a valid rate and weight'); return; }
+<!-- Speaking -->
+<h2 id="speaking">Speaking 口语</h2>
+<ul>
+  <li><a href="https://www.tandem.net/">Tandem</a><span class="desc">语言交换 App</span></li>
+  <li><a href="https://www.hellotalk.com/">HelloTalk</a><span class="desc">文字+语音语言交换</span></li>
+  <li><a href="https://elsaspeak.com/">Elsa Speak</a><span class="desc">AI 发音反馈</span></li>
+  <li><a href="https://www.speechling.com/">Speechling</a><span class="desc">真人教练发音反馈（免费额度）</span></li>
+  <li><a href="https://www.rachelsenglish.com/">Rachel's English</a><span class="desc">美式发音 YouTube 频道</span></li>
+  <li><a href="https://www.italki.com/">italki</a><span class="desc">找外教一对一</span></li>
+</ul>
 
-    const total = Math.round((rate / 1000) * weight * 100) / 100;   // per-kg rate → gram weight
-    const taka = Math.floor(total);
-    const poisha = Math.round((total - taka) * 100);                // fraction of 1 taka
-    lastTotal = total.toFixed(2);
+<!-- Watching -->
+<h2 id="watching">Watching 观看</h2>
+<ul>
+  <li><a href="https://www.youtube.com/@EnglishwithLucy">English with Lucy</a></li>
+  <li><a href="https://www.youtube.com/@TEDEd">TED-Ed</a></li>
+  <li><a href="https://www.youtube.com/@EnglishWithRonnie">Learn English with Ronnie</a></li>
+  <li>推荐带字幕看美剧/电影（Language Reactor 插件很有用）</li>
+</ul>
 
-    $('priceBig').innerHTML = `৳${taka}.<small>${String(poisha).padStart(2,'0')}</small>`;
-    $('breakdown').textContent = `${taka} taka and ${poisha} poisha — .${String(poisha).padStart(2,'0')} is ${poisha}% of one taka`;
-    $('formula').textContent = `৳${rate} / kg × ${weight} g = ৳${lastTotal}`;
-    const r = $('result');
-    r.classList.remove('show'); void r.offsetWidth; r.classList.add('show');
+<!-- Reading / Writing / AI / Grammar / Vocabulary 简要版 -->
+<h2 id="reading">Reading 阅读</h2>
+<ul>
+  <li>Harry Potter 系列（难度递进）</li>
+  <li>Extensive Reading 材料、新闻网站（BBC、NPR、VOA）</li>
+  <li>简易读物 / Graded Readers</li>
+</ul>
 
-    data.hist.unshift({ rate, weight, total: lastTotal });
-    data.hist = data.hist.slice(0, 8);
-    store.save(data); renderHist();
-  }
-  $('calcBtn').onclick = calculate;
+<h2 id="writing">Writing 写作</h2>
+<ul>
+  <li><a href="https://hemingwayapp.com/">Hemingway Editor</a></li>
+  <li><a href="https://www.grammarly.com/">Grammarly</a></li>
+  <li>用 ChatGPT / Claude 批改和改写</li>
+</ul>
 
-  // Enter: rate → weight → calculate
-  $('rate').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); $('weight').focus(); }
-  });
-  $('weight').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); calculate(); }
-  });
+<h2 id="ai">AI-Powered English Learning</h2>
+<ul>
+  <li><a href="https://chat.openai.com/">ChatGPT</a></li>
+  <li><a href="https://claude.ai/">Claude</a></li>
+  <li><a href="https://gemini.google.com/">Gemini</a></li>
+  <li>Grok、其他大模型也可用于对话、解释语法、生成练习</li>
+</ul>
 
-  $('clearBtn').onclick = () => {
-    $('weight').value = ''; $('result').classList.remove('show');
-  };
-  $('copyBtn').onclick = () => {
-    if (!lastTotal) return;
-    const done = () => toast('Copied ৳' + lastTotal);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText('৳' + lastTotal).then(done).catch(() => toast('৳' + lastTotal));
-    } else { toast('৳' + lastTotal); }
-  };
-</script>
+<h2 id="grammar">Grammar 语法</h2>
+<ul>
+  <li>English Grammar in Use (Murphy) — 强烈推荐</li>
+  <li>BBC Learning English / British Council 语法部分</li>
+</ul>
+
+<h2 id="vocabulary">Vocabulary 词汇</h2>
+<ul>
+  <li><a href="https://apps.ankiweb.net/">Anki</a>（最推荐）</li>
+  <li>Sentence Mining + 真实语境记忆</li>
+  <li>Cambridge / Oxford 在线词典</li>
+</ul>
+
+<h2 id="tools">Tools 工具</h2>
+<ul>
+  <li>Anki、Language Reactor、Forvo（发音）、Grammarly、Hemingway</li>
+  <li>各类词典和字幕工具</li>
+</ul>
+
+<div style="margin-top:40px; text-align:center; font-size:0.85rem; color:var(--secondary);">
+  离线版由 Awesome English 列表生成 · 原项目 CC0 协议<br>
+  有网络时点击链接可跳转原网站
+</div>
+
 </body>
 </html>
