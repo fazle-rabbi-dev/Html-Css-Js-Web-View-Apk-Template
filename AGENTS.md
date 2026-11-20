@@ -50,7 +50,7 @@ The Bridge Lab app exposes these capabilities to the web layer:
 - **Share** — system share sheet with text
 - **Open link** — app-first: a link that belongs to an installed app (WhatsApp, Telegram, maps …) opens in that app, otherwise in the browser; `intent://` URLs are parsed too
 - **Clipboard** — copy text, read clipboard
-- **Toast** — native toast messages (icon on Android 12+ is drawn by the system, not the app)
+- **Toast** — system Toast with a custom view, so the Bridge Lab icon shows on ROMs that draw the default robot instead of the app icon
 - **Vibration** — single buzz + pattern
 - **Device info** — manufacturer, model, Android version, app version, screen, locale
 - **Native storage** — key/value that survives app restarts, separate from `localStorage`

@@ -30,6 +30,7 @@ import android.print.PrintManager;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -40,6 +41,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -151,9 +154,29 @@ public class MainActivity extends Activity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                showToast(message);
             }
         });
+    }
+
+    /**
+     * Real Toast, but with our own icon and text. Some vendor ROMs substitute the
+     * default Android robot for the app icon in system toasts, which made the
+     * bridge look unbranded. A custom view is only honoured while the app is in
+     * the foreground (Android 11+), which is exactly when this bridge fires.
+     */
+    private void showToast(String message) {
+        try {
+            Toast t = new Toast(this);
+            View v = getLayoutInflater().inflate(R.layout.toast_custom, null);
+            ((ImageView) v.findViewById(R.id.toast_icon)).setImageResource(R.mipmap.ic_launcher);
+            ((TextView) v.findViewById(R.id.toast_text)).setText(message);
+            t.setView(v);
+            t.setDuration(Toast.LENGTH_SHORT);
+            t.show();
+        } catch (Exception e) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void emitToJs(final String js) {
