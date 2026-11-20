@@ -33,6 +33,11 @@ Android WebView shell that packages a static HTML/CSS/JS app (`assets/`) into an
   - `openUrl()` is app-first: it skips packages that handle generic `https` (browsers/web wrappers) so `https://wa.me/...` goes to WhatsApp, not the browser. Requires the `<queries>` block in the manifest for Android 11+ package visibility.
 
 - **Important:** replace default app name with the name of the app that you're building and for each app you will update package name and also replace the icon of apk (create the icon if needed that matched the app purpose) and also update splash screen to match the app purpose.
+  - **Icon = 3 places, all of them.** Toast icons, launcher shortcuts and the recents card are drawn by the system from the launcher icon, so a half-replaced icon shows up as a stock Android robot in toasts:
+    1. `res/mipmap-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}/ic_launcher.png` — legacy bitmaps (48/72/96/144/192 px), one **per density**. Missing density = stale icon on that screen bucket.
+    2. `res/drawable/ic_launcher_foreground.xml` + `@color/ic_launcher_background` — the adaptive icon (API 26+).
+    3. `res/drawable/splash_*` references the same foreground, so the splash follows automatically.
+  - Keep 1 and 2 visually identical. Adaptive icons are masked to a circle/squircle and only the inner 72/108 of the canvas is safe, so draw the bitmap version inset the same way.
 
 ## Features (implemented)
 
