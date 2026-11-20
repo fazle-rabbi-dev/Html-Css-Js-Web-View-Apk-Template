@@ -43,9 +43,9 @@ The Bridge Lab app exposes these capabilities to the web layer:
 - **Geolocation** — single fix, or watch 3 fixes
 - **File picker** — pick an image from device storage and preview it
 - **Share** — system share sheet with text
-- **Open link** — open a URL in the external browser
+- **Open link** — app-first: a link that belongs to an installed app (WhatsApp, Telegram, maps …) opens in that app, otherwise in the browser; `intent://` URLs are parsed too
 - **Clipboard** — copy text, read clipboard
-- **Toast** — native toast messages
+- **Toast** — native toast messages (icon on Android 12+ is drawn by the system, not the app)
 - **Vibration** — single buzz + pattern
 - **Device info** — manufacturer, model, Android version, app version, screen, locale
 - **Native storage** — key/value that survives app restarts, separate from `localStorage`
