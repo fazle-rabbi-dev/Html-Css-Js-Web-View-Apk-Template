@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Splash UI. Colors come from @color/* so the same layout serves both
+     themes: the system swaps values/colors.xml (light) and
+      values-night/colors.xml (dark) automatically. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/splash_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_gradient">
+    android:background="@drawable/splash_background">
 
     <!-- Centered brand block. -->
     <LinearLayout
@@ -46,7 +49,7 @@
             android:layout_marginTop="8dp"
             android:letterSpacing="0.02"
             android:text="@string/app_name"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/splash_text"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -55,17 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Native bridge  ·  zero deps"
-            android:textColor="#9FC7F5"
+            android:textColor="@color/splash_subtext"
             android:textSize="13sp" />
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="160dp"
-            android:layout_height="3dp"
-            android:layout_marginTop="28dp"
-            android:indeterminate="true"
-            android:progressTint="#E8C87E"
-            android:indeterminateTint="#E8C87E" />
     </LinearLayout>
 
     <!-- Footer. -->

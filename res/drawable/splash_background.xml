@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Painted by the OS as the window background, so the splash is visible on
+<!-- LIGHT splash background: near-white gradient, light dot grid.
+     Painted by the OS as the window background, so the splash is visible on
      the very first frame, before any layout is inflated. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/splash_gradient" />
+    <item android:drawable="@color/splash_background" />
     <item
         android:drawable="@drawable/splash_glow"
         android:gravity="center"
@@ -18,4 +19,9 @@
         android:gravity="center"
         android:width="80dp"
         android:height="80dp" />
+    <item
+        android:drawable="@drawable/dot_grid"
+        android:gravity="center"
+        android:width="200dp"
+        android:height="200dp" />
 </layer-list>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DARK splash background: near-black gradient, dark dot grid.
+     Painted by the OS as the window background, so the splash is visible on
+     the very first frame, before any layout is inflated. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_background" />
+    <item
+        android:drawable="@drawable/splash_glow"
+        android:gravity="center"
+        android:width="200dp"
+        android:height="200dp" />
+    <item
+        android:drawable="@drawable/splash_card"
+        android:gravity="center"
+        android:width="132dp"
+        android:height="132dp" />
+    <item
+        android:drawable="@drawable/ic_launcher_foreground"
+        android:gravity="center"
+        android:width="80dp"
+        android:height="80dp" />
+    <item
+        android:drawable="@drawable/dot_grid"
+        android:gravity="center"
+        android:width="200dp"
+        android:height="200dp" />
+</layer-list>
