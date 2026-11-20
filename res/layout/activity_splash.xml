@@ -1,37 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splash_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_gradient"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:background="@drawable/splash_gradient">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_launcher_foreground" />
+    <!-- Centered brand block. -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <!-- Glow + mark -->
+        <FrameLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp">
+
+            <View
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@drawable/splash_glow" />
+
+            <FrameLayout
+                android:id="@+id/splash_mark"
+                android:layout_width="132dp"
+                android:layout_height="132dp"
+                android:layout_gravity="center"
+                android:background="@drawable/splash_card">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_launcher_foreground" />
+            </FrameLayout>
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:letterSpacing="0.02"
+            android:text="@string/app_name"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Native bridge  ·  zero deps"
+            android:textColor="#9FC7F5"
+            android:textSize="13sp" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="160dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="28dp"
+            android:indeterminate="true"
+            android:progressTint="#E8C87E"
+            android:indeterminateTint="#E8C87E" />
+    </LinearLayout>
+
+    <!-- Footer. -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/app_name"
-        android:textColor="#FFFFFF"
-        android:textSize="28sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Native bridge lab &#8226; zero deps"
-        android:textColor="#D9EDE7"
-        android:textSize="14sp" />
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp" />
-
-</LinearLayout>
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:text="WebView  ·  Android 12+"
+        android:textColor="#5A7AA0"
+        android:textSize="11sp" />
+</FrameLayout>
