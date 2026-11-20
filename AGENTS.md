@@ -27,6 +27,10 @@ Android WebView shell that packages a static HTML/CSS/JS app (`assets/`) into an
 - The generated `app/build.gradle` is **Groovy DSL** — use `minifyEnabled = false`, NOT `isMinifyEnabled` (Kotlin syntax breaks the build).
 - Runner already has Android SDK at `$ANDROID_HOME`; `sdkmanager` is at `$ANDROID_HOME/cmdline-tools/latest/bin` (not on PATH by default). Don't use `android-actions/setup-android` (requests obsolete `tools` package). No NDK needed.
 - Commit + push to `main` triggers the build. Artifact: `app/build/outputs/apk/debug/app-debug.apk`.
+- **WebView gotchas already solved here (don't remove):**
+  - Mic: needs `RECORD_AUDIO` **and** `MODIFY_AUDIO_SETTINGS`, else `getUserMedia({audio:true})` dies with `NotReadableError: Could not start audio source` even though the runtime grant succeeded.
+  - Network state: `ConnectivityManager` calls need `ACCESS_NETWORK_STATE`, else the bridge throws a `SecurityException`.
+  - `openUrl()` is app-first: it skips packages that handle generic `https` (browsers/web wrappers) so `https://wa.me/...` goes to WhatsApp, not the browser. Requires the `<queries>` block in the manifest for Android 11+ package visibility.
 
 - **Important:** replace default app name with the name of the app that you're building and for each app you will update package name and also replace the icon of apk (create the icon if needed that matched the app purpose) and also update splash screen to match the app purpose.
 

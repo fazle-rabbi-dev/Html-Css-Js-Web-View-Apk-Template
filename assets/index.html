@@ -328,11 +328,12 @@
     <!-- 5. SHARE / INTENT -->
     <section class="card">
       <h2><span class="num">05</span> Share sheet</h2>
-      <p class="note">Intent.ACTION_SEND through a @JavascriptInterface method.</p>
+      <p class="note">Intent.ACTION_SEND through a @JavascriptInterface method. "Open in app" prefers a real app handler over a browser.</p>
       <input id="share-text" type="text" value="Sent from Bridge Lab 🧪" />
       <div class="row">
         <button id="share-go">Share</button>
-        <button id="intent-open" class="ghost">Open URL</button>
+        <button id="intent-typed" class="ghost">Open in app</button>
+        <button id="intent-open" class="ghost">Open demo URL</button>
       </div>
       <pre id="share-out" class="out"></pre>
     </section>
@@ -654,7 +655,10 @@
         show('mic-out', { track: track.label, sampleRate: audioCtx.sampleRate, state: track.readyState });
         log('s', 'mic started', track.label);
       } catch (e) {
-        show('mic-out', errText(e));
+        const hint = e.name === 'NotReadableError'
+          ? '\n(hardware/permission layer: check RECORD_AUDIO + MODIFY_AUDIO_SETTINGS, and that no other app is holding the mic)'
+          : '';
+        show('mic-out', errText(e) + hint);
         log('e', 'mic failed', errText(e));
       }
     };
@@ -696,6 +700,18 @@
         show('share-out', 'Intent.ACTION_SEND fired');
         log('s', 'share intent', text);
       } catch (e) { show('share-out', errText(e)); log('e', 'share failed', errText(e)); }
+    };
+
+    $('intent-typed').onclick = () => {
+      if (!needBridge('share-out')) return;
+      const text = $('share-text').value.trim();
+      if (!/^(https?:|intent:|[a-z][a-z0-9+.-]*:\/\/)/i.test(text)) {
+        show('share-out', 'not a link — try:\nhttps://wa.me/<number>\nhttps://t.me/<user>\nintent://…#Intent;scheme=…;package=…;end');
+        return;
+      }
+      N.openUrl(text);
+      show('share-out', 'opened: ' + text);
+      log('s', 'open link', text);
     };
 
     $('intent-open').onclick = () => {
@@ -837,15 +853,22 @@
       const rows = [];
       try {
         const b = JSON.parse(N.batteryInfo());
-        rows.push(['battery', b.percent + '%']);
-        rows.push(['charging', String(b.charging)]);
+        if (b.error) rows.push(['battery', 'error: ' + b.error]);
+        else {
+          rows.push(['battery', b.percent + '%']);
+          rows.push(['charging', String(b.charging)]);
+        }
       } catch (e) { rows.push(['battery', 'error']); }
       try {
         const n = JSON.parse(N.networkInfo());
-        rows.push(['online', String(n.online)]);
-        rows.push(['wifi', String(n.wifi)]);
-        rows.push(['cellular', String(n.cellular)]);
-        rows.push(['metered', String(n.metered)]);
+        if (n.error) {
+          rows.push(['network', 'error: ' + n.error]);
+        } else {
+          rows.push(['online', String(n.online)]);
+          rows.push(['wifi', String(n.wifi)]);
+          rows.push(['cellular', String(n.cellular)]);
+          rows.push(['metered', String(n.metered)]);
+        }
       } catch (e) { rows.push(['network', 'error']); }
       table.innerHTML = rows.map(([k, v]) => `<tr><td>${escapeHtml(k)}</td><td>${escapeHtml(v)}</td></tr>`).join('');
       log('i', 'state refreshed', rows);

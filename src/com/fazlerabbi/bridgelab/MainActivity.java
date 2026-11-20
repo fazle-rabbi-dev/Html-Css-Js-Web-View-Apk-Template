@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -135,6 +136,17 @@ public class MainActivity extends Activity {
         return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
+    /** {"error": "..."} so the web layer can show why a bridge call failed. */
+    private static String errorJson(Exception e) {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("error", e.getClass().getSimpleName() + ": " + e.getMessage());
+            return o.toString();
+        } catch (Exception ignored) {
+            return "{\"error\":\"unknown\"}";
+        }
+    }
+
     private void toast(final String message) {
         runOnUiThread(new Runnable() {
             @Override
@@ -151,6 +163,95 @@ public class MainActivity extends Activity {
                 webView.evaluateJavascript(js, null);
             }
         });
+    }
+
+    /**
+     * Opens a link, preferring a real app handler (WhatsApp, Telegram, Maps,
+     * YouTube ...) over a browser. Android resolves every https link to a
+     * browser, so a plain ACTION_VIEW would send https://wa.me/... to Chrome.
+     * Here we skip packages that are registered for generic web links.
+     */
+    private void openExternal(Uri uri) {
+        // intent://some.deep/link#Intent;scheme=xyz;package=com.foo;end
+        if ("intent".equals(uri.getScheme())) {
+            try {
+                Intent parsed = Intent.parseUri(uri.toString(), Intent.URI_INTENT_SCHEME);
+                parsed.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(parsed);
+                return;
+            } catch (Exception ignored) {
+                // fall through to normal handling
+            }
+        }
+
+        Intent direct = new Intent(Intent.ACTION_VIEW, uri);
+        direct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        // Some installs don't publish verified App Links, so nudge the known app
+        // directly before falling back to generic resolution.
+        String[] prefer = preferredPackages(uri.getHost());
+        if (prefer != null) {
+            for (String pkg : prefer) {
+                try {
+                    Intent i = new Intent(Intent.ACTION_VIEW, uri);
+                    i.setPackage(pkg);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (getPackageManager().resolveActivity(i, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                        startActivity(i);
+                        return;
+                    }
+                } catch (Exception ignored) {
+                    // try the next package
+                }
+            }
+        }
+
+        List<String> browsers = browserPackages();
+        List<ResolveInfo> candidates = getPackageManager().queryIntentActivities(direct, 0);
+        if (candidates != null) {
+            for (ResolveInfo ri : candidates) {
+                if (ri.activityInfo == null) continue;
+                String pkg = ri.activityInfo.packageName;
+                if (browsers.contains(pkg) || getPackageName().equals(pkg)) continue;
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, uri);
+                appIntent.setPackage(pkg);
+                appIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(appIntent);
+                    return;
+                } catch (Exception ignored) {
+                    // try the next candidate
+                }
+            }
+        }
+        startActivity(direct);
+    }
+
+    /** Apps that should get a link even if their App Links aren't verified. */
+    private static String[] preferredPackages(String host) {
+        if (host == null) return null;
+        String h = host.toLowerCase(java.util.Locale.US);
+        if (h.equals("wa.me") || h.equals("api.whatsapp.com") || h.endsWith(".whatsapp.com")) {
+            return new String[]{"com.whatsapp", "com.whatsapp.w4b"};
+        }
+        if (h.equals("t.me") || h.equals("telegram.me") || h.equals("telegram.org")
+                || h.endsWith(".telegram.org")) {
+            return new String[]{"org.telegram.messenger", "org.telegram.messenger.web"};
+        }
+        return null;
+    }
+
+    /** Packages that claim to open a plain web link, i.e. browsers and web wrappers. */
+    private List<String> browserPackages() {
+        List<String> out = new ArrayList<String>();
+        Intent probe = new Intent(Intent.ACTION_VIEW, Uri.parse("https://example.com/"));
+        List<ResolveInfo> list = getPackageManager().queryIntentActivities(probe, 0);
+        if (list != null) {
+            for (ResolveInfo ri : list) {
+                if (ri.activityInfo != null) out.add(ri.activityInfo.packageName);
+            }
+        }
+        return out;
     }
 
     // ------------------------------------------------------- WebChromeClient
@@ -419,7 +520,7 @@ public class MainActivity extends Activity {
                 @Override
                 public void run() {
                     try {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                        openExternal(Uri.parse(url));
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this, "No app to open this link",
                                 Toast.LENGTH_SHORT).show();
@@ -462,7 +563,7 @@ public class MainActivity extends Activity {
                 o.put("charging", bm != null && bm.isCharging());
                 return o.toString();
             } catch (Exception e) {
-                return "{\"error\":true}";
+                return errorJson(e);
             }
         }
 
@@ -482,7 +583,8 @@ public class MainActivity extends Activity {
                 o.put("metered", cm != null && cm.isActiveNetworkMetered());
                 return o.toString();
             } catch (Exception e) {
-                return "{\"error\":true}";
+                // Missing ACCESS_NETWORK_STATE ends up here as a SecurityException.
+                return errorJson(e);
             }
         }
 

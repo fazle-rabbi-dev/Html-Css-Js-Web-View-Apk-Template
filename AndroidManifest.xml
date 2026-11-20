@@ -3,10 +3,14 @@
     package="com.fazlerabbi.bridgelab">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Native bridge demo permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- WebView's audio capture path needs this too, otherwise getUserMedia
+         fails with NotReadableError: "Could not start audio source". -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -31,6 +35,19 @@
     <uses-sdk
         android:minSdkVersion="12"
         android:targetSdkVersion="27" />
+
+    <!-- Android 11+ package visibility: lets openUrl() look up which apps can
+         handle a link (WhatsApp, Telegram, Maps ...) instead of assuming a browser. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
