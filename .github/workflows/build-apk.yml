@@ -85,6 +85,9 @@ jobs:
                   }
               }
           }
+          dependencies {
+              implementation "androidx.webkit:webkit:1.9.0"
+          }
           EOF
 
       - name: Patch manifest for Android 12+
