@@ -40,7 +40,52 @@ Android WebView shell that packages a static HTML/CSS/JS app (`app/`) into an in
     3. `res/drawable/splash_*` references the same foreground, so the splash follows automatically.
   - Keep 1 and 2 visually identical. Adaptive icons are masked to a circle/squircle and only the inner 72/108 of the canvas is safe, so draw the bitmap version inset the same way.
 
+## Native bridge API (calling from web code)
+
+The shell injects a `Native` object into the page. Guard every call so the page still works in a desktop browser:
+
+```js
+const N = window.Native;
+if (!N) { /* browser fallback */ }
+```
+
+**Sync (return a value):**
+
+| JS call | Returns | Notes |
+|---|---|---|
+| `N.deviceInfo()` | JSON `{manufacturer,model,androidVersion,appVersion,screen,locale}` | |
+| `N.readClipboard()` | string | |
+| `N.getValue(key)` | string | native SharedPreferences |
+| `N.storageDump()` | JSON object | all native KV pairs |
+| `N.batteryInfo()` | JSON `{level, charging}` | |
+| `N.networkInfo()` | JSON `{type, metered}` | needs `ACCESS_NETWORK_STATE` |
+
+**Fire-and-forget (void):**
+
+| JS call | Effect |
+|---|---|
+| `N.toastMsg(msg)` | system Toast with the app icon |
+| `N.vibrate(ms)` | single buzz |
+| `N.copyText(text)` | writes clipboard |
+| `N.shareText(text)` | system share sheet |
+| `N.openUrl(url)` | app-first: skips browsers, opens the real app (WhatsApp, maps, …) |
+| `N.setValue(key, value)` | native SharedPreferences |
+| `N.printPage()` | system print sheet |
+
+**Permission / async:**
+
+| JS call | Returns | Notes |
+|---|---|---|
+| `N.notifyUser(title, body)` | `"ok"` / `"asking-permission"` / `"denied"` | API 33+ requests at runtime |
+| `N.saveFile(name, content)` | path or `"failed: ..."` | writes to `Download/` |
+| `N.ping(payload, callbackId)` | — | async; native replies via `window.Silicon.onNative(callbackId, result)` |
+
+**Async callback contract:** register `window.Silicon = { onNative(id, result) { ... } }` before calling `N.ping`. Native runs the callback on the UI thread via `evaluateJavascript`.
+
+**Media / location / files** are triggered from HTML (`<input type="file">`, `navigator.mediaDevices`, `navigator.geolocation`) — the shell grants permissions through `WebChromeClient` callbacks. Don't request them from JS directly.
+
 ## Features (implemented)
+
 
 The Silicon app exposes these capabilities to the web layer:
 
