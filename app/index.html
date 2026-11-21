@@ -1,14 +1,156 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vite-app-for-apk</title>
-    <script type="module" crossorigin src="./assets/index-C9lMrW80.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BRsWq75b.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#f4f5f7" />
+  <title>Sketchpad</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    // apply the theme before first paint so there is no white flash
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('sketchpad.theme'); } catch (e) { /* private mode */ }
+      if (t !== 'dark' && t !== 'light') {
+        t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body class="tool-pen">
+
+  <!-- Icons: Lucide (ISC). Downloaded copies live in icons/, inlined here so they
+       always render inside a WebView loaded from file:// (CSS mask url() is
+       treated as cross-origin there and silently fails). -->
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-pencil" viewBox="0 0 24 24">
+      <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+      <path d="m15 5 4 4" />
+    </symbol>
+    <symbol id="i-eraser" viewBox="0 0 24 24">
+      <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" />
+      <path d="M22 21H7" />
+      <path d="m5 11 9 9" />
+    </symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24">
+      <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
+      <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
+      <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
+      <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+    </symbol>
+    <symbol id="i-undo-2" viewBox="0 0 24 24">
+      <path d="M9 14 4 9l5-5" />
+      <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11" />
+    </symbol>
+    <symbol id="i-redo-2" viewBox="0 0 24 24">
+      <path d="m15 14 5-5-5-5" />
+      <path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13" />
+    </symbol>
+    <symbol id="i-trash-2" viewBox="0 0 24 24">
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+      <line x1="10" x2="10" y1="11" y2="17" />
+      <line x1="14" x2="14" y1="11" y2="17" />
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" x2="12" y1="15" y2="3" />
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+    </symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24">
+      <path d="M5 12h14" />
+    </symbol>
+    <symbol id="i-sliders-horizontal" viewBox="0 0 24 24">
+      <line x1="21" x2="14" y1="4" y2="4" />
+      <line x1="10" x2="3" y1="4" y2="4" />
+      <line x1="21" x2="12" y1="12" y2="12" />
+      <line x1="8" x2="3" y1="12" y2="12" />
+      <line x1="21" x2="16" y1="20" y2="20" />
+      <line x1="12" x2="3" y1="20" y2="20" />
+      <line x1="14" x2="14" y1="2" y2="6" />
+      <line x1="8" x2="8" y1="10" y2="14" />
+      <line x1="16" x2="16" y1="18" y2="22" />
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2" />
+      <path d="M12 20v2" />
+      <path d="m4.93 4.93 1.41 1.41" />
+      <path d="m17.66 17.66 1.41 1.41" />
+      <path d="M2 12h2" />
+      <path d="M20 12h2" />
+      <path d="m6.34 17.66-1.41 1.41" />
+      <path d="m19.07 4.93-1.41 1.41" />
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    </symbol>
+  </svg>
+
+  <canvas id="board"></canvas>
+
+  <div class="hud theme-hud">
+    <button class="icon-btn" id="theme" aria-label="Switch to dark mode" title="Toggle theme (T)">
+      <svg class="ico"><use id="themeIcon" href="#i-moon"></use></svg>
+    </button>
+  </div>
+
+  <div class="hud" role="group" aria-label="Zoom controls">
+    <button class="icon-btn" id="zoomOut" aria-label="Zoom out" title="Zoom out">
+      <svg class="ico"><use href="#i-minus"></use></svg>
+    </button>
+    <button class="zoom-value" id="zoomReset" title="Reset view">100%</button>
+    <button class="icon-btn" id="zoomIn" aria-label="Zoom in" title="Zoom in">
+      <svg class="ico"><use href="#i-plus"></use></svg>
+    </button>
+  </div>
+
+  <p class="hint" id="hint">Draw anywhere &middot; pinch or ctrl+scroll to zoom &middot; hold space to pan</p>
+
+  <div class="toolbar" role="toolbar" aria-label="Tools">
+    <button class="tool active" data-tool="pen" aria-label="Pen" title="Pen (B)">
+      <svg class="ico"><use href="#i-pencil"></use></svg>
+    </button>
+    <button class="tool" data-tool="eraser" aria-label="Eraser" title="Eraser (E)">
+      <svg class="ico"><use href="#i-eraser"></use></svg>
+    </button>
+    <button class="tool" data-tool="hand" aria-label="Pan" title="Pan (H)">
+      <svg class="ico"><use href="#i-hand"></use></svg>
+    </button>
+
+    <span class="sep"></span>
+
+    <label class="swatch" title="Colour">
+      <input type="color" id="color" value="#1f2430" aria-label="Colour" />
+    </label>
+
+    <label class="size" title="Brush size">
+      <svg class="ico"><use href="#i-sliders-horizontal"></use></svg>
+      <input type="range" id="size" min="1" max="48" step="1" value="4" aria-label="Brush size" />
+    </label>
+
+    <span class="sep"></span>
+
+    <button class="icon-btn" id="undo" aria-label="Undo" title="Undo (Ctrl+Z)" disabled>
+      <svg class="ico"><use href="#i-undo-2"></use></svg>
+    </button>
+    <button class="icon-btn" id="redo" aria-label="Redo" title="Redo (Ctrl+Shift+Z)" disabled>
+      <svg class="ico"><use href="#i-redo-2"></use></svg>
+    </button>
+    <button class="icon-btn" id="clear" aria-label="Clear canvas" title="Clear canvas">
+      <svg class="ico"><use href="#i-trash-2"></use></svg>
+    </button>
+    <button class="icon-btn" id="save" aria-label="Export as PNG" title="Export as PNG">
+      <svg class="ico"><use href="#i-download"></use></svg>
+    </button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
 </html>

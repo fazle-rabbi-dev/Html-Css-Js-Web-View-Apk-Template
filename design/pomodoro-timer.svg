@@ -1,0 +1,57 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+
+  <!-- Background -->
+  <rect x="80" y="80" width="864" height="864" rx="205" fill="#F56B18"/>
+
+  <!-- Timer top button -->
+  <path d="M445 265 Q445 235 475 235 H550 Q580 235 580 265 V300 H445Z"
+        fill="#E6AE70" stroke="#17191D" stroke-width="25"/>
+
+  <!-- Timer body -->
+  <circle cx="512" cy="555" r="255"
+          fill="#F7F3E8"
+          stroke="#17191D"
+          stroke-width="27"/>
+
+  <!-- Inner dial -->
+  <circle cx="512" cy="555" r="215"
+          fill="none"
+          stroke="#E5DFD0"
+          stroke-width="8"/>
+
+  <!-- Clock marks -->
+  <g stroke="#17191D" stroke-width="20" stroke-linecap="round">
+    <path d="M512 350 V375"/>
+    <path d="M717 555 H692"/>
+    <path d="M512 760 V735"/>
+    <path d="M307 555 H332"/>
+  </g>
+
+  <!-- Clock hands -->
+  <path d="M512 555 V420"
+        stroke="#17191D" stroke-width="30" stroke-linecap="round"/>
+
+  <path d="M512 555 L615 615"
+        stroke="#17191D" stroke-width="30" stroke-linecap="round"/>
+
+  <!-- Center -->
+  <circle cx="512" cy="555" r="23"
+          fill="#F56B18" stroke="#17191D" stroke-width="13"/>
+
+  <!-- Side winding button -->
+  <path d="M730 350 L785 295"
+        stroke="#17191D" stroke-width="35" stroke-linecap="round"/>
+
+  <circle cx="790" cy="290" r="27"
+          fill="#E6AE70" stroke="#17191D" stroke-width="18"/>
+
+  <!-- Small highlight -->
+  <path d="M365 420 Q395 375 445 365"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-opacity=".65"
+        stroke-width="16"
+        stroke-linecap="round"/>
+
+</svg>
