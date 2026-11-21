@@ -47,6 +47,9 @@ The shell injects a `Native` object into the page. Guard every call so the page 
 ```js
 const N = window.Native;
 if (!N) { /* browser fallback */ }
+
+// Fire a native toast (app icon shows on ROMs that draw the stock robot):
+N.toastMsg("Hello from the web layer");
 ```
 
 **Sync (return a value):**
