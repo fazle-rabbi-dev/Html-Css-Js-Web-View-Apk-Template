@@ -45,15 +45,15 @@ jobs:
               }
           }
           rootProject.name = "Silicon"
-          include(":app")
+          include(":shell")
           EOF
           cat > build.gradle <<'EOF'
           plugins {
               id("com.android.application") version "8.5.2" apply false
           }
           EOF
-          mkdir -p app
-          cat > app/build.gradle <<'EOF'
+          mkdir -p shell
+          cat > shell/build.gradle <<'EOF'
           plugins {
               id("com.android.application")
           }
@@ -93,12 +93,12 @@ jobs:
           sed -i 's/android:targetSdkVersion="27"/android:targetSdkVersion="34"/' AndroidManifest.xml
           cat AndroidManifest.xml
 
-      - run: gradle :app:assembleDebug
+      - run: gradle :shell:assembleDebug
 
       - name: Rename APK
-        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/Silicon.apk
+        run: mv shell/build/outputs/apk/debug/shell-debug.apk shell/build/outputs/apk/debug/Silicon.apk
 
       - uses: actions/upload-artifact@v4
         with:
           name: Silicon
-          path: app/build/outputs/apk/debug/Silicon.apk
+          path: shell/build/outputs/apk/debug/Silicon.apk
