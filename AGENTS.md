@@ -87,6 +87,34 @@ N.toastMsg("Hello from the web layer");
 
 **Media / location / files** are triggered from HTML (`<input type="file">`, `navigator.mediaDevices`, `navigator.geolocation`) — the shell grants permissions through `WebChromeClient` callbacks. Don't request them from JS directly.
 
+## Feature → web-side usage (quick reference)
+
+When building a new app, use these entry points — do not invent new native calls.
+
+| Feature | How to trigger from web code |
+|---|---|
+| Camera (live preview) | `navigator.mediaDevices.getUserMedia({video:true})` → `<video>` element |
+| Microphone (level meter) | `getUserMedia({audio:true})` + Web Audio `AnalyserNode` |
+| Geolocation | `navigator.geolocation.getCurrentPosition` / `watchPosition` |
+| File picker (image) | `<input type="file" accept="image/*">` |
+| Share | `N.shareText(text)` |
+| Open link (app-first) | `N.openUrl(url)` (WhatsApp, maps, Telegram, …) |
+| Clipboard | `N.copyText(t)` / `N.readClipboard()` |
+| Toast | `N.toastMsg(msg)` |
+| Vibration | `N.vibrate(ms)` |
+| Device info | `JSON.parse(N.deviceInfo())` |
+| Native storage | `N.setValue(k,v)` / `N.getValue(k)` / `N.storageDump()` |
+| Notifications | `N.notifyUser(title, body)` (API 33+ prompts at runtime) |
+| Battery & network | `N.batteryInfo()` / `N.networkInfo()` |
+| Save file | `N.saveFile(name, content)` → `Download/` |
+| Print | `N.printPage()` (or `window.print()`) |
+| Native dialogs | `alert()` / `confirm()` (overridden as AlertDialogs) |
+| Async round-trip | `N.ping(payload, id)` + `window.Silicon.onNative(id, result)` |
+| Downloads | trigger a download link; shell routes via `DownloadManager` |
+| HTTP fetch | standard `fetch()` (INTERNET permission declared) |
+
+Permissions (`RECORD_AUDIO`, `ACCESS_FINE_LOCATION`, `CAMERA`, `POST_NOTIFICATIONS`) are requested by the shell through `WebChromeClient` / `onRequestPermissionsResult` — do not add your own permission code.
+
 ## Features (implemented)
 
 
