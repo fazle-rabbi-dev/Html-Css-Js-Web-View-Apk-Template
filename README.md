@@ -10,11 +10,17 @@
 ![Android 6+](https://img.shields.io/badge/Android-6%2B%20(API%2023)-3DDC84?logo=android&logoColor=white)
 ![Min SDK](https://img.shields.io/badge/minSdk-23-2563EB) ![Target SDK](https://img.shields.io/badge/targetSdk-34-2563EB) ![Dependencies](https://img.shields.io/badge/dependencies-zero-10B981) ![License](https://img.shields.io/badge/license-MIT-6B7280)
 
-> Turn any HTML/CSS/JS website into an installable Android app. No Kotlin, no Android SDK on your machine — drop your site into `app/` and get an APK.
+<p align="center">
+  <em>Turn any HTML/CSS/JS website into an installable Android app — no Kotlin, no Android SDK, no browser chrome.</em>
+</p>
+
+<p align="center">
+  Drop your site into <code>app/</code> &middot; push to GitHub &middot; download an APK from Actions.
+</p>
 
 </div>
 
-Originally (2022) this built on-device with the APK Builder app. Now it builds in the cloud with GitHub Actions and installs cleanly on Android 12+.
+> Origin: built on-device with the APK Builder app back in 2022. Now it builds in the cloud with GitHub Actions and installs cleanly on Android 12+.
 
 > [!IMPORTANT]
 > 🚨 **APK tested on Android 12** — verified and working on Android 12 devices. Make sure **Play Protect is turned off** on the device before installing the APK.
