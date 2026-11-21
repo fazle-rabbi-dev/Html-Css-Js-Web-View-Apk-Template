@@ -53,6 +53,9 @@ jobs:
           }
           EOF
           mkdir -p app
+          cat > gradle.properties <<'EOF'
+          android.useAndroidX=true
+          EOF
           cat > app/build.gradle <<'EOF'
           plugins {
               id("com.android.application")
