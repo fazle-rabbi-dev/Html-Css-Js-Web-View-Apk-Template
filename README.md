@@ -20,7 +20,7 @@
 
 </div>
 
-> Origin: built on-device with the APK Builder app back in 2022. Now it builds in the cloud with GitHub Actions and installs cleanly on Android 12+.
+> **Origin story:** started in 2020 with the on-device *APK Builder* app — see the full story below. ⬇️
 
 > [!IMPORTANT]
 > 🚨 **APK tested on Android 12** — verified and working on Android 12 devices. Make sure **Play Protect is turned off** on the device before installing the APK.
@@ -112,6 +112,27 @@ No dependencies, no AndroidX. Open `app/index.html` in a browser and the banner 
 - Downloads to the public `Download/` folder need `WRITE_EXTERNAL_STORAGE` on Android 6–9 (handled automatically with a runtime permission prompt).
 
 ---
+
+## 📖 Origin story
+
+<details>
+<summary><b>How this template came to be (click to expand)</b></summary>
+
+<br>
+
+Back in **2020**, I used an on-device app called **APK Builder**. It shipped a handful of templates (flashlight, WebView, and a few others) — you picked one and it built an APK for you. I picked the **WebView** template, which by default just loaded `google.com`.
+
+Then I watched a YouTube video about WebView APKs and spotted the magic link: `file:///android_asset/...`. The idea clicked — what if I replaced `google.com` with that link and dropped my own website into the `assets/` folder?
+
+I tried it. **It worked.** I was so excited I could barely sit still.
+
+In **2022** I took that same template, cleaned it up, modified a few things, and pushed it to GitHub as my base template.
+
+Four years later, with the power of an **AI coding agent**, I've finally modernized it: Android 6+ support, a native bridge (camera, mic, geolocation, share, storage, async callbacks), a branded splash, a proper app icon, and a cloud build via GitHub Actions. What used to take weeks of trial and error now ships in days.
+
+Thanks to AI for making it possible. 🙌
+
+</details>
 
 ## 🤝 Contributing
 
