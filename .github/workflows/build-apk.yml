@@ -44,7 +44,7 @@ jobs:
                   mavenCentral()
               }
           }
-          rootProject.name = "Silicon"
+          rootProject.name = "Sketchpad"
           include(":app")
           EOF
           cat > build.gradle <<'EOF'
@@ -59,11 +59,11 @@ jobs:
           }
 
           android {
-              namespace = "com.fazlerabbi.silicon"
+              namespace = "com.fazlerabbi.sketchpad"
               compileSdk = 34
 
               defaultConfig {
-                  applicationId = "com.fazlerabbi.silicon"
+                  applicationId = "com.fazlerabbi.sketchpad"
                   minSdk = 23
                   targetSdk = 34
                   versionCode = 6
@@ -99,9 +99,9 @@ jobs:
       - run: gradle :app:assembleDebug
 
       - name: Rename APK
-        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/Silicon.apk
+        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/Sketchpad.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Silicon
-          path: app/build/outputs/apk/debug/Silicon.apk
+          name: Sketchpad
+          path: app/build/outputs/apk/debug/Sketchpad.apk

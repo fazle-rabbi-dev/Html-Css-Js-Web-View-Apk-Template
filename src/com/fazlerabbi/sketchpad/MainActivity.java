@@ -1,4 +1,4 @@
-package com.fazlerabbi.silicon;
+package com.fazlerabbi.sketchpad;
 
 import android.Manifest;
 import android.app.Activity;
@@ -59,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Silicon: a WebView shell that demonstrates which native Android capabilities
+ * Sketchpad: a WebView shell that demonstrates which native Android capabilities
  * can be wired to plain HTML/CSS/JS with zero third-party dependencies.
  */
 public class MainActivity extends Activity {
@@ -70,8 +70,8 @@ public class MainActivity extends Activity {
     private static final int REQ_NOTIFY = 1004;
     private static final int REQ_DOWNLOAD = 1005;
 
-    private static final String CHANNEL_ID = "silicon_default";
-    private static final String PREFS = "silicon_prefs";
+    private static final String CHANNEL_ID = "sketchpad_default";
+    private static final String PREFS = "sketchpad_prefs";
 
     private WebView webView;
 
@@ -167,7 +167,7 @@ public class MainActivity extends Activity {
             req.setNotificationVisibility(
                     DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             req.setDestinationInExternalPublicDir(
-                    Environment.DIRECTORY_DOWNLOADS, "silicon-" + System.currentTimeMillis());
+                    Environment.DIRECTORY_DOWNLOADS, "sketchpad-" + System.currentTimeMillis());
             DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             if (dm != null) dm.enqueue(req);
             toast("Download queued");
@@ -559,7 +559,7 @@ public class MainActivity extends Activity {
         public void copyText(String text) {
             ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             if (cm != null) {
-                cm.setPrimaryClip(ClipData.newPlainText("Silicon", text));
+                cm.setPrimaryClip(ClipData.newPlainText("Sketchpad", text));
                 toast("Copied to clipboard");
             }
         }
@@ -690,7 +690,7 @@ public class MainActivity extends Activity {
                 public void run() {
                     try {
                         PrintManager pm = (PrintManager) getSystemService(Context.PRINT_SERVICE);
-                        String job = "Silicon-" + System.currentTimeMillis();
+                        String job = "Sketchpad-" + System.currentTimeMillis();
                         if (pm != null) {
                             pm.print(job, webView.createPrintDocumentAdapter(job), null);
                         }
@@ -754,7 +754,7 @@ public class MainActivity extends Activity {
                         result.put("reversed", reversed);
                         result.put("nativeMs", System.currentTimeMillis() - start);
                         result.put("thread", Thread.currentThread().getName());
-                        emitToJs("window.Silicon && window.Silicon.onNative("
+                        emitToJs("window.Sketchpad && window.Sketchpad.onNative("
                                 + JSONObject.quote(callbackId) + ", " + result + ")");
                     } catch (Exception ignored) {
                     }
@@ -773,7 +773,7 @@ public class MainActivity extends Activity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel ch = new NotificationChannel(
-                        CHANNEL_ID, "Silicon", NotificationManager.IMPORTANCE_DEFAULT);
+                        CHANNEL_ID, "Sketchpad", NotificationManager.IMPORTANCE_DEFAULT);
                 nm.createNotificationChannel(ch);
             }
 

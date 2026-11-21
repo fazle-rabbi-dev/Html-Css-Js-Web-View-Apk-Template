@@ -1,4 +1,4 @@
-package com.fazlerabbi.silicon;
+package com.fazlerabbi.sketchpad;
 
 import android.app.Activity;
 import android.content.Intent;
