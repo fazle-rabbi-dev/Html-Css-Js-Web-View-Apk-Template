@@ -4,6 +4,6 @@
     <color name="splash_bg">#0A0D0C</color>
     <color name="splash_text">#FFFFFF</color>
     <color name="splash_dot">#1E2422</color>
-    <color name="splash_icon_bg">#2FBF71</color>
-    <color name="splash_mark">#FFFFFF</color>
+    <color name="splash_progress">#38BDF8</color>
+    <color name="splash_progress_track">#3338BDF8</color>
 </resources>

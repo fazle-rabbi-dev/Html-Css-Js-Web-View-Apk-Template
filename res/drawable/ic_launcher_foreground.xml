@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive icon foreground: sun + content bars (Silicon).
+     108dp canvas, ink kept inside the 66dp safe circle. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Bridge Lab: two nodes exchanging data (JS <-> native) -->
-    <!-- left node (web) -->
+    <!-- sun -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M30,54 a6.5,6.5 0 1,0 13,0 a6.5,6.5 0 1,0 -13,0 Z" />
-    <!-- right node (native) -->
-    <path
-        android:fillColor="#E8C87E"
-        android:pathData="M65,54 a6.5,6.5 0 1,0 13,0 a6.5,6.5 0 1,0 -13,0 Z" />
+        android:fillColor="#F4FBFF"
+        android:pathData="M27.40,52.10 A26.60,26.60 0 0 1 80.60,52.10 Z" />
 
-    <!-- request arrow (top, white) -->
+    <!-- bar 1 -->
     <path
-        android:fillColor="#00000000"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="3"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:pathData="M44,46 H64 M58,40 L64,46 L58,52" />
+        android:fillColor="#E6FFFFFF"
+        android:pathData="M29.30,55.90 H78.70 A1.90,1.90 0 0 1 80.60,57.80 V57.80 A1.90,1.90 0 0 1 78.70,59.70 H29.30 A1.90,1.90 0 0 1 27.40,57.80 V57.80 A1.90,1.90 0 0 1 29.30,55.90 Z" />
 
-    <!-- response arrow (bottom, gold) -->
+    <!-- bar 2 -->
     <path
-        android:fillColor="#00000000"
-        android:strokeColor="#E8C87E"
-        android:strokeWidth="3"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:pathData="M64,62 H44 M50,56 L44,62 L50,68" />
+        android:fillColor="#BFFFFFFF"
+        android:pathData="M33.10,63.50 H74.90 A1.90,1.90 0 0 1 76.80,65.40 V65.40 A1.90,1.90 0 0 1 74.90,67.30 H33.10 A1.90,1.90 0 0 1 31.20,65.40 V65.40 A1.90,1.90 0 0 1 33.10,63.50 Z" />
+
+    <!-- bar 3 -->
+    <path
+        android:fillColor="#8CFFFFFF"
+        android:pathData="M38.80,71.10 H69.20 A1.90,1.90 0 0 1 71.10,73.00 V73.00 A1.90,1.90 0 0 1 69.20,74.90 H38.80 A1.90,1.90 0 0 1 36.90,73.00 V73.00 A1.90,1.90 0 0 1 38.80,71.10 Z" />
+
+    <!-- bar 4 -->
+    <path
+        android:fillColor="#59FFFFFF"
+        android:pathData="M44.50,78.70 H63.50 A1.90,1.90 0 0 1 65.40,80.60 V80.60 A1.90,1.90 0 0 1 63.50,82.50 H44.50 A1.90,1.90 0 0 1 42.60,80.60 V80.60 A1.90,1.90 0 0 1 44.50,78.70 Z" />
+
 </vector>

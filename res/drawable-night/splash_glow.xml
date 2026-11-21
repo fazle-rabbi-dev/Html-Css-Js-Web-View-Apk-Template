@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Dark theme: soft green halo behind the mark, like the reference. -->
+<!-- Dark theme: soft blue halo behind the app icon. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <gradient
         android:endColor="#00000000"
-        android:gradientRadius="120dp"
-        android:startColor="#3D2FBF71"
+        android:gradientRadius="110dp"
+        android:startColor="#3838BDF8"
         android:type="radial" />
 </shape>

@@ -3,13 +3,12 @@
     <color name="colorPrimary">#FF38BDF8</color>
     <color name="colorPrimaryDark">#FF0B1020</color>
     <color name="colorAccent">#FFE8C87E</color>
-    <color name="ic_launcher_background">#0B1020</color>
     <color name="app_window_bg">#FF0B1020</color>
 
     <!-- Splash: LIGHT theme (default). Night values live in values-night. -->
     <color name="splash_bg">#F7F9F7</color>
     <color name="splash_text">#0A0F0C</color>
     <color name="splash_dot">#DDE4DE</color>
-    <color name="splash_icon_bg">#2FBF71</color>
-    <color name="splash_mark">#FFFFFF</color>
+    <color name="splash_progress">#38BDF8</color>
+    <color name="splash_progress_track">#2238BDF8</color>
 </resources>
