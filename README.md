@@ -39,11 +39,24 @@
 - 🔔 **Custom toast view** — app icon shows on ROMs that draw the stock robot
 - 📥 **Downloads** — routed through `DownloadManager` with runtime permission handling
 
+## 🏆 What I built with this template
+
+A few apps shipped with this template as the base — each one is just an `app/` folder plus the native bridge:
+
+| | App | What it does |
+|---|---|---|
+| 🕰️ | [Standby Clock](#) | Always-on bedside clock with brightness control and ambient mode |
+| 🍅 | [Pomodoro Timer](#) | Focus timer with native notifications and vibration cues |
+| 📺 | [YT Summarizer](#) | Paste a YouTube link, get an AI summary — offline-friendly UI |
+| 🎨 | [Paint App](#) | Finger-painting canvas with save-to-gallery via the native bridge |
+
+> Want your app featured here? Open a PR with a screenshot and a link.
+
 ## How it works
 
 A tiny native shell (`MainActivity.java`) opens a full-screen `WebView` that loads `app/index.html`. Your web code runs offline-capable inside the APK — same idea as a PWA, but as a real installable app with no browser chrome & it's **lightweight 🚀**
 
-> Current bundled app: **Silicon** — a hands-on demo of every native bridge this template can wire up (camera, mic, geolocation, file picker, share, clipboard, notifications, storage, async callbacks) plus an honest list of what it can't.
+> Current bundled app: **Silicon** (`starter template`) — a hands-on demo of every native bridge this template can wire up (camera, mic, geolocation, file picker, share, clipboard, notifications, storage, async callbacks) plus an honest list of what it can't.
 
 ## 📱 Get an APK (easiest — cloud build)
 
