@@ -93,7 +93,7 @@ jobs:
           sed -i 's/android:targetSdkVersion="27"/android:targetSdkVersion="34"/' AndroidManifest.xml
           cat AndroidManifest.xml
 
-      - run: gradle :app:assembleDebug
+      - run: gradle :shell:assembleDebug
 
       - name: Rename APK
         run: mv shell/build/outputs/apk/debug/app-debug.apk shell/build/outputs/apk/debug/Silicon.apk
