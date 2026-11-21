@@ -44,7 +44,7 @@ jobs:
                   mavenCentral()
               }
           }
-          rootProject.name = "Bridge Lab"
+          rootProject.name = "Silicon"
           include(":app")
           EOF
           cat > build.gradle <<'EOF'
@@ -59,15 +59,15 @@ jobs:
           }
 
           android {
-              namespace = "com.fazlerabbi.bridgelab"
+              namespace = "com.fazlerabbi.silicon"
               compileSdk = 34
 
               defaultConfig {
-                  applicationId = "com.fazlerabbi.bridgelab"
+                  applicationId = "com.fazlerabbi.silicon"
                   minSdk = 23
                   targetSdk = 34
-                  versionCode = 5
-                  versionName = "1.4"
+                  versionCode = 6
+                  versionName = "1.5"
               }
 
               buildTypes {
@@ -81,7 +81,7 @@ jobs:
                       manifest.srcFile("../AndroidManifest.xml")
                       java.srcDirs("../src")
                       res.srcDirs("../res")
-                      assets.srcDirs("../assets")
+                      assets.srcDirs("../app")
                   }
               }
           }
@@ -96,9 +96,9 @@ jobs:
       - run: gradle :app:assembleDebug
 
       - name: Rename APK
-        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/BridgeLab.apk
+        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/Silicon.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: BridgeLab
-          path: app/build/outputs/apk/debug/BridgeLab.apk
+          name: Silicon
+          path: app/build/outputs/apk/debug/Silicon.apk
