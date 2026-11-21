@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Bridge Lab</title>
+  <title>Silicon</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -265,7 +265,7 @@
 
 <body>
   <header>
-    <h1>Bridge Lab<span class="dot">.</span></h1>
+    <h1>Silicon<span class="dot">.</span></h1>
     <p class="sub">What a bare WebView shell can do with zero third-party dependencies.</p>
     <div class="status">
       <span class="chip">secure ctx <b id="st-secure">?</b></span>
@@ -329,7 +329,7 @@
     <section class="card">
       <h2><span class="num">05</span> Share sheet</h2>
       <p class="note">Intent.ACTION_SEND through a @JavascriptInterface method. "Open in app" prefers a real app handler over a browser.</p>
-      <input id="share-text" type="text" value="Sent from Bridge Lab 🧪" />
+      <input id="share-text" type="text" value="Sent from Silicon 🧪" />
       <div class="row">
         <button id="share-go">Share</button>
         <button id="intent-typed" class="ghost">Open in app</button>
@@ -388,7 +388,7 @@
     <section class="card">
       <h2><span class="num">10</span> Async JS ↔ native</h2>
       <p class="note">Native thread → evaluateJavascript callback. The pattern Capacitor wraps in a promise.</p>
-      <input id="ping-text" type="text" value="bridge lab" />
+      <input id="ping-text" type="text" value="silicon" />
       <div class="row"><button id="ping-go" class="gold">Ping native</button></div>
       <pre id="ping-out" class="out"></pre>
     </section>
@@ -463,7 +463,7 @@
     </section>
   </main>
 
-  <footer>Bridge Lab · WebView shell · no dependencies</footer>
+  <footer>Silicon · WebView shell · no dependencies</footer>
 
   <script>
     /* ---------------------------------------------------------------- utils */
@@ -509,7 +509,7 @@
     bridgeChip.textContent = N ? 'connected' : 'missing';
     bridgeChip.parentElement.className = 'chip ' + (N ? 'ok' : 'bad');
 
-    log('i', 'Bridge Lab ready', { secure: window.isSecureContext, origin: location.origin, bridge: !!N });
+    log('i', 'Silicon ready', { secure: window.isSecureContext, origin: location.origin, bridge: !!N });
     if (N) {
       try { log('s', 'device', JSON.parse(N.deviceInfo())); } catch (e) { log('e', 'deviceInfo failed', errText(e)); }
     } else {
@@ -796,7 +796,7 @@
     const pendingCalls = new Map();
     let cbSeq = 0;
 
-    window.BridgeLab = {
+    window.Silicon = {
       onNative(id, result) {
         const resolve = pendingCalls.get(id);
         if (!resolve) return;
@@ -834,7 +834,7 @@
     /* -------------------------------------------------------- 11. notification */
     $('notif-go').onclick = () => {
       if (!needBridge('notif-out')) return;
-      const res = N.notifyUser('Bridge Lab', 'Posted from JavaScript via NotificationManager.');
+      const res = N.notifyUser('Silicon', 'Posted from JavaScript via NotificationManager.');
       show('notif-out', 'result: ' + res + (res === 'asking-permission' ? '\nTap Notify again after granting.' : ''));
       log('s', 'notification', res);
     };
@@ -879,8 +879,8 @@
     /* -------------------------------------------------------- 13. files/print */
     $('file-save').onclick = () => {
       if (!needBridge('file-save-out')) return;
-      const name = `bridgelab-${Date.now()}.txt`;
-      const body = 'Bridge Lab export\n' + new Date().toISOString() + '\ndevice: ' +
+      const name = `silicon-${Date.now()}.txt`;
+      const body = 'Silicon export\n' + new Date().toISOString() + '\ndevice: ' +
         (N ? JSON.parse(N.deviceInfo()).model : 'n/a') + '\n';
       const res = N.saveFile(name, body);
       show('file-save-out', res);
