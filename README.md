@@ -20,7 +20,7 @@
 
 </div>
 
-> **Origin story:** started in 2020 with the on-device *APK Builder* app — see the full story below. ⬇️
+> **Origin story:** started in 2020 with the Android *APK Builder* app — see the full story below. ⬇️
 
 > [!IMPORTANT]
 > 🚨 **APK tested on Android 12** — verified and working on Android 12 devices. Make sure **Play Protect is turned off** on the device before installing the APK.
@@ -120,7 +120,7 @@ No dependencies, no AndroidX. Open `app/index.html` in a browser and the banner 
 
 <br>
 
-Back in **2020**, I used an on-device app called **APK Builder**. It shipped a handful of templates (flashlight, WebView, and a few others) — you picked one and it built an APK for you. I picked the **WebView** template, which by default just loaded `google.com`.
+Back in **2020**, I used an Android app called **APK Builder**. It shipped a handful of templates (flashlight, WebView, and a few others) — you picked one and it built an APK for you. I picked the **WebView** template, which by default just loaded `google.com`.
 
 Then I watched a YouTube video about WebView APKs and spotted the magic link: `file:///android_asset/...`. The idea clicked — what if I replaced `google.com` with that link and dropped my own website into the `assets/` folder?
 
