@@ -28,7 +28,7 @@
 > [!TIP]
 > 🤖 **Ask the agent to build an app** — e.g. _"Build a todolist app with local storage"_ — and the agent takes the heavy lifting.
 
-## ⚡ Features
+## Features
 
 - 📦 **Zero dependencies** — pure Java, no AndroidX, no Kotlin, no Gradle plugins beyond AGP
 - ☁️ **Cloud build** — push to GitHub, get an APK from Actions; nothing to install locally
@@ -43,12 +43,12 @@
 
 A few apps shipped with this template as the base — each one is just an `app/` folder plus the native bridge:
 
-| | App | What it does |
-|---|---|---|
-| 🕰️ | [Standby Clock](#) | Always-on bedside clock with brightness control and ambient mode |
-| 🍅 | [Pomodoro Timer](#) | Focus timer with native notifications and vibration cues |
-| 📺 | [YT Summarizer](#) | Paste a YouTube link, get an AI summary — offline-friendly UI |
-| 🎨 | [Paint App](#) | Finger-painting canvas with save-to-gallery via the native bridge |
+|     | App                 | What it does                                                      |
+| --- | ------------------- | ----------------------------------------------------------------- |
+| 🕰️  | [Standby Clock](#)  | Always-on bedside clock with brightness control and ambient mode  |
+| 🍅  | [Pomodoro Timer](#) | Focus timer with native notifications and vibration cues          |
+| 📺  | [YT Summarizer](#)  | Paste a YouTube link, get an AI summary — offline-friendly UI     |
+| 🎨  | [Paint App](#)      | Finger-painting canvas with save-to-gallery via the native bridge |
 
 > Want your app featured here? Open a PR with a screenshot and a link.
 
