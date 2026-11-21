@@ -7,21 +7,22 @@ Android WebView shell that packages a static HTML/CSS/JS app (`app/`) into an in
 ## Stack
 
 - Native shell: single `Activity` + `WebView` (Java, no Kotlin, no Jetpack).
-- App layer: plain HTML/CSS/JS in `app/` (currently **Silicon**, a native-bridge capability demo; CDNs allowed).
+- App layer: plain HTML/CSS/JS in `app/` (currently **SketchPad**, a native-bridge capability demo; CDNs allowed).
 - Build: Gradle (AGP 8.5.2, Gradle 8.7, JDK 17) — files are **generated in CI**, not stored in repo.
 
 ## Structure
 
 - `app/index.html` — app entry point (`MainActivity` loads `file:///android_asset/index.html`).
 - `app/` — all web files live at root level; no subfolder routing needed.
-- `src/com/fazlerabbi/silicon/` — `MainActivity.java` (WebView shell; JS + DOM storage ON, don't disable) + `SplashActivity.java` (premium branded splash with fade/scale entrance, warms up the WebView engine).
+- `src/com/fazlerabbi/sketchpad/` — `MainActivity.java` (WebView shell; JS + DOM storage ON, don't disable) + `SplashActivity.java` (premium branded splash with fade/scale entrance, warms up the WebView engine).
 - `AndroidManifest.xml` — legacy Eclipse/ApkBuilder layout (manifest at root, `uses-sdk min 12 / target 27`). `exported` flags + splash wiring live in repo; **CI only bumps** min 23 / target 34 at build time (keeps APK Builder compat).
-- `.github/workflows/build-apk.yml` — self-contained: generates `settings.gradle` / `build.gradle` / `app/build.gradle` via heredoc, patches manifest with `sed`, runs `gradle :app:assembleDebug`, renames + uploads the artifact (`Silicon.apk` in this branch).
+- `.github/workflows/build-apk.yml` — self-contained: generates `settings.gradle` / `build.gradle` / `app/build.gradle` via heredoc, patches manifest with `sed`, runs `gradle :app:assembleDebug`, renames + uploads the artifact (`SketchPad.apk` in this branch).
 - `res/`, `bin/`, `build/` — legacy artifacts/layout. Leave alone, **except** the launcher icons: `res/mipmap-{mdpi..xxxhdpi}/ic_launcher.png` are the legacy bitmaps (used by toast on some ROMs and by launchers without adaptive support) and must match `res/mipmap-anydpi-v26/ic_launcher.xml`. A stock Android-robot PNG here is the reason toasts look unbranded.
 
 ## Conventions for agents
 
 - Web app changes go in `app/` only. Entry must stay `app/index.html`.
+- **When renaming an app, rename EVERY occurrence across the repo** (package name, Java dirs, manifest, splash, workflow artifact name, app label, AGENTS.md references, JS bridge globals like `window.<AppName>`). Do a repo-wide search/replace; never leave the old name behind.
 - **Never add Service Worker code** — SWs don't run on `file://`. Strip `navigator.serviceWorker.register`, `manifest.json` links are pointless (harmless but remove for cleanliness).
 - External CDN scripts are fine (INTERNET permission declared), but prefer self-contained assets for true offline.
 - The generated `app/build.gradle` is **Groovy DSL** — use `minifyEnabled = false`, NOT `isMinifyEnabled` (Kotlin syntax breaks the build).
@@ -81,9 +82,9 @@ N.toastMsg("Hello from the web layer");
 |---|---|---|
 | `N.notifyUser(title, body)` | `"ok"` / `"asking-permission"` / `"denied"` | API 33+ requests at runtime |
 | `N.saveFile(name, content)` | path or `"failed: ..."` | writes to `Download/` |
-| `N.ping(payload, callbackId)` | — | async; native replies via `window.Silicon.onNative(callbackId, result)` |
+| `N.ping(payload, callbackId)` | — | async; native replies via `window.SketchPad.onNative(callbackId, result)` |
 
-**Async callback contract:** register `window.Silicon = { onNative(id, result) { ... } }` before calling `N.ping`. Native runs the callback on the UI thread via `evaluateJavascript`.
+**Async callback contract:** register `window.SketchPad = { onNative(id, result) { ... } }` before calling `N.ping`. Native runs the callback on the UI thread via `evaluateJavascript`.
 
 **Media / location / files** are triggered from HTML (`<input type="file">`, `navigator.mediaDevices`, `navigator.geolocation`) — the shell grants permissions through `WebChromeClient` callbacks. Don't request them from JS directly.
 
@@ -109,7 +110,7 @@ When building a new app, use these entry points — do not invent new native cal
 | Save file | `N.saveFile(name, content)` → `Download/` |
 | Print | `N.printPage()` (or `window.print()`) |
 | Native dialogs | `alert()` / `confirm()` (overridden as AlertDialogs) |
-| Async round-trip | `N.ping(payload, id)` + `window.Silicon.onNative(id, result)` |
+| Async round-trip | `N.ping(payload, id)` + `window.SketchPad.onNative(id, result)` |
 | Downloads | trigger a download link; shell routes via `DownloadManager` |
 | HTTP fetch | standard `fetch()` (INTERNET permission declared) |
 
@@ -118,7 +119,7 @@ Permissions (`RECORD_AUDIO`, `ACCESS_FINE_LOCATION`, `CAMERA`, `POST_NOTIFICATIO
 ## Features (implemented)
 
 
-The Silicon app exposes these capabilities to the web layer:
+The SketchPad app exposes these capabilities to the web layer:
 
 - **Camera** — live preview, front/back switch, capture frame as image
 - **Microphone** — live input level meter
@@ -127,7 +128,7 @@ The Silicon app exposes these capabilities to the web layer:
 - **Share** — system share sheet with text
 - **Open link** — app-first: a link that belongs to an installed app (WhatsApp, Telegram, maps …) opens in that app, otherwise in the browser; `intent://` URLs are parsed too
 - **Clipboard** — copy text, read clipboard
-- **Toast** — system Toast with a custom view, so the Silicon icon shows on ROMs that draw the default robot instead of the app icon
+- **Toast** — system Toast with a custom view, so the SketchPad icon shows on ROMs that draw the default robot instead of the app icon
 - **Vibration** — single buzz + pattern
 - **Device info** — manufacturer, model, Android version, app version, screen, locale
 - **Native storage** — key/value that survives app restarts, separate from `localStorage`

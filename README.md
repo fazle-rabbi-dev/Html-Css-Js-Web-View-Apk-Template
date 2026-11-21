@@ -1,10 +1,10 @@
 <div align="center">
 
 <p align="center">
-  <img src="app/icon.svg" alt="Silicon" width="72" height="72" />
+  <img src="app/icon.svg" alt="SketchPad" width="72" height="72" />
 </p>
 
-<h1 align="center">Silicon — WebView APK Template</h1>
+<h1 align="center">SketchPad — WebView APK Template</h1>
 
 [![Build APK](https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template/actions/workflows/build-apk.yml/badge.svg)](https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template/actions/workflows/build-apk.yml)
 ![Android 6+](<https://img.shields.io/badge/Android-6%2B%20(API%2023)-3DDC84?logo=android&logoColor=white>)
@@ -56,14 +56,14 @@ A few apps shipped with this template as the base — each one is just an `app/`
 
 A tiny native shell (`MainActivity.java`) opens a full-screen `WebView` that loads `app/index.html`. Your web code runs offline-capable inside the APK — same idea as a PWA, but as a real installable app with no browser chrome & it's **lightweight 🚀**
 
-> Current bundled app: **Silicon** (`starter template`) — a hands-on demo of every native bridge this template can wire up (camera, mic, geolocation, file picker, share, clipboard, notifications, storage, async callbacks) plus an honest list of what it can't.
+> Current bundled app: **SketchPad** (`starter template`) — a hands-on demo of every native bridge this template can wire up (camera, mic, geolocation, file picker, share, clipboard, notifications, storage, async callbacks) plus an honest list of what it can't.
 
 ## 📱 Get an APK (easiest — cloud build)
 
 1. Fork / clone this repo.
 2. Replace the files in `app/` with your own site (keep `index.html` as the entry point).
 3. Push to GitHub → the **Build APK** workflow runs automatically.
-4. Go to **Actions** → latest run → download the **Silicon** artifact.
+4. Go to **Actions** → latest run → download the **SketchPad** artifact.
 5. Copy the APK to your phone and install.
 
 No computer setup needed beyond `git push 🎉`.
@@ -77,13 +77,13 @@ No computer setup needed beyond `git push 🎉`.
 
 ```
 app/            ← YOUR APP LIVES HERE (index.html entry point)
-src/com/fazlerabbi/silicon/MainActivity.java   ← WebView shell + native bridge
+src/com/fazlerabbi/sketchpad/MainActivity.java   ← WebView shell + native bridge
 res/               ← icon, layout, strings
 AndroidManifest.xml          ← permissions, launcher activity
 .github/workflows/ ← cloud APK build
 ```
 
-## 🌉 Native bridge (what Silicon proves)
+## 🌉 Native bridge (what SketchPad proves)
 
 The shell exposes a `Native` object to JS via `addJavascriptInterface`:
 
@@ -92,7 +92,7 @@ Native.toastMsg("hi"); // void, fire and forget
 Native.shareText("..."); // opens the system share sheet
 Native.setValue("k", "v"); // SharedPreferences
 const info = JSON.parse(Native.deviceInfo());
-Native.ping("payload", "cb1"); // async, answered by window.Silicon.onNative
+Native.ping("payload", "cb1"); // async, answered by window.SketchPad.onNative
 ```
 
 Native → JS callbacks go through `webView.evaluateJavascript(...)`. Camera/mic go through
