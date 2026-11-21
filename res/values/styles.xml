@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Base application theme. -->
@@ -5,8 +6,10 @@
         <item name="android:windowBackground">@color/app_window_bg</item>
     </style>
 
-    <style name="SplashTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+    <!-- No fullscreen parent: the splash keeps the status bar, like the design. -->
+    <style name="SplashTheme" parent="@android:style/Theme.NoTitleBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
 </resources>

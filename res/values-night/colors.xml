@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Splash colors - DARK mode (night theme) -->
-    <color name="splash_background">#0B1020</color>
+    <!-- Splash: DARK theme. -->
+    <color name="splash_bg">#0A0D0C</color>
     <color name="splash_text">#FFFFFF</color>
-    <color name="splash_subtext">#9FC7F5</color>
-    <color name="splash_progress">#E8C87E</color>
-    <color name="splash_progress_light">#D4B05D</color>
-    
-    <!-- Background colors -->
-    <color name="background_dark">#0B1020</color>
-    <color name="background_light">#F7F9FC</color>
-    
-    <!-- Dot grid colors -->
-    <color name="dot_grid_dark">#1A1A1A</color>
-    <color name="dot_grid_light">#CCCCCC</color>
+    <color name="splash_dot">#1E2422</color>
+    <color name="splash_icon_bg">#2FBF71</color>
+    <color name="splash_mark">#FFFFFF</color>
 </resources>

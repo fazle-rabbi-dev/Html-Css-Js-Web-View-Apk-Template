@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Full-screen dot grid: one 24dp tile repeated, tinted per theme. -->
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/dot_tile"
+    android:tileMode="repeat"
+    android:tint="@color/splash_dot" />

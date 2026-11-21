@@ -1,74 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Splash UI. Colors come from @color/* so the same layout serves both
-     themes: the system swaps values/colors.xml (light) and
-      values-night/colors.xml (dark) automatically. -->
+<!-- Splash UI: centred mark + app name over the dot-grid backdrop.
+     Root is transparent so the window background (painted by the OS on the
+     first frame) shows through. Colours flip with values-night automatically. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/splash_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/splash_background">
+    android:layout_height="match_parent">
 
-    <!-- Centered brand block. -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <!-- Glow + mark -->
         <FrameLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp">
+            android:layout_width="220dp"
+            android:layout_height="220dp">
 
             <View
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
                 android:layout_gravity="center"
                 android:background="@drawable/splash_glow" />
 
             <FrameLayout
                 android:id="@+id/splash_mark"
-                android:layout_width="132dp"
-                android:layout_height="132dp"
+                android:layout_width="112dp"
+                android:layout_height="112dp"
                 android:layout_gravity="center"
-                android:background="@drawable/splash_card">
+                android:background="@drawable/splash_icon_bg">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_launcher_foreground" />
+                    android:src="@drawable/ic_splash_mark" />
             </FrameLayout>
         </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:letterSpacing="0.02"
+            android:layout_marginTop="20dp"
+            android:letterSpacing="0.01"
             android:text="@string/app_name"
             android:textColor="@color/splash_text"
-            android:textSize="30sp"
+            android:textSize="26sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Native bridge  ·  zero deps"
-            android:textColor="@color/splash_subtext"
-            android:textSize="13sp" />
     </LinearLayout>
-
-    <!-- Footer. -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="24dp"
-        android:text="WebView  ·  Android 12+"
-        android:textColor="#5A7AA0"
-        android:textSize="11sp" />
 </FrameLayout>
