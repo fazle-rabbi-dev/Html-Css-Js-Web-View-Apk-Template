@@ -11,16 +11,10 @@ export default defineConfig({
 	plugins: [react(), tailwindcss()],
 	resolve: {
 		alias: {
-			"@": path.resolve(__dirname, "./src"),
+			"@": path.resolve(import.meta.dirname, "./src"),
 		},
 	},
 	base: "./",
-
-	// build: {
-	// 	rollupOptions: {
-	// 		output: { format: "iife", inlineDynamicImports: true },
-	// 	},
-	// },
 });
 
 // babel({ presets: [reactCompilerPreset()] })
