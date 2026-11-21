@@ -1,0 +1,66 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+
+  <!-- Background -->
+  <rect x="80" y="80" width="864" height="864" rx="205" fill="#20A95E"/>
+
+  <!-- Clock casing -->
+  <rect x="205" y="355" width="614" height="390" rx="65"
+        fill="#F7F3E8"
+        stroke="#17191D"
+        stroke-width="27"/>
+
+  <!-- Display -->
+  <rect x="260" y="415" width="504" height="265" rx="38"
+        fill="#17191D"
+        stroke="#17191D"
+        stroke-width="12"/>
+
+  <!-- Digital display: 10:24 -->
+  <g fill="#F7F3E8">
+
+    <!-- 1 -->
+    <path d="M345 485 L365 465 L382 480 L382 605 L362 625 L345 610 Z"/>
+
+    <!-- 0 -->
+    <path d="M415 465 H485 L505 485 V605 L485 625 H415 L395 605 V485 Z
+             M425 487 L415 497 V593 L425 603 H475 L485 593 V497 L475 487 Z"
+          fill-rule="evenodd"/>
+
+    <!-- Colon -->
+    <circle cx="535" cy="510" r="10"/>
+    <circle cx="535" cy="580" r="10"/>
+
+    <!-- 2 -->
+    <path d="M575 465 H655 L675 485 V535 L655 555 H595 V595 H675 V625 H575 V545 L595 525 H645 V495 H575 Z"/>
+
+    <!-- 4 -->
+    <path d="M695 465 H725 V525 H765 V465 H795 V625 H765 V555 H695 Z"/>
+  </g>
+
+  <!-- Feet -->
+  <path d="M295 745 L275 785 H395 L380 745 Z"
+        fill="#17191D"/>
+
+  <path d="M645 745 L630 785 H750 L730 745 Z"
+        fill="#17191D"/>
+
+  <!-- Display highlight -->
+  <path d="M295 450 L365 450"
+        stroke="#FFFFFF"
+        stroke-opacity=".15"
+        stroke-width="12"
+        stroke-linecap="round"/>
+
+  <!-- Ambient accents -->
+  <path d="M720 275 L745 235"
+        stroke="#F7F3E8"
+        stroke-width="24"
+        stroke-linecap="round"/>
+
+  <path d="M785 310 L820 280"
+        stroke="#F7F3E8"
+        stroke-width="24"
+        stroke-linecap="round"/>
+
+</svg>
