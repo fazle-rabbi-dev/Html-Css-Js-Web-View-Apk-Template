@@ -40,10 +40,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.MimeTypeMap;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebViewClient;
-import androidx.webkit.WebViewAssetLoader;
-import androidx.webkit.WebViewAssetLoader.AssetsPathHandler;
+
+import java.io.IOException;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,10 +106,6 @@ public class MainActivity extends Activity {
         webView.setBackgroundColor(0xFF0B1020);
         webView.addJavascriptInterface(new Bridge(), "Native");
         webView.setWebChromeClient(new ChromeClient());
-        final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
-                .addPathHandler("/assets/", new AssetsPathHandler(this))
-                .build();
-
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -122,7 +119,20 @@ public class MainActivity extends Activity {
 
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                return assetLoader.shouldInterceptRequest(request.getUrl());
+                Uri u = request.getUrl();
+                if (!"appassets.androidplatform.net".equals(u.getHost())) return null;
+                String path = u.getPath();
+                if (path == null || !path.startsWith("/assets/")) return null;
+                String assetPath = path.substring("/assets/".length());
+                if (assetPath.isEmpty()) return null;
+                try {
+                    String ext = MimeTypeMap.getFileExtensionFromUrl(assetPath);
+                    String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
+                    if (mime == null) mime = "application/octet-stream";
+                    return new WebResourceResponse(mime, "UTF-8", getAssets().open(assetPath));
+                } catch (IOException e) {
+                    return null;
+                }
             }
         });
 
