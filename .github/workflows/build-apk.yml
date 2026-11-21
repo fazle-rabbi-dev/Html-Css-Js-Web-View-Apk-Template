@@ -64,10 +64,10 @@ jobs:
 
               defaultConfig {
                   applicationId = "com.fazlerabbi.bridgelab"
-                  minSdk = 24
+                  minSdk = 23
                   targetSdk = 34
-                  versionCode = 4
-                  versionName = "1.3"
+                  versionCode = 5
+                  versionName = "1.4"
               }
 
               buildTypes {
@@ -89,7 +89,7 @@ jobs:
 
       - name: Patch manifest for Android 12+
         run: |
-          sed -i 's/android:minSdkVersion="12"/android:minSdkVersion="24"/' AndroidManifest.xml
+          sed -i 's/android:minSdkVersion="12"/android:minSdkVersion="23"/' AndroidManifest.xml
           sed -i 's/android:targetSdkVersion="27"/android:targetSdkVersion="34"/' AndroidManifest.xml
           cat AndroidManifest.xml
 

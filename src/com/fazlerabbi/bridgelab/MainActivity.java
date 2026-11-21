@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
     private static final int REQ_LOCATION = 1002;
     private static final int REQ_FILE = 1003;
     private static final int REQ_NOTIFY = 1004;
+    private static final int REQ_DOWNLOAD = 1005;
 
     private static final String CHANNEL_ID = "bridgelab_default";
     private static final String PREFS = "bridgelab_prefs";
@@ -77,6 +78,8 @@ public class MainActivity extends Activity {
 
     private String pendingNotifyTitle;
     private String pendingNotifyBody;
+
+    private String pendingDownloadUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,18 +118,15 @@ public class MainActivity extends Activity {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition,
                                         String mimetype, long contentLength) {
-                try {
-                    DownloadManager.Request req = new DownloadManager.Request(Uri.parse(url));
-                    req.setNotificationVisibility(
-                            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                    req.setDestinationInExternalPublicDir(
-                            Environment.DIRECTORY_DOWNLOADS, "bridgelab-" + System.currentTimeMillis());
-                    DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                    if (dm != null) dm.enqueue(req);
-                    toast("Download queued");
-                } catch (Exception e) {
-                    toast("Download failed: " + e.getMessage());
+                // API 23-28: writing to public Download/ is a runtime permission.
+                if (Build.VERSION.SDK_INT <= 28
+                        && !has(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    pendingDownloadUrl = url;
+                    requestPermissions(
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_DOWNLOAD);
+                    return;
                 }
+                enqueueDownload(url);
             }
         });
 
@@ -137,6 +137,21 @@ public class MainActivity extends Activity {
 
     private boolean has(String permission) {
         return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void enqueueDownload(String url) {
+        try {
+            DownloadManager.Request req = new DownloadManager.Request(Uri.parse(url));
+            req.setNotificationVisibility(
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            req.setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS, "bridgelab-" + System.currentTimeMillis());
+            DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            if (dm != null) dm.enqueue(req);
+            toast("Download queued");
+        } catch (Exception e) {
+            toast("Download failed: " + e.getMessage());
+        }
     }
 
     /** {"error": "..."} so the web layer can show why a bridge call failed. */
@@ -440,6 +455,18 @@ public class MainActivity extends Activity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 pendingGeoCallback.invoke(pendingGeoOrigin, granted, false);
                 pendingGeoCallback = null;
+            }
+            return;
+        }
+
+        if (requestCode == REQ_DOWNLOAD) {
+            String url = pendingDownloadUrl;
+            pendingDownloadUrl = null;
+            if (url == null) return;
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enqueueDownload(url);
+            } else {
+                toast("Storage permission denied - download cancelled");
             }
             return;
         }
