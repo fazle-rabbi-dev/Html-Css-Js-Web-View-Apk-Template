@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Splash UI: centred app icon + name + loading bar over the dot-grid backdrop.
+<!-- Splash UI: centred icon + app name side-by-side over the dot-grid backdrop.
      Root is transparent so the window background (painted by the OS on the
      first frame) shows through. Colours flip with values-night automatically. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,51 +15,26 @@
         android:layout_gravity="center"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <!-- Icon + glow. Glow overflows this box on purpose (220dp > 112dp). -->
-        <FrameLayout
-            android:layout_width="104dp"
-            android:layout_height="104dp"
-            android:clipChildren="false"
-            android:clipToPadding="false">
-
-            <View
-                android:layout_width="220dp"
-                android:layout_height="220dp"
-                android:layout_gravity="center"
-                android:background="@drawable/splash_glow" />
-
-            <!-- The real launcher icon, so splash and home screen match. -->
-            <ImageView
-                android:id="@+id/splash_mark"
-                android:layout_width="104dp"
-                android:layout_height="104dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/app_name"
-                android:src="@mipmap/ic_launcher" />
-        </FrameLayout>
+        <!-- The real launcher icon, so splash and home screen match. -->
+        <ImageView
+            android:id="@+id/splash_mark"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
             android:letterSpacing="0.01"
             android:text="@string/app_name"
             android:textColor="@color/splash_text"
             android:textSize="26sp"
             android:textStyle="bold" />
-
-        <!-- Indeterminate horizontal loading bar. -->
-        <ProgressBar
-            android:id="@+id/splash_progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="128dp"
-            android:layout_height="4dp"
-            android:layout_marginTop="16dp"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/splash_progress"
-            android:progressBackgroundTint="@color/splash_progress_track" />
     </LinearLayout>
 </FrameLayout>
