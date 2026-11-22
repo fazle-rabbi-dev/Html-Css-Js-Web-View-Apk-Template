@@ -14,6 +14,7 @@ Goal is to use this as a starter to build web app that lives inside webview shel
 - ssgoi for page transition
 - cuelume for general ui sound effect
 - dingtoast for toaster
+- React router - **Must need to use hashRouter**
 
 ## Folder Structure
 
