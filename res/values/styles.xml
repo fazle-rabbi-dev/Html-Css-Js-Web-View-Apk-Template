@@ -6,8 +6,8 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/app_window_bg</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@color/system_bar_bg</item>
-        <item name="android:navigationBarColor">@color/system_bar_bg</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
     <!-- Base application theme. Dark bars with light icons by default. -->

@@ -1,5 +1,7 @@
 # AGENTS.md — WebView APK Template
 
+> **Strict Rule:** without my permission dont push
+
 ## What this is
 
 Android WebView shell that packages a static HTML/CSS/JS app (`app/`) into an installable APK. Origin: 2022 on-device (APK Builder) template. Current: cloud-built via GitHub Actions, Android 6+ (API 23) compatible.
