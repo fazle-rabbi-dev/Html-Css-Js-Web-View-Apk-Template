@@ -21,6 +21,7 @@ Android WebView shell that packages a static HTML/CSS/JS app (`app/`) into an in
 
 ## Conventions for agents
 
+- **Do only what was asked — no overengineering.** Make the smallest change that satisfies the request. No unrequested refactors, abstractions, new deps, "while I'm here" fixes, or extra verification/inspection commands. If you notice something wrong or have a better idea, mention it in one or two lines and let the user decide — don't go fix it yourself.
 - Web app changes go in `app/` only. Entry must stay `app/index.html`.
 - In `web` dir webapp template present
 - **When renaming an app, rename EVERY occurrence across the repo** (package name, Java dirs, manifest, splash, workflow artifact name, app label, AGENTS.md references, JS bridge globals like `window.<AppName>`). Do a repo-wide search/replace; never leave the old name behind.
