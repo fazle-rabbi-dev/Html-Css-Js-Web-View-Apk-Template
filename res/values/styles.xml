@@ -20,7 +20,7 @@
     <style name="SplashTheme" parent="@android:style/Theme.NoTitleBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:navigationBarColor">@color/splash_bg</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
 </resources>
