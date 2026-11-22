@@ -20,7 +20,7 @@
 
 </div>
 
-> **Origin story:** started in 2020 with the Android _APK Builder_ app — see the full story below. ⬇️
+---
 
 > [!IMPORTANT]
 > 🚨 **APK tested on Android 12** — verified and working on Android 12 devices. Make sure **Play Protect is turned off** on the device before installing the APK.
