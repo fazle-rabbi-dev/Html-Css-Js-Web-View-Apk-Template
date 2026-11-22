@@ -4,6 +4,7 @@
     <!-- BaseAppTheme: everything that is the same in light and dark.
          Kept separate so values-night only has to flip the icon flags. -->
     <style name="BaseAppTheme" parent="@android:style/Theme.Light">
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/app_window_bg</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/system_bar_bg</item>
