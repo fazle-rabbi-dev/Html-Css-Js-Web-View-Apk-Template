@@ -1,28 +1,41 @@
 <div align="center">
 
 <p align="center">
-  <img src="icon.png" alt="Silicon" width="72" height="72" />
+  <img src="icon.png" alt="Silicon - WebView apk template" width="200" height="" />
 </p>
 
 <h1 align="center">WebView APK Template</h1>
 
-[![Build APK](https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template/actions/workflows/build-apk.yml/badge.svg)](https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template/actions/workflows/build-apk.yml)
-![Android 6+](<https://img.shields.io/badge/Android-6%2B%20(API%2023)-3DDC84?logo=android&logoColor=white>)
-![Min SDK](https://img.shields.io/badge/minSdk-23-2563EB) ![Target SDK](https://img.shields.io/badge/targetSdk-34-2563EB) ![Dependencies](https://img.shields.io/badge/dependencies-zero-10B981) ![License](https://img.shields.io/badge/license-MIT-6B7280)
-
 <p align="center">
-  <em>Turn any HTML/CSS/JS website into an installable Android app — no Kotlin, no Android SDK, no browser chrome.</em>
+  <em>Turn any HTML/CSS/JS (supports vite react) website into an installable Android app — no Kotlin, no Android SDK, no browser chrome.</em>
 </p>
 
 <p align="center">
   Drop your site into <code>app/</code> &middot; push to GitHub &middot; download an APK from Actions.
 </p>
 
+<div>
+
+[![Build APK](https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template/actions/workflows/build-apk.yml/badge.svg)](https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template/actions/workflows/build-apk.yml)
+![Android 6+](<https://img.shields.io/badge/Android-6%2B%20(API%2023)-3DDC84?logo=android&logoColor=white>)
+
+</div>
+
+![Min SDK](https://img.shields.io/badge/minSdk-23-2563EB) ![Target SDK](https://img.shields.io/badge/targetSdk-34-2563EB) ![Dependencies](https://img.shields.io/badge/dependencies-zero-10B981) ![License](https://img.shields.io/badge/license-MIT-6B7280)
+
+<p align="center">
+  No need for React Native, Flutter, Java/Kotlin, Tauri, Capacitor, PWA, or TWA for most of the app — just clone this repo and put your web app in the <code>app/</code> directory, or ask your agent to build one for you (there's a ready-made slash command for OpenCode). The APK builds on GitHub Actions, and you can preview the app in your browser since it's a web app that renders in the WebView. Everything else is already set up for you.
+</p>
+
+<p align="center">
+  Think of it as a mini <code>Ionic + Capacitor</code>.
+</p>
+
 </div>
 
 ---
 
-> [!IMPORTANT]
+> [!NOTE]
 > 🚨 **APK tested on Android 12** — verified and working on Android 12 devices. Make sure **Play Protect is turned off** on the device before installing the APK.
 
 > [!TIP]
@@ -30,28 +43,26 @@
 
 ## Features
 
-- 📦 **Zero dependencies** — pure Java, no AndroidX, no Kotlin, no Gradle plugins beyond AGP
-- ☁️ **Cloud build** — push to GitHub, get an APK from Actions; nothing to install locally
-- 📱 **Android 6+** (API 23) through Android 15 (API 35)
-- 🌐 **Offline-first** — `localStorage`, DOM storage and relative asset paths all work
-- 🔐 **Real `https` origin** — your page runs as a secure context (mic, camera, geolocation, clipboard work like a real site)
-- 🌉 **Native bridge** — camera, mic, geolocation, file picker, share, clipboard, notifications, native storage, async callbacks
-- 🎨 **Branded splash** — full-screen dot grid, theme-aware (light/dark), app icon as the mark
-- 🔔 **Custom toast view** — app icon shows on ROMs that draw the stock robot
-- 📥 **Downloads** — routed through `DownloadManager` with runtime permission handling
+- **Zero dependencies** — pure Java, no AndroidX, no Kotlin, no Gradle plugins beyond AGP
+- **Cloud build** — push to GitHub, get an APK from Actions; nothing to install locally
+- **Android 6+** (API 23) through Android 15 (API 35)
+- **Offline-first** — `localStorage`, DOM storage and relative asset paths all work
+- **Real `https` origin** — your page runs as a secure context (mic, camera, geolocation, clipboard work like a real site)
+- **Native bridge** — camera, mic, geolocation, file picker, share, clipboard, notifications, native storage, async callbacks
+- **Branded splash** — full-screen dot grid, theme-aware (light/dark), app icon as the mark
+- **Custom toast view** — app icon shows on ROMs that draw the stock robot
+- **Downloads** — routed through `DownloadManager` with runtime permission handling
 
-## 🏆 What I built with this template
+## 🎉 What I built with this template
 
 A few apps shipped with this template as the base — each one is just an `app/` folder plus the native bridge:
 
-|     | App                                                            | What it does                                                      |
-| --- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 🕰️  | [Standby Clock](https://github.com/the-softcraft/ambient-time) | Always-on bedside clock with brightness control and ambient mode  |
-| 🍅  | [Pomodoro Timer](https://github.com/the-softcraft/pomodoro)    | Focus timer with native notifications and vibration cues          |
-| 📺  | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
-| 🎨  | [Paint App](https://github.com/the-softcraft/sketchpad)        | Finger-painting canvas with save-to-gallery via the native bridge |
-
-> Want your app featured here? Open a PR with a screenshot and a link.
+|                                   | App                                                            | What it does                                                      |
+| --------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
+| <img src="icon.png" width="50" /> | [Standby Clock](https://github.com/the-softcraft/ambient-time) | Always-on bedside clock with brightness control and ambient mode  |
+| <img src="icon.png" width="50" /> | [Pomodoro Timer](https://github.com/the-softcraft/pomodoro)    | Focus timer with native notifications and vibration cues          |
+| <img src="icon.png" width="50" /> | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
+| <img src="icon.png" width="50" /> | [Paint App](https://github.com/the-softcraft/sketchpad)        | Finger-painting canvas with save-to-gallery via the native bridge |
 
 ## How it works (core idea)
 
@@ -102,6 +113,7 @@ No computer setup needed beyond `git push 🎉`.
 
 _the following instruction for human, not for ai_
 
+- [ ] **Clone this repo to your machine**
 - [ ] `/start-new-app command`: this will suggest app names and create a new `feat/app-name` branch
 - [ ] `/update-context command`: this will update the app name and app purpose in the Readme and Agentsmd top area so agents knows about this app
 - [ ] `/build-web-app`: this will help to create web app in `/app` dir
