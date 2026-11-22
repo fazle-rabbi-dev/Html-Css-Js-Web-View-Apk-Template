@@ -98,6 +98,19 @@ The shell injects a `Native` object into JS — camera, mic, geolocation, file p
 
 No computer setup needed beyond `git push 🎉`.
 
+### 🚀 To create a new app follow this checklist
+
+_the following instruction for human, not for ai_
+
+- [ ] `/start-new-app command`: this will suggest app names and create a new `feat/app-name` branch
+- [ ] `/update-context command`: this will update the app name and app purpose in the Readme and Agentsmd top area so agents knows about this app
+- [ ] `/build-web-app`: this will help to create web app in `/app` dir
+- [ ] `/build-apk`: this will modify app name, icons, pkg name etc metadata
+- [ ] Get svg app icon from chatgpt or this agent - Turn the svg into xml for adaptive icon from this site: https://inloop.github.io/svg2android/
+- [ ] When agent ask give `svg icon`, `xml` icon
+- [ ] `/download-apk`: this will download latest artifact from github action (**apk file**) and place at `C:\Users\Hp\Downloads\MEmu Download\`
+- [ ] if u want to update status bar, run this command: `/update-status-bar` and follow up
+
 ## 🛠️ Build locally (optional) `Not recommended`
 
 - **Legacy:** open the project in APK Builder / AIDE on-device via the `.project` file. Unmaintained on Android 12+; cloud build recommended.
