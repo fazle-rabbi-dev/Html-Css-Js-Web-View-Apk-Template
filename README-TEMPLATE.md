@@ -4,12 +4,11 @@
   <img src="./design/standby-clock.svg" alt="Standby Clock" width="170" height="" />
 </p>
 
-<h1 align="center">Standby Clock</h1>
+<h1 align="center">Ambient Time</h1>
 
 <p align="center">
-  <em>Always-on bedside clock with brightness control and ambient mode</em>
+  <em>An always-on bedside or tableside clock with aesthetic designs. Perfect for productivity nerds. Turn your desk or table into a premium-looking space with it.</em>
 </p>
-
 <p>
 
 [![Build APK](https://github.com/the-softcraft/Ambient-Time/actions/workflows/build-apk.yml/badge.svg)](https://github.com/the-softcraft/Ambient-Time/actions/workflows/build-apk.yml)
@@ -22,7 +21,7 @@
 <h2 align="center">Download</h2>
 
 <p align="center">
-  <a href="https://github.com/fazle-rabbi-dev/Standby-Clock/releases/latest">
+  <a href="https://github.com/the-softcraft/Ambient-Time/releases/download/v1.0.0/AmbientTime.apk">
     <img src="https://img.shields.io/badge/Download-Latest%20APK-2563eb?style=for-the-badge&logo=android&logoColor=white" alt="Download APK" />
   </a>
 </p>
@@ -40,18 +39,23 @@ Standby Clock keeps your phone as a bedside clock with dimmed, ambient display. 
 ## Screenshots
 
 <!-- Add screenshots here -->
-<p align="center">
-  <img src="screenshots/1.png" width="200" />
-  <img src="screenshots/2.png" width="200" />
+
+<p align="left">
+  <img src="screenshots/one.png" height="256" />
+  <img src="screenshots/two.png" height="256" />
+  <img src="screenshots/three.png" height="256" />
+  <img src="screenshots/four.png" height="256" />
 </p>
 
 ## Features
 
-- {{FEATURE_1}}
-- 🌐 Offline-first — works without internet
-- 🔐 Real `https` origin — secure context for mic/camera/geolocation
+- 4 Aesthetic clock design
+- Offline-first — works without internet
+- Size is less than 700 KB
+- Lightweight
+- No ads
 
-## Get an APK
+## Get an APK (`for devs`)
 
 1. Fork / clone this repo.
 2. Push to GitHub → the **Build APK** workflow runs automatically.
@@ -62,9 +66,9 @@ Standby Clock keeps your phone as a bedside clock with dimmed, ambient display. 
 
 ## 🛠️ Built with
 
-- Plain HTML / CSS / JS (no framework) — or your stack here
-- Native bridge for camera, mic, geolocation, share, clipboard, storage, etc.
+- Plain HTML, CSS, JS (no framework)
 - Cloud build via GitHub Actions — no local Android SDK needed
+- Local icons/assets
 
 ## Origin
 
@@ -72,7 +76,7 @@ This app is built on top of the **WebView APK Template**:
 
 > Base template: https://github.com/fazle-rabbi-dev/Web-View-Apk-Template
 
-The template turns any HTML/CSS/JS site into an installable Android app with zero dependencies.
+The template turns any **HTML/CSS/JS** site into an installable Android app with zero dependencies.
 
 ## Contributing
 
