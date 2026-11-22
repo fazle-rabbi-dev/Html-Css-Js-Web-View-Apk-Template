@@ -1,7 +1,7 @@
 <div align="center">
 
 <p align="center">
-  <img src="app/icon.svg" alt="Silicon" width="72" height="72" />
+  <img src="silicon.svg" alt="Silicon" width="72" height="72" />
 </p>
 
 <h1 align="center">Silicon — WebView APK Template</h1>
