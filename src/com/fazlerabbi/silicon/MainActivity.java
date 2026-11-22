@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
         Window w = getWindow();
         w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        int bg = 0xFF0B1020;
+        int bg = 0xFF0A0D0C;
 
         w.setStatusBarColor(bg);
         w.setNavigationBarColor(bg);

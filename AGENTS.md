@@ -153,9 +153,7 @@ Not implemented (needs extra deps or more UI): AndroidX `WebViewAssetLoader` (th
 
 ## System bars (status + navigation)
 
-Dark by default with light icons — no theme flip. The web page cannot change them (no bridge method for it).
+Dark bars with light icons, always. Web page can't change them (no bridge method).
 
-- `res/values/styles.xml` — `BaseAppTheme` sets `windowNoTitle`, `windowDrawsSystemBarBackgrounds`, `statusBarColor` / `navigationBarColor` = `@color/system_bar_bg`; `AppTheme` sets `windowLightStatusBar` + `windowLightNavigationBar` = `false`. `res/values-night/styles.xml` mirrors the same (no flip). `SplashTheme` tints the nav bar with `@color/splash_bg`; the splash status bar stays transparent (`SplashActivity.applyStatusBar()`).
-- `@color/system_bar_bg` — light `#F7F9F7`, dark `#0A0D0C` (`values` / `values-night`).
-- `MainActivity.applySystemBars()` re-applies colours + icon flags at runtime (dark bars, light icons always).
-- Limits: `targetSdk 35` would force edge-to-edge and ignore bar colours; `<meta name="theme-color">` does nothing in a WebView, so a page-level theme toggle needs a new bridge method to move the bars.
+- Colours set in `res/values/styles.xml` (`statusBarColor`/`navigationBarColor`) + `MainActivity.applySystemBars()`; light icons via `windowLightStatusBar`/`windowLightNavigationBar` = `false`.
+- `targetSdk 35` forces edge-to-edge and ignores bar colours; `<meta name="theme-color">` does nothing in a WebView.
