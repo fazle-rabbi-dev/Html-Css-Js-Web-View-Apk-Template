@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- BaseAppTheme: everything that is the same in light and dark.
-         Kept separate so values-night only has to flip the icon flags. -->
+    <!-- BaseAppTheme: everything that is the same in light and dark. -->
     <style name="BaseAppTheme" parent="@android:style/Theme.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/app_window_bg</item>
@@ -11,10 +10,10 @@
         <item name="android:navigationBarColor">@color/system_bar_bg</item>
     </style>
 
-    <!-- Base application theme (light mode). -->
+    <!-- Base application theme. Dark bars with light icons by default. -->
     <style name="AppTheme" parent="@style/BaseAppTheme">
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
     <!-- No fullscreen parent: the splash keeps the status bar, like the design. -->
