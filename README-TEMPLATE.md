@@ -1,18 +1,23 @@
 <div align="center">
 
 <p align="center">
-  <img src="silicon.svg" alt="Standby Clock" width="72" height="72" />
+  <img src="./design/standby-clock.svg" alt="Standby Clock" width="170" height="" />
 </p>
 
 <h1 align="center">Standby Clock</h1>
 
-[![Build APK](https://github.com/the-softcraft/Ambient-Time/actions/workflows/build-apk.yml/badge.svg)](https://github.com/the-softcraft/Ambient-Time/actions/workflows/build-apk.yml)
-![Android 6+](<https://img.shields.io/badge/Android-6%2B%20(API%2023)-3DDC84?logo=android&logoColor=white>)
-![Min SDK](https://img.shields.io/badge/minSdk-23-2563EB) ![Target SDK](https://img.shields.io/badge/targetSdk-34-2563EB) ![Dependencies](https://img.shields.io/badge/dependencies-zero-10B981) ![License](https://img.shields.io/badge/license-MIT-6B7280)
-
 <p align="center">
   <em>Always-on bedside clock with brightness control and ambient mode</em>
 </p>
+
+<p>
+
+[![Build APK](https://github.com/the-softcraft/Ambient-Time/actions/workflows/build-apk.yml/badge.svg)](https://github.com/the-softcraft/Ambient-Time/actions/workflows/build-apk.yml)
+![Android 6+](<https://img.shields.io/badge/Android-6%2B%20(API%2023)-3DDC84?logo=android&logoColor=white>)
+
+</p>
+
+![Min SDK](https://img.shields.io/badge/minSdk-23-2563EB) ![Target SDK](https://img.shields.io/badge/targetSdk-34-2563EB) ![Dependencies](https://img.shields.io/badge/dependencies-zero-10B981) ![License](https://img.shields.io/badge/license-MIT-6B7280)
 
 <h2 align="center">Download</h2>
 
@@ -43,13 +48,10 @@ Standby Clock keeps your phone as a bedside clock with dimmed, ambient display. 
 ## Features
 
 - {{FEATURE_1}}
-- {{FEATURE_2}}
-- {{FEATURE_3}}
-- 📱 Android 6+ (API 23) through Android 15 (API 35)
 - 🌐 Offline-first — works without internet
 - 🔐 Real `https` origin — secure context for mic/camera/geolocation
 
-## 📱 Get an APK
+## Get an APK
 
 1. Fork / clone this repo.
 2. Push to GitHub → the **Build APK** workflow runs automatically.
@@ -64,22 +66,22 @@ Standby Clock keeps your phone as a bedside clock with dimmed, ambient display. 
 - Native bridge for camera, mic, geolocation, share, clipboard, storage, etc.
 - Cloud build via GitHub Actions — no local Android SDK needed
 
-## 📖 Origin
+## Origin
 
 This app is built on top of the **WebView APK Template**:
 
-> Base template: https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template
+> Base template: https://github.com/fazle-rabbi-dev/Web-View-Apk-Template
 
 The template turns any HTML/CSS/JS site into an installable Android app with zero dependencies.
 
-## 🤝 Contributing
+## Contributing
 
 Issues and pull requests are welcome.
 
-## ⭐ Support
+## Support
 
 If this app helped you, consider giving it a star.
 
 <p align="center">
-  <sub>Built with ❤️</sub>
+  <sub>Built with ❤️ by <a href="https://fazle-rabbi-dev.vercel.app/">Fazle Rabbi</a></sub>
 </p>
