@@ -90,10 +90,26 @@ browser chrome & it's **lightweight 🚀**
 ## 📱 Get an APK (easiest — cloud build)
 
 1. Fork / clone this repo.
-2. Replace the files in `app/` with your own site (keep `index.html` as the entry point).
+2. Put your app in `app/` — keep `app/index.html` as the entry point. Plain HTML/CSS/JS works as-is; a built **Vite + React** app also works (see below).
 3. Push to GitHub → the **Build APK** workflow runs automatically.
 4. Go to **Actions** → latest run → download the **Silicon** artifact.
 5. Copy the APK to your phone and install.
+
+### ✅ What you can put in `app/`
+
+| Your app                         | What to do                                                                                                                                   |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Plain HTML / CSS / JS            | Drop the files in `app/`. Entry point must be `app/index.html`.                                                                              |
+| Vite + React (or any bundler)    | `npm run build`, then copy the **contents of `dist/`** into `app/`. Set `base: './'` in `vite.config.js` so `assets/...` paths stay relative. |
+| React Router                     | Use `HashRouter`, **never** `BrowserRouter`.                                                                                                 |
+| Vanilla JS routing (hand-rolled) | Use hash-based routing (`#/page`) for the same reason.                                                                                       |
+
+**Why `HashRouter`?** The APK serves your app from `https://appassets.androidplatform.net/assets/index.html` — there is **no server behind it**, so there is no "rewrite everything to index.html" fallback. `BrowserRouter` changes the URL to a real path, and the moment something requests `/assets/about` the asset handler has no such file → **404 / blank page** on reload or deep link. `HashRouter` keeps the route after the `#`:
+
+```
+BrowserRouter  →  /assets/about          →  ✗ 404 (file doesn't exist)
+HashRouter     →  /assets/index.html#/about  →  ✓ index.html loads, router reads the hash
+```
 
 No computer setup needed beyond `git push 🎉`.
 
