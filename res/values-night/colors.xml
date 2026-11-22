@@ -6,4 +6,7 @@
     <color name="splash_dot">#1E2422</color>
     <color name="splash_progress">#38BDF8</color>
     <color name="splash_progress_track">#3338BDF8</color>
+
+    <!-- Status/navigation bar tint in dark mode. -->
+    <color name="system_bar_bg">#FF0A0D0C</color>
 </resources>

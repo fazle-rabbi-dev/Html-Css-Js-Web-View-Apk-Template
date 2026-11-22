@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -71,6 +72,10 @@ public class SplashActivity extends Activity {
         if (!night) {
             // Dark icons on the light backdrop.
             flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            if (Build.VERSION.SDK_INT >= 26) {
+                // SplashTheme tints the navigation bar with @color/splash_bg too.
+                flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            }
         }
         w.getDecorView().setSystemUiVisibility(flags);
     }

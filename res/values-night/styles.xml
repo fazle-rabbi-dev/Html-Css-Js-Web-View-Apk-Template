@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dark mode: same colours (system_bar_bg resolves to the night value),
+         only the bar icon tint flips to light. -->
+    <style name="AppTheme" parent="@style/BaseAppTheme">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+
+</resources>

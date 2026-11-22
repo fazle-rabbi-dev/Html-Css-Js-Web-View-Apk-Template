@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -31,6 +32,8 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -89,6 +92,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        applySystemBars();
 
         webView = (WebView) findViewById(R.id.web);
 
@@ -156,6 +160,37 @@ public class MainActivity extends Activity {
     }
 
     // ---------------------------------------------------------------- helpers
+
+    /**
+     * Status/navigation bar tint that follows the system light/dark theme.
+     * The theme already sets the colours; this re-applies them at runtime and
+     * handles API 23-25, where navigation bar icons are always white and a light
+     * navigation bar would make them invisible.
+     */
+    private void applySystemBars() {
+        Window w = getWindow();
+        w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        boolean night = (getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+        int bg = getResources().getColor(R.color.system_bar_bg, getTheme());
+
+        w.setStatusBarColor(bg);
+        // Below API 26 the navigation bar icons cannot be darkened.
+        w.setNavigationBarColor(!night && Build.VERSION.SDK_INT < 26 ? 0xFF0B1020 : bg);
+
+        int flags = w.getDecorView().getSystemUiVisibility();
+        if (night) {
+            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+        } else {
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            if (Build.VERSION.SDK_INT >= 26) {
+                flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            }
+        }
+        w.getDecorView().setSystemUiVisibility(flags);
+    }
 
     private boolean has(String permission) {
         return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
