@@ -23,6 +23,7 @@ Android WebView shell that packages a static HTML/CSS/JS app (`app/`) into an in
 
 - Web app changes go in `app/` only. Entry must stay `app/index.html`.
 - In `web` dir webapp template present
+- **When renaming an app, rename EVERY occurrence across the repo** (package name, Java dirs, manifest, splash, workflow artifact name, app label, AGENTS.md references, JS bridge globals like `window.<AppName>`). Do a repo-wide search/replace; never leave the old name behind.
 - **Never add Service Worker code** — SWs don't run on `file://`. Strip `navigator.serviceWorker.register`, `manifest.json` links are pointless (harmless but remove for cleanliness).
 - External CDN scripts are fine (INTERNET permission declared), but prefer self-contained assets for true offline.
 - The generated `app/build.gradle` is **Groovy DSL** — use `minifyEnabled = false`, NOT `isMinifyEnabled` (Kotlin syntax breaks the build).
