@@ -148,3 +148,12 @@ The Silicon app exposes these capabilities to the web layer:
 Not implemented (needs extra deps or more UI): AndroidX `WebViewAssetLoader` (the https asset origin is implemented by hand in `shouldInterceptRequest`), biometrics, camera capture via `<input capture>`, foreground services, billing/ads.
 
 **Demo app:** `app/index.html`
+
+## System bars (status + navigation)
+
+Theme-driven only — the web page cannot change them (no bridge method for it).
+
+- `res/values/styles.xml` — `BaseAppTheme` sets `windowNoTitle`, `windowDrawsSystemBarBackgrounds`, `statusBarColor` / `navigationBarColor` = `@color/system_bar_bg`; `AppTheme` adds `windowLightStatusBar` + `windowLightNavigationBar` = `true`. `res/values-night/styles.xml` only flips those two flags to `false` (colours come from the night resource). `SplashTheme` tints the nav bar with `@color/splash_bg`; the splash status bar stays transparent (`SplashActivity.applyStatusBar()`).
+- `@color/system_bar_bg` — light `#F7F9F7`, dark `#0A0D0C` (`values` / `values-night`).
+- `MainActivity.applySystemBars()` re-applies colours + icon flags at runtime, and keeps the nav bar dark on API 23–25 because nav icons can't be darkened there (`LIGHT_NAVIGATION_BAR` is API 26+).
+- Limits: `targetSdk 35` would force edge-to-edge and ignore bar colours; `<meta name="theme-color">` does nothing in a WebView, so a page-level theme toggle needs a new bridge method to move the bars.
