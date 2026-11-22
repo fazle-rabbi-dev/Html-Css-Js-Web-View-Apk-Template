@@ -24,11 +24,11 @@
 ![Min SDK](https://img.shields.io/badge/minSdk-23-2563EB) ![Target SDK](https://img.shields.io/badge/targetSdk-34-2563EB) ![Dependencies](https://img.shields.io/badge/dependencies-zero-10B981) ![License](https://img.shields.io/badge/license-MIT-6B7280)
 
 <p align="center">
-  No need for React Native, Flutter, Java/Kotlin, Tauri, Capacitor, PWA, or TWA for most of the app — just clone this repo and put your web app in the <code>app/</code> directory, or ask your agent to build one for you (there's a ready-made slash command for OpenCode). The APK builds on GitHub Actions, and you can preview the app in your browser since it's a web app that renders in the WebView. Everything else is already set up for you.
+  No need for React Native, Flutter, Java/Kotlin, Tauri, Capacitor, PWA, or TWA for most of the app — just clone this repo and put your web app in the <code>app/</code> directory, or ask your agent to build one for you (There are ready-made slash commands for OpenCode). The APK builds on GitHub Actions, and you can preview the app in your browser since it's a web app that renders in the WebView. Everything else is already set up for you.
 </p>
 
 <p align="center">
-  Think of it as a mini <code>Ionic + Capacitor</code>.
+  Think of it as a mini <code>Ionic + Capacitor</code>
 </p>
 
 </div>
@@ -39,7 +39,7 @@
 > 🚨 **APK tested on Android 12** — verified and working on Android 12 devices. Make sure **Play Protect is turned off** on the device before installing the APK.
 
 > [!TIP]
-> 🤖 **Ask the agent to build an app** — e.g. _"Build a todolist app with local storage"_ — and the agent takes the heavy lifting.
+> 🤖 **Ask the agent to build an app** — Run the slash commands in the correct order (see below), or simply ask like: `Build a todolist app with localstorage in /app dir`
 
 ## Features
 
@@ -150,6 +150,8 @@ Thanks to AI for making it possible. 🙌
 
 ## 🤝 Contributing
 
+> Technical details for agents/contributors live in [`AGENTS.md`](./AGENTS.md).
+
 Issues and pull requests are welcome. If you'd like to improve this template, open an issue or a PR.
 
 ## ⭐ Support
@@ -159,5 +161,3 @@ If this template helped you, consider giving it a star — it keeps the project 
 <p align="center">
   <sub>Built with ❤️ for the web-devs-who-want-an-APK crowd.</sub>
 </p>
-
-> Technical details for agents/contributors live in [`AGENTS.md`](./AGENTS.md).
