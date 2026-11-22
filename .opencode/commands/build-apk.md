@@ -15,3 +15,4 @@ _when i confirm icon than only move next step_
 _(follow instruction given on the agents.md file)_
 
 - dont commit and push;
+- ask me for commit if i confirm than commit like this: `create one single commit for all changes since this changes means: the apk side changes - so keep well title + description`
