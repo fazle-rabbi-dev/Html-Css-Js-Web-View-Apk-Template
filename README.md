@@ -1,10 +1,10 @@
 <div align="center">
 
 <p align="center">
-  <img src="silicon.svg" alt="Silicon" width="72" height="72" />
+  <img src="icon.png" alt="Silicon" width="72" height="72" />
 </p>
 
-<h1 align="center">Silicon — WebView APK Template</h1>
+<h1 align="center">WebView APK Template</h1>
 
 [![Build APK](https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template/actions/workflows/build-apk.yml/badge.svg)](https://github.com/fazle-rabbi-dev/Html-Css-Js-Web-View-Apk-Template/actions/workflows/build-apk.yml)
 ![Android 6+](<https://img.shields.io/badge/Android-6%2B%20(API%2023)-3DDC84?logo=android&logoColor=white>)
@@ -44,12 +44,12 @@
 
 A few apps shipped with this template as the base — each one is just an `app/` folder plus the native bridge:
 
-|     | App                 | What it does                                                      |
-| --- | ------------------- | ----------------------------------------------------------------- |
-| 🕰️  | [Standby Clock](#)  | Always-on bedside clock with brightness control and ambient mode  |
-| 🍅  | [Pomodoro Timer](#) | Focus timer with native notifications and vibration cues          |
-| 📺  | [YT Summarizer](#)  | Paste a YouTube link, get an AI summary — offline-friendly UI     |
-| 🎨  | [Paint App](#)      | Finger-painting canvas with save-to-gallery via the native bridge |
+|     | App                                                            | What it does                                                      |
+| --- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 🕰️  | [Standby Clock](https://github.com/the-softcraft/ambient-time) | Always-on bedside clock with brightness control and ambient mode  |
+| 🍅  | [Pomodoro Timer](https://github.com/the-softcraft/pomodoro)    | Focus timer with native notifications and vibration cues          |
+| 📺  | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
+| 🎨  | [Paint App](https://github.com/the-softcraft/sketchpad)        | Finger-painting canvas with save-to-gallery via the native bridge |
 
 > Want your app featured here? Open a PR with a screenshot and a link.
 
