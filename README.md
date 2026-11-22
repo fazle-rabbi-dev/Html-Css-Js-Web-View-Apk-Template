@@ -34,6 +34,7 @@
 - ☁️ **Cloud build** — push to GitHub, get an APK from Actions; nothing to install locally
 - 📱 **Android 6+** (API 23) through Android 15 (API 35)
 - 🌐 **Offline-first** — `localStorage`, DOM storage and relative asset paths all work
+- 🔐 **Real `https` origin** — serves `app/` from `https://appassets.androidplatform.net/assets/`, not `file:///`, so the page is a secure context (mic, camera, geolocation, clipboard behave like a real site)
 - 🌉 **Native bridge** — camera, mic, geolocation, file picker, share, clipboard, notifications, native storage, async callbacks
 - 🎨 **Branded splash** — full-screen dot grid, theme-aware (light/dark), app icon as the mark
 - 🔔 **Custom toast view** — app icon shows on ROMs that draw the stock robot
@@ -54,7 +55,35 @@ A few apps shipped with this template as the base — each one is just an `app/`
 
 ## How it works
 
-A tiny native shell (`MainActivity.java`) opens a full-screen `WebView` that loads `app/index.html`. Your web code runs offline-capable inside the APK — same idea as a PWA, but as a real installable app with no browser chrome & it's **lightweight 🚀**
+A tiny native shell (`MainActivity.java`) opens a full-screen `WebView` and loads
+
+```java
+webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
+```
+
+That URL doesn't exist on the internet. `WebViewClient.shouldInterceptRequest` catches every request to
+`appassets.androidplatform.net` whose path starts with `/assets/`, strips the prefix, and streams the file
+straight out of the APK's asset folder:
+
+```
+https://appassets.androidplatform.net/assets/index.html
+                                   └────────┬────────┘
+                                    assets/index.html  →  getAssets().open("index.html")
+```
+
+MIME type comes from `MimeTypeMap` (fallback `application/octet-stream`), so CSS, JS, fonts, JSON and images
+load with the right content type. Anything not under `/assets/` on that host is ignored (returns `null`), and any
+other host is left to the WebView as a normal network request.
+
+This is the same trick as AndroidX's `WebViewAssetLoader` — done by hand to keep the **zero-dependency** promise.
+
+**Why not `file:///android_asset/index.html` (the old way)?** Because `file://` is an opaque origin: the WebView
+treats it as non-secure, so `getUserMedia`, geolocation and clipboard are unreliable or refused outright; `fetch()`
+of local files gets blocked by CORS; and `localStorage` sits in a single opaque bucket instead of a real app
+origin. A real `https` origin fixes all of that while the assets stay local and offline.
+
+Your web code runs offline-capable inside the APK — same idea as a PWA, but as a real installable app with no
+browser chrome & it's **lightweight 🚀**
 
 > Current bundled app: **Silicon** (`starter template`) — a hands-on demo of every native bridge this template can wire up (camera, mic, geolocation, file picker, share, clipboard, notifications, storage, async callbacks) plus an honest list of what it can't.
 
@@ -76,8 +105,9 @@ No computer setup needed beyond `git push 🎉`.
 ## 📁 Project structure
 
 ```
-app/            ← YOUR APP LIVES HERE (index.html entry point)
-src/com/fazlerabbi/silicon/MainActivity.java   ← WebView shell + native bridge
+app/            ← YOUR APP LIVES HERE (index.html entry point, served at
+                  https://appassets.androidplatform.net/assets/)
+src/com/fazlerabbi/silicon/MainActivity.java   ← WebView shell, asset intercept + native bridge
 res/               ← icon, layout, strings
 AndroidManifest.xml          ← permissions, launcher activity
 .github/workflows/ ← cloud APK build
@@ -104,9 +134,11 @@ No dependencies, no AndroidX. Open `app/index.html` in a browser and the banner 
 
 ## 📝 Notes
 
-- `localStorage` works (DOM storage is enabled) — great for offline-first apps.
+- `localStorage`, cookies and IndexedDB work (DOM storage is enabled) — great for offline-first apps. They are scoped to `https://appassets.androidplatform.net`, so data saved by an older `file://` build of your app will **not** carry over.
+- `app/` is the whole web root, served at `https://appassets.androidplatform.net/assets/`. Keep `index.html` at the top of `app/` and use plain relative paths (`./style.css`, `./app.js`, `assets/…`) — they resolve under `/assets/`. Never write `file:///android_asset/` in your HTML.
 - External CDNs (Tailwind, fonts, icons) need internet; the `INTERNET` permission is declared. Fully self-contained apps work 100% offline.
-- No Service Workers: they don't run on `file://`, so don't register one — plain relative asset paths just work.
+- Links the WebView itself navigates to (anything not handled by `Native.openUrl`) stay inside the app, since `shouldOverrideUrlLoading` returns `false`. Use `Native.openUrl(url)` when you want the system browser / a real app instead.
+- Service Workers aren't part of this template. The origin is now `https` so registration is no longer impossible, but nothing here installs a `ServiceWorker` or serves SW headers — don't add `navigator.serviceWorker.register` unless you plan to test it. Plain relative asset paths are enough for offline.
 - The CI patches the manifest to `targetSdk 34` + `android:exported` so the APK installs on Android 12+.
 - Downloads to the public `Download/` folder need `WRITE_EXTERNAL_STORAGE` on Android 6–9 (handled automatically with a runtime permission prompt).
 
@@ -125,7 +157,7 @@ I tried it. **It worked.** I was so excited I could barely sit still.
 
 In **2022** I took that same template, cleaned it up, modified a few things, and pushed it to GitHub as my base template.
 
-Four years later, with the power of an **AI coding agent**, I've finally modernized it: Android 6+ support, a native bridge (camera, mic, geolocation, share, storage, async callbacks), a branded splash, a proper app icon, and a cloud build via GitHub Actions. What used to take weeks of trial and error now ships in days.
+Four years later, with the power of an **AI coding agent**, I've finally modernized it: Android 6+ support, a native bridge (camera, mic, geolocation, share, storage, async callbacks), a branded splash, a proper app icon, and a cloud build via GitHub Actions. The last upgrade was dropping `file:///android_asset/` in favour of a real `https://appassets.androidplatform.net` origin, intercepted and served from `assets/` — so the page finally behaves like a real site. What used to take weeks of trial and error now ships in days.
 
 Thanks to AI for making it possible. 🙌
 

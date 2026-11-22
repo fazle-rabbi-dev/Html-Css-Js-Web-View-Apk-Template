@@ -12,8 +12,8 @@ Android WebView shell that packages a static HTML/CSS/JS app (`app/`) into an in
 
 ## Structure
 
-- `app/index.html` — app entry point (`MainActivity` loads `file:///android_asset/index.html`).
-- `app/` — all web files live at root level; no subfolder routing needed.
+- `app/index.html` — app entry point. `MainActivity` loads `https://appassets.androidplatform.net/assets/index.html`; `shouldInterceptRequest` maps that host's `/assets/*` paths back to `getAssets()`, so the page runs on a real (secure) https origin instead of `file:///`.
+- `app/` — all web files live at root level; served under `/assets/`. Use plain relative paths (`./style.css`); never write `file:///android_asset/`.
 - `src/com/fazlerabbi/silicon/` — `MainActivity.java` (WebView shell; JS + DOM storage ON, don't disable) + `SplashActivity.java` (premium branded splash with fade/scale entrance, warms up the WebView engine).
 - `AndroidManifest.xml` — legacy Eclipse/ApkBuilder layout (manifest at root, `uses-sdk min 12 / target 27`). `exported` flags + splash wiring live in repo; **CI only bumps** min 23 / target 34 at build time (keeps APK Builder compat).
 - `.github/workflows/build-apk.yml` — self-contained: generates `settings.gradle` / `build.gradle` / `app/build.gradle` via heredoc, patches manifest with `sed`, runs `gradle :app:assembleDebug`, renames + uploads the artifact (`Silicon.apk` in this branch).
@@ -24,7 +24,9 @@ Android WebView shell that packages a static HTML/CSS/JS app (`app/`) into an in
 - Web app changes go in `app/` only. Entry must stay `app/index.html`.
 - In `web` dir webapp template present
 - **When renaming an app, rename EVERY occurrence across the repo** (package name, Java dirs, manifest, splash, workflow artifact name, app label, AGENTS.md references, JS bridge globals like `window.<AppName>`). Do a repo-wide search/replace; never leave the old name behind.
-- **Never add Service Worker code** — SWs don't run on `file://`. Strip `navigator.serviceWorker.register`, `manifest.json` links are pointless (harmless but remove for cleanliness).
+- **Don't add Service Worker code** — the shell serves assets straight from `getAssets()` and sets no SW headers, so nothing here registers or supports one. Strip `navigator.serviceWorker.register`, `manifest.json` links are pointless (harmless but remove for cleanliness). Plain relative paths are enough for offline.
+- **Never go back to `file://`** — no `webView.loadUrl("file:///android_asset/...")`, no `file://` links in HTML. The `https://appassets.androidplatform.net/assets/` origin is what gives the page a secure context (mic/camera/geolocation/clipboard) and per-origin `localStorage`.
+- **Asset serving lives in `WebViewClient.shouldInterceptRequest`** — requests to host `appassets.androidplatform.net` with a path starting `/assets/` are streamed from the APK assets with a `MimeTypeMap` content type; anything else returns `null` and falls through. Don't remove this override, and don't add AndroidX `WebViewAssetLoader` (zero-dependency rule).
 - External CDN scripts are fine (INTERNET permission declared), but prefer self-contained assets for true offline.
 - The generated `app/build.gradle` is **Groovy DSL** — use `minifyEnabled = false`, NOT `isMinifyEnabled` (Kotlin syntax breaks the build).
 - Runner already has Android SDK at `$ANDROID_HOME`; `sdkmanager` is at `$ANDROID_HOME/cmdline-tools/latest/bin` (not on PATH by default). Don't use `android-actions/setup-android` (requests obsolete `tools` package). No NDK needed.
@@ -142,6 +144,6 @@ The Silicon app exposes these capabilities to the web layer:
 - **Async JS ↔ native** — call native, get a callback with a round-trip result
 - **Downloads** — http(s) downloads routed through `DownloadManager`
 
-Not implemented (needs extra deps or more UI): real https origin via `WebViewAssetLoader`, biometrics, camera capture via `<input capture>`, foreground services, billing/ads.
+Not implemented (needs extra deps or more UI): AndroidX `WebViewAssetLoader` (the https asset origin is implemented by hand in `shouldInterceptRequest`), biometrics, camera capture via `<input capture>`, foreground services, billing/ads.
 
-**Demo app:** `app/index.html` — cards for each feature above, an honest-limits list, and an event log. Also opens in a desktop browser, where it reports `bridge missing`.
+**Demo app:** `app/index.html`
