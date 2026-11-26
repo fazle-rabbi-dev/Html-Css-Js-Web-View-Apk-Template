@@ -113,19 +113,21 @@ No computer setup needed beyond `git push 🎉`.
 
 _the following instruction for human, not for ai_
 
-- [ ] **Clone this repo to your machine**
-- [ ] `/start-new-app`: this will suggest app names and create a new `feat/app-name` branch
-- [ ] `/update-context`: this will update the app name and app purpose in the Readme and AGENTS.md top area so agents knows about this app
-- [ ] `/build-web-app`: this will help to create web app in `/app` dir or in `vite react` template
-- [ ] `/build-apk`: this will modify app name, icons, pkg name etc metadata (**apk side changes done by it**)
-- [ ] Get `svg app icon` from chatgpt or this agent - Turn the svg into xml for adaptive icon from this site: https://inloop.github.io/svg2android/
-- [ ] When agent ask give `svg icon`, `xml` icon
-- [ ] if u want to update status bar, run this command: `/update-status-bar` and follow up
-- [ ] `/place-readme`: this will replace the default _README.md_ with readme template for the app
-- [ ] `/merge-to-main`: this will merge current branch to main
-- [ ] `/push-on-github`: helps with making the initial push to GitHub
-- [ ] `/download-apk`: this will download latest artifact from github action (**apk file**) and place at `C:\Users\Hp\Downloads\MEmu Download\` (goal is to install and test on MEmu emulator by human)
-- [ ] `/release-apk`: release latest apk
+| Step | Command              | What it does                                                                                                                                                 |
+| ---- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Clone this repo      | Get the repo onto your machine                                                                                                                               |
+| 2    | `/start-new-app`     | Suggests app names, creates a new `feat/app-name` branch                                                                                                     |
+| 3    | `/update-context`    | Updates app name/purpose in README and AGENTS.md top area so agents know the context of app                                                                  |
+| 4    | `/build-web-app`     | Creates the web app in `/app` dir or in `vite react` template dir                                                                                            |
+| 5    | `/build-apk`         | Modifies app name, icons, package name, and other APK metadata                                                                                               |
+| 6    | Get SVG app icon     | From ChatGPT or this agent; **convert SVG to adaptive-icon XML** via [svg2android](https://inloop.github.io/svg2android/)                                    |
+| 7    | —                    | When agent asks, give `svg icon`, `xml` icon                                                                                                                 |
+| 8    | `/update-status-bar` | If u want to update status bar, run this command and follow up                                                                                               |
+| 9    | `/place-readme`      | Replaces default README.md with the app's README template                                                                                                    |
+| 10   | `/merge-to-main`     | Merges current branch into main                                                                                                                              |
+| 11   | `/push-on-github`    | Makes the initial push to GitHub                                                                                                                             |
+| 12   | `/download-apk`      | Downloads latest APK artifact from GitHub Action, places it at `C:\Users\Hp\Downloads\MEmu Download\` (for a human to install and test on the MEmu emulator) |
+| 13   | `/release-apk`       | Releases the latest APK                                                                                                                                      |
 
 ## 🛠️ Build locally (optional) `Not recommended`
 
