@@ -157,3 +157,7 @@ Dark bars with light icons, always. Web page can't change them (no bridge method
 
 - Colours set in `res/values/styles.xml` (`statusBarColor`/`navigationBarColor`) + `MainActivity.applySystemBars()`; light icons via `windowLightStatusBar`/`windowLightNavigationBar` = `false`.
 - `targetSdk 35` forces edge-to-edge and ignores bar colours; `<meta name="theme-color">` does nothing in a WebView.
+
+## Git commit
+
+- You will write clear and clean commit like a human with well title + description + scope
