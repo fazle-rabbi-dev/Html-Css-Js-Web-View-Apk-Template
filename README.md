@@ -57,12 +57,12 @@
 
 A few apps shipped with this template as the base — each one is just an `app/` folder plus the native bridge:
 
-|                                   | App                                                            | What it does                                                      |
-| --------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
-| <img src="icon.png" width="50" /> | [Standby Clock](https://github.com/the-softcraft/ambient-time) | Always-on bedside clock with brightness control and ambient mode  |
-| <img src="icon.png" width="50" /> | [Pomodoro Timer](https://github.com/the-softcraft/pomodoro)    | Focus timer with native notifications and vibration cues          |
-| <img src="icon.png" width="50" /> | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
-| <img src="icon.png" width="50" /> | [Paint App](https://github.com/the-softcraft/sketchpad)        | Finger-painting canvas with save-to-gallery via the native bridge |
+|                                                                                                                                | App                                                            | What it does                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------- |
+| <img src="https://raw.githubusercontent.com/the-softcraft/Ambient-Time/refs/heads/main/design/standby-clock.svg" width="50" /> | [Standby Clock](https://github.com/the-softcraft/ambient-time) | Always-on bedside clock with brightness control and ambient mode  |
+| <img src="https://raw.githubusercontent.com/the-softcraft/Pomodoro/refs/heads/main/icon.png" width="50" />                     | [Pomodoro Timer](https://github.com/the-softcraft/pomodoro)    | Focus timer with native notifications and vibration cues          |
+| <img src="https://raw.githubusercontent.com/the-softcraft/VidSum/refs/heads/main/icon.png" width="50" />                       | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
+| <img src="https://raw.githubusercontent.com/the-softcraft/Sketchpad/refs/heads/main/design/paint.svg" width="50" />            | [Paint App](https://github.com/the-softcraft/sketchpad)        | Finger-painting canvas with save-to-gallery via the native bridge |
 
 ## How it works (core idea)
 
@@ -114,8 +114,8 @@ No computer setup needed beyond `git push 🎉`.
 _the following instruction for human, not for ai_
 
 - [ ] **Clone this repo to your machine**
-- [ ] `/start-new-app command`: this will suggest app names and create a new `feat/app-name` branch
-- [ ] `/update-context command`: this will update the app name and app purpose in the Readme and Agentsmd top area so agents knows about this app
+- [ ] `/start-new-app`: this will suggest app names and create a new `feat/app-name` branch
+- [ ] `/update-context`: this will update the app name and app purpose in the Readme and Agentsmd top area so agents knows about this app
 - [ ] `/build-web-app`: this will help to create web app in `/app` dir
 - [ ] `/build-apk`: this will modify app name, icons, pkg name etc metadata
 - [ ] Get svg app icon from chatgpt or this agent - Turn the svg into xml for adaptive icon from this site: https://inloop.github.io/svg2android/
@@ -123,10 +123,10 @@ _the following instruction for human, not for ai_
 - [ ] `/download-apk`: this will download latest artifact from github action (**apk file**) and place at `C:\Users\Hp\Downloads\MEmu Download\`
 - [ ] if u want to update status bar, run this command: `/update-status-bar` and follow up
 
-- [ ] `/merge-to-main`
-- [ ] `place-readme`
-- [ ] `push-on-github`
-- [ ] `release-apk`
+- [ ] `/merge-to-main`: this will merge current branch to main
+- [ ] `/place-readme`: this will replace the default readme.md with readme template fro the app
+- [ ] `/push-on-github`: help to push on github
+- [ ] `/release-apk`: release latest apk
 
 ## 🛠️ Build locally (optional) `Not recommended`
 
