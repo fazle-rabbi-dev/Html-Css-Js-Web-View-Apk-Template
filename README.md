@@ -123,6 +123,11 @@ _the following instruction for human, not for ai_
 - [ ] `/download-apk`: this will download latest artifact from github action (**apk file**) and place at `C:\Users\Hp\Downloads\MEmu Download\`
 - [ ] if u want to update status bar, run this command: `/update-status-bar` and follow up
 
+- [ ] `/merge-to-main`
+- [ ] `place-readme`
+- [ ] `push-on-github`
+- [ ] `release-apk`
+
 ## 🛠️ Build locally (optional) `Not recommended`
 
 - **Legacy:** open the project in APK Builder / AIDE on-device via the `.project` file. Unmaintained on Android 12+; cloud build recommended.
