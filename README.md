@@ -36,7 +36,7 @@
 ---
 
 > [!NOTE]
-> 🚨 **APK tested on Android 12** — verified and working on Android 12 devices. Make sure **Play Protect is turned off** on the device before installing the APK.
+> ✅ **APK tested on Android 12** — verified and working on Android 12 devices. Make sure **Play Protect is turned off** on the device before installing the APK.
 
 > [!TIP]
 > 🤖 **Ask the agent to build an app** — Run the slash commands in the correct order (see below), or simply ask like: `Build a todolist app with localstorage in /app dir`
@@ -61,7 +61,7 @@ A few apps shipped with this template as the base — each one is just an `app/`
 | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------- |
 | <img src="https://raw.githubusercontent.com/the-softcraft/Ambient-Time/refs/heads/main/design/standby-clock.svg" width="50" /> | [Standby Clock](https://github.com/the-softcraft/ambient-time) | Always-on bedside clock with brightness control and ambient mode  |
 | <img src="https://raw.githubusercontent.com/the-softcraft/Pomodoro/refs/heads/main/icon.png" width="50" />                     | [Pomodoro Timer](https://github.com/the-softcraft/pomodoro)    | Focus timer with native notifications and vibration cues          |
-| <img src="https://raw.githubusercontent.com/the-softcraft/skim/refs/heads/main/icon.svg" width="50" />                       | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
+| <img src="https://raw.githubusercontent.com/the-softcraft/skim/refs/heads/main/icon.svg" width="50" />                         | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
 | <img src="https://raw.githubusercontent.com/the-softcraft/Sketchpad/refs/heads/main/design/paint.svg" width="50" />            | [Paint App](https://github.com/the-softcraft/sketchpad)        | Finger-painting canvas with save-to-gallery via the native bridge |
 
 ## How it works (core idea)
@@ -109,23 +109,22 @@ The shell injects a `Native` object into JS — camera, mic, geolocation, file p
 
 No computer setup needed beyond `git push 🎉`.
 
-### 🚀 To create a new app follow this checklist
+## 🚀 To create a new app follow this checklist
 
 _the following instruction for human, not for ai_
 
 - [ ] **Clone this repo to your machine**
 - [ ] `/start-new-app`: this will suggest app names and create a new `feat/app-name` branch
-- [ ] `/update-context`: this will update the app name and app purpose in the Readme and Agentsmd top area so agents knows about this app
-- [ ] `/build-web-app`: this will help to create web app in `/app` dir
-- [ ] `/build-apk`: this will modify app name, icons, pkg name etc metadata
-- [ ] Get svg app icon from chatgpt or this agent - Turn the svg into xml for adaptive icon from this site: https://inloop.github.io/svg2android/
+- [ ] `/update-context`: this will update the app name and app purpose in the Readme and AGENTS.md top area so agents knows about this app
+- [ ] `/build-web-app`: this will help to create web app in `/app` dir or in `vite react` template
+- [ ] `/build-apk`: this will modify app name, icons, pkg name etc metadata (**apk side changes done by it**)
+- [ ] Get `svg app icon` from chatgpt or this agent - Turn the svg into xml for adaptive icon from this site: https://inloop.github.io/svg2android/
 - [ ] When agent ask give `svg icon`, `xml` icon
-- [ ] `/download-apk`: this will download latest artifact from github action (**apk file**) and place at `C:\Users\Hp\Downloads\MEmu Download\`
 - [ ] if u want to update status bar, run this command: `/update-status-bar` and follow up
-
+- [ ] `/place-readme`: this will replace the default _README.md_ with readme template for the app
 - [ ] `/merge-to-main`: this will merge current branch to main
-- [ ] `/place-readme`: this will replace the default readme.md with readme template fro the app
-- [ ] `/push-on-github`: help to push on github
+- [ ] `/push-on-github`: helps with making the initial push to GitHub
+- [ ] `/download-apk`: this will download latest artifact from github action (**apk file**) and place at `C:\Users\Hp\Downloads\MEmu Download\` (goal is to install and test on MEmu emulator by human)
 - [ ] `/release-apk`: release latest apk
 
 ## 🛠️ Build locally (optional) `Not recommended`
