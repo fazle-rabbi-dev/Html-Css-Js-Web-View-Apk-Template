@@ -1,5 +1,7 @@
 > **Important:** First check is there uncommited webapp changes if than stop the work and inform me abou that;
 
+> Stop working if we are using vite react for the web app (noted in `idea.md at project root`) and didnt place the `dist` in the app dir means the app dir contains stale `web app`
+
 ---
 
 So, after web app build is done, its time to tweak on files beyond web app to complete the apk file.
