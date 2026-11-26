@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <!-- Blue sky background -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5BA8E8"/>
+      <stop offset="1" stop-color="#D6EBFA"/>
+    </linearGradient>
+  </defs>
+  <rect x="80" y="80" width="864" height="864" rx="205" fill="url(#sky)"/>
+  <!-- Crescent moon -->
+  <path d="M700 285 A90 90 0 1 0 700 455 A70 70 0 1 1 700 285 Z" fill="#F56B18" stroke="#17191D" stroke-width="22" stroke-linejoin="round"/>
+  <!-- Mosque silhouette -->
+  <g fill="#F7F3E8" stroke="#17191D" stroke-width="25" stroke-linejoin="round">
+    <!-- Dome -->
+    <path d="M380 560 Q380 380 512 380 Q644 380 644 560 Z"/>
+    <!-- Dome finial -->
+    <path d="M512 380 V330" stroke-width="20"/>
+    <circle cx="512" cy="322" r="14" stroke-width="18"/>
+    <!-- Body -->
+    <rect x="245" y="560" width="534" height="210"/>
+    <!-- Minarets -->
+    <rect x="205" y="470" width="75" height="300"/>
+    <rect x="744" y="470" width="75" height="300"/>
+    <path d="M242 470 Q242 420 282 420 Q322 420 322 470 Z"/>
+    <path d="M781 470 Q781 420 819 420 Q857 420 857 470 Z"/>
+  </g>
+  <!-- Ground -->
+  <rect x="150" y="770" width="724" height="40" rx="12" fill="#17191D"/>
+  <!-- Door -->
+  <path d="M452 620 H572 V770 H452 Z" fill="#17191D"/>
+</svg>

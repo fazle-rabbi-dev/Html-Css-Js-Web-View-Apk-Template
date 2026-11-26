@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect x="80" y="80" width="864" height="864" rx="205" fill="#E5484D"/>
+  <!-- Video screen -->
+  <rect x="205" y="300" width="614" height="390" rx="45" fill="#F7F3E8" stroke="#17191D" stroke-width="27"/>
+  <!-- Play button -->
+  <circle cx="512" cy="495" r="90" fill="#E5484D" stroke="#17191D" stroke-width="25"/>
+  <path d="M485 445 L485 545 L575 495 Z" fill="#F7F3E8"/>
+  <!-- Summary lines -->
+  <g stroke="#17191D" stroke-width="22" stroke-linecap="round">
+    <path d="M285 755 H500"/>
+    <path d="M285 815 H740"/>
+  </g>
+  <path d="M585 755 H740" stroke="#E5484D" stroke-width="22" stroke-linecap="round"/>
+  <!-- Highlight -->
+  <path d="M240 335 L320 335" stroke="#FFFFFF" stroke-opacity=".5" stroke-width="16" stroke-linecap="round"/>
+</svg>

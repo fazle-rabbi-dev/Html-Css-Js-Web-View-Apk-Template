@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+
+  <!-- Background -->
+  <rect x="80" y="80" width="864" height="864" rx="205" fill="#E5484D"/>
+
+  <!-- Leaf + stem -->
+  <path d="M512 300 V215" stroke="#17191D" stroke-width="25" stroke-linecap="round"/>
+  <path d="M512 265 Q440 215 420 265 Q475 285 512 265 Z"
+        fill="#20A95E" stroke="#17191D" stroke-width="20" stroke-linejoin="round"/>
+  <path d="M512 265 Q595 225 610 275 Q555 290 512 265 Z"
+        fill="#20A95E" stroke="#17191D" stroke-width="20" stroke-linejoin="round"/>
+
+  <!-- Tomato body -->
+  <circle cx="512" cy="565" r="255"
+          fill="#F7F3E8"
+          stroke="#17191D"
+          stroke-width="27"/>
+
+  <!-- Countdown arc (75% remaining) -->
+  <path d="M512 350 A215 215 0 1 1 297 565"
+        fill="none"
+        stroke="#E5484D"
+        stroke-width="32"
+        stroke-linecap="round"/>
+
+  <!-- Inner dial -->
+  <circle cx="512" cy="565" r="185"
+          fill="none"
+          stroke="#E5DFD0"
+          stroke-width="8"/>
+
+  <!-- Clock marks -->
+  <g stroke="#17191D" stroke-width="18" stroke-linecap="round">
+    <path d="M512 410 V435"/>
+    <path d="M697 565 H672"/>
+    <path d="M512 720 V695"/>
+    <path d="M327 565 H352"/>
+  </g>
+
+  <!-- Clock hands -->
+  <path d="M512 565 V455"
+        stroke="#17191D" stroke-width="28" stroke-linecap="round"/>
+  <path d="M512 565 L600 620"
+        stroke="#17191D" stroke-width="28" stroke-linecap="round"/>
+
+  <!-- Center -->
+  <circle cx="512" cy="565" r="22"
+          fill="#E5484D" stroke="#17191D" stroke-width="13"/>
+
+  <!-- Small highlight -->
+  <path d="M375 430 Q405 385 455 375"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-opacity=".65"
+        stroke-width="16"
+        stroke-linecap="round"/>
+
+</svg>

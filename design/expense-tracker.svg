@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect x="80" y="80" width="864" height="864" rx="205" fill="#4169E1"/>
+  <!-- Card -->
+  <g transform="rotate(-6 512 520)">
+    <rect x="215" y="355" width="594" height="390" rx="45" fill="#F7F3E8" stroke="#17191D" stroke-width="27"/>
+    <rect x="215" y="430" width="594" height="70" fill="#17191D"/>
+    <rect x="285" y="545" width="110" height="80" rx="14" fill="#E6AE70" stroke="#17191D" stroke-width="18"/>
+    <path d="M285 585 H395" stroke="#17191D" stroke-width="14"/>
+    <path d="M340 545 V625" stroke="#17191D" stroke-width="14"/>
+  </g>
+  <!-- Trend arrow -->
+  <path d="M700 690 L700 560 L640 620 M700 560 L760 620" fill="none" stroke="#F56B18" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
