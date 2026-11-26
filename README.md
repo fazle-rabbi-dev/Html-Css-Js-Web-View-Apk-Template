@@ -61,7 +61,7 @@ A few apps shipped with this template as the base — each one is just an `app/`
 | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------- |
 | <img src="https://raw.githubusercontent.com/the-softcraft/Ambient-Time/refs/heads/main/design/standby-clock.svg" width="50" /> | [Standby Clock](https://github.com/the-softcraft/ambient-time) | Always-on bedside clock with brightness control and ambient mode  |
 | <img src="https://raw.githubusercontent.com/the-softcraft/Pomodoro/refs/heads/main/icon.png" width="50" />                     | [Pomodoro Timer](https://github.com/the-softcraft/pomodoro)    | Focus timer with native notifications and vibration cues          |
-| <img src="https://raw.githubusercontent.com/the-softcraft/VidSum/refs/heads/main/icon.png" width="50" />                       | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
+| <img src="https://raw.githubusercontent.com/the-softcraft/skim/refs/heads/main/icon.png" width="50" />                       | [YT Summarizer](https://github.com/the-softcraft/vidsum)       | Paste a YouTube link, get an AI summary — offline-friendly UI     |
 | <img src="https://raw.githubusercontent.com/the-softcraft/Sketchpad/refs/heads/main/design/paint.svg" width="50" />            | [Paint App](https://github.com/the-softcraft/sketchpad)        | Finger-painting canvas with save-to-gallery via the native bridge |
 
 ## How it works (core idea)
