@@ -1,7 +1,7 @@
 <div align="center">
 
 <p align="center">
-  <img src="./design/standby-clock.svg" alt="Standby Clock" width="170" height="" />
+  <img src="./icon.svg" alt="Standby Clock" width="170" height="" />
 </p>
 
 <h1 align="center">Ambient Time</h1>
